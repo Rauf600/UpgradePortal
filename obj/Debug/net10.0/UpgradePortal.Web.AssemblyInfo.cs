@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UpgradePortal.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ee656132dd22d191ed3fd716833b93776f0f8b8e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6e693d20e219030bfeeaaf1d63f6a4c63c6168e4")]
 [assembly: System.Reflection.AssemblyProductAttribute("UpgradePortal.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UpgradePortal.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
