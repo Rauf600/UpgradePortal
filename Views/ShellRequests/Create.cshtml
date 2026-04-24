@@ -1,0 +1,155 @@
+﻿@model UpgradePortal.Web.ViewModels.ShellRequestCreateViewModel
+@{
+    Layout = "_Layout";
+}
+
+<h2>Create Shell Request</h2>
+
+<form asp-action="Create" method="post" enctype="multipart/form-data" class="form-card shell-form">
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-grid">
+
+        <div>
+            <label>Customer ID</label>
+            <input asp-for="CustomerCode" class="form-control" />
+        </div>
+
+        <div>
+            <label>Customer Name</label>
+            <input asp-for="CustomerName" class="form-control" />
+        </div>
+
+        <div>
+            <label>Email</label>
+            <input asp-for="Email" class="form-control" />
+        </div>
+
+        <div>
+            <label>Clinic Name</label>
+            <input asp-for="ClinicName" class="form-control" />
+        </div>
+
+        <div>
+            <label>Address</label>
+            <input asp-for="Address" class="form-control" />
+        </div>
+
+        <div>
+            <label>Phone</label>
+            <input asp-for="Phone" class="form-control" />
+        </div>
+
+        <div>
+            <label>EMR ID</label>
+            <input asp-for="EmrId" class="form-control" />
+        </div>
+
+        <div>
+            <label>Token ID</label>
+            <input asp-for="TokenId" class="form-control" />
+        </div>
+
+        <div>
+            <label>Base Container</label>
+            <input asp-for="BaseContainer" class="form-control" />
+        </div>
+
+        <div>
+            <label>Profile Version</label>
+            <input asp-for="ProfileVersion" class="form-control" />
+        </div>
+
+        <div>
+            <label>Number of Providers</label>
+            <input asp-for="NumProviders" type="number" class="form-control" />
+        </div>
+
+        <div>
+            <label>Number of IH Servers</label>
+            <input asp-for="NumIHServers" type="number" class="form-control" />
+        </div>
+
+        <!-- FIXED REGION DROPDOWN -->
+        <div>
+            <label>Region</label>
+            <select asp-for="Region" class="form-control region-select">
+                <option value="">Select Region</option>
+                <option value="AB">AB</option>
+                <option value="BC">BC</option>
+                <option value="MB">MB</option>
+                <option value="NB">NB</option>
+                <option value="NL">NL</option>
+                <option value="NS">NS</option>
+                <option value="NT">NT</option>
+                <option value="NU">NU</option>
+                <option value="ON">ON</option>
+                <option value="PE">PE</option>
+                <option value="QC">QC</option>
+                <option value="SK">SK</option>
+                <option value="YT">YT</option>
+            </select>
+        </div>
+
+        <div>
+            <label>Expected Date</label>
+            <input asp-for="ExpectedDate" type="date" class="form-control" />
+        </div>
+
+    </div>
+
+    <!-- CLIENT REGISTRY -->
+    <div class="full-width-block">
+        <label>Client Registry</label>
+        <div class="radio-row">
+            <label class="inline-option">
+                <input type="radio" asp-for="ClientRegistry" value="Read Only" />
+                Read Only
+            </label>
+
+            <label class="inline-option">
+                <input type="radio" asp-for="ClientRegistry" value="RHA Managed" />
+                RHA Managed
+            </label>
+        </div>
+    </div>
+
+    <!-- INTEGRATIONS -->
+    <div class="full-width-block">
+        <label>Integrations</label>
+        <div class="checkbox-grid">
+            <label><input asp-for="IntegrationEFax" type="checkbox" /> eFax</label>
+            <label><input asp-for="IntegrationSMS" type="checkbox" /> SMS</label>
+            <label><input asp-for="IntegrationExcelleris" type="checkbox" /> Excelleris</label>
+            <label><input asp-for="IntegrationMCE" type="checkbox" /> MCE</label>
+            <label><input asp-for="IntegrationEHR" type="checkbox" /> EHR</label>
+            <label><input asp-for="IntegrationVSFormulary" type="checkbox" /> VS Formulary</label>
+            <label><input asp-for="IntegrationTelemedicine" type="checkbox" /> Telemedicine</label>
+            <label><input asp-for="IntegrationPrescribeIT" type="checkbox" /> PrescribeIT</label>
+            <label><input asp-for="IntegrationFDBFormulary" type="checkbox" /> FDB Formulary</label>
+            <label><input asp-for="IntegrationSendGridEmail" type="checkbox" /> SendGrid Email</label>
+        </div>
+    </div>
+
+    <!-- FILE + NOTES -->
+    <div class="form-grid">
+        <div>
+            <label>Attachments</label>
+            <input asp-for="Attachments" type="file" multiple class="form-control" />
+        </div>
+
+        <div>
+            <label>Notes</label>
+            <textarea asp-for="Notes" class="form-control notes-box"></textarea>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Shell Request</button>
+
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

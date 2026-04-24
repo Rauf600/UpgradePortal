@@ -1,0 +1,94 @@
+﻿@model List<UpgradePortal.Web.Models.ShellRequest>
+@{
+    Layout = "_Layout";
+
+    string currentField = ViewBag.SortField as string ?? "date";
+    string currentOrder = ViewBag.SortOrder as string ?? "asc";
+
+    string NextOrder(string field)
+    {
+        return currentField == field && currentOrder == "asc" ? "desc" : "asc";
+    }
+
+    string Arrow(string field)
+    {
+        if (currentField != field) return "";
+        return currentOrder == "asc" ? " ▲" : " ▼";
+    }
+}
+
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+    <h2>Shell Requests</h2>
+    <a href="/ShellRequests/Create" class="btn btn-primary">+ New Shell Request</a>
+</div>
+
+<table class="portal-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+
+            <th>
+                <a class="sort-link" href="@Url.Action("Index", new { sortField = "customer", sortOrder = NextOrder("customer") })">
+                    Customer Name@(Arrow("customer"))
+                </a>
+            </th>
+
+            <th>Customer Code</th>
+
+            <th>
+                <a class="sort-link" href="@Url.Action("Index", new { sortField = "clinic", sortOrder = NextOrder("clinic") })">
+                    Clinic Name@(Arrow("clinic"))
+                </a>
+            </th>
+
+            <th>
+                <a class="sort-link" href="@Url.Action("Index", new { sortField = "version", sortOrder = NextOrder("version") })">
+                    Profile Version@(Arrow("version"))
+                </a>
+            </th>
+
+            <th>
+                <a class="sort-link" href="@Url.Action("Index", new { sortField = "date", sortOrder = NextOrder("date") })">
+                    Expected Date@(Arrow("date"))
+                </a>
+            </th>
+
+            <th>
+                <a class="sort-link" href="@Url.Action("Index", new { sortField = "registry", sortOrder = NextOrder("registry") })">
+                    Client Registry@(Arrow("registry"))
+                </a>
+            </th>
+
+            <th>
+                <a class="sort-link" href="@Url.Action("Index", new { sortField = "status", sortOrder = NextOrder("status") })">
+                    Status@(Arrow("status"))
+                </a>
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ShellRequestId</td>
+                    <td>@item.Customer?.CustomerName</td>
+                    <td>@item.Customer?.CustomerCode</td>
+                    <td>@item.ClinicName</td>
+                    <td>@item.ProfileVersion</td>
+                    <td>@item.ExpectedDate?.ToString("yyyy-MM-dd")</td>
+                    <td>@item.ClientRegistry</td>
+                    <td>@item.Status</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="8">No shell requests found.</td>
+            </tr>
+        }
+    </tbody>
+</table>

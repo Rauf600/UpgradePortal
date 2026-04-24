@@ -1,0 +1,110 @@
+﻿@model UpgradePortal.Web.ViewModels.UpgradeScheduleCreateViewModel
+@{
+    Layout = "_Layout";
+}
+
+<h2>Create Schedule</h2>
+
+<form asp-action="Create" method="post" class="form-card schedule-form">
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-grid">
+        <div>
+            <label>Customer Name</label>
+            <input asp-for="CustomerName" class="form-control" />
+            <span asp-validation-for="CustomerName" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label>Customer ID</label>
+            <input asp-for="CustomerCode" class="form-control" />
+            <span asp-validation-for="CustomerCode" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label>Email</label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label>Region</label>
+            <select asp-for="Region" class="form-control">
+                <option value="">Select Region</option>
+                <option value="AB">AB</option>
+                <option value="BC">BC</option>
+                <option value="MB">MB</option>
+                <option value="NB">NB</option>
+                <option value="NL">NL</option>
+                <option value="NS">NS</option>
+                <option value="NT">NT</option>
+                <option value="NU">NU</option>
+                <option value="ON">ON</option>
+                <option value="PE">PE</option>
+                <option value="QC">QC</option>
+                <option value="SK">SK</option>
+                <option value="YT">YT</option>
+            </select>
+            <span asp-validation-for="Region" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label>Hosting Type</label>
+            <div class="radio-row">
+                <label class="inline-option">
+                    <input type="radio" asp-for="HostingType" value="hosted" />
+                    Hosted
+                </label>
+                <label class="inline-option">
+                    <input type="radio" asp-for="HostingType" value="self-hosted" />
+                    Self-Hosted
+                </label>
+            </div>
+            <span asp-validation-for="HostingType" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label>Current Version</label>
+            <input asp-for="CurrentVersion" class="form-control" />
+            <span asp-validation-for="CurrentVersion" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label>Target Version</label>
+            <input asp-for="TargetVersion" class="form-control" />
+            <span asp-validation-for="TargetVersion" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label>Schedule Date</label>
+            <input asp-for="ScheduleDate" type="date" class="form-control" />
+            <span asp-validation-for="ScheduleDate" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label>Schedule Time</label>
+            <input asp-for="ScheduleTime" type="time" class="form-control" />
+            <span asp-validation-for="ScheduleTime" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label>Ticket Number</label>
+            <input asp-for="TicketNumber" class="form-control" />
+            <span asp-validation-for="TicketNumber" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="full-width-block">
+        <label>Notes</label>
+        <textarea asp-for="Notes" class="form-control notes-box"></textarea>
+        <span asp-validation-for="Notes" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Schedule</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

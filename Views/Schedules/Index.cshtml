@@ -1,0 +1,107 @@
+﻿@model List<UpgradePortal.Web.Models.UpgradeSchedule>
+@{
+    Layout = "_Layout";
+
+    string currentField = ViewBag.SortField as string ?? "date";
+    string currentOrder = ViewBag.SortOrder as string ?? "asc";
+
+    string NextOrder(string field)
+    {
+        return currentField == field && currentOrder == "asc" ? "desc" : "asc";
+    }
+
+    string Arrow(string field)
+    {
+        if (currentField != field) return "";
+        return currentOrder == "asc" ? " ▲" : " ▼";
+    }
+}
+
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+    <h2>Schedules</h2>
+    <a href="/Schedules/Create" class="btn btn-primary">+ New Schedule</a>
+</div>
+
+<table class="portal-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+
+            <th>
+                <a class="sort-link" href="@Url.Action("Index", new { sortField = "customer", sortOrder = NextOrder("customer") })">
+                    Customer Name@(Arrow("customer"))
+                </a>
+            </th>
+
+            <th>Customer Code</th>
+
+            <th>
+                <a class="sort-link" href="@Url.Action("Index", new { sortField = "hosting", sortOrder = NextOrder("hosting") })">
+                    Hosting@(Arrow("hosting"))
+                </a>
+            </th>
+
+            <th>
+                <a class="sort-link" href="@Url.Action("Index", new { sortField = "currentversion", sortOrder = NextOrder("currentversion") })">
+                    Current Version@(Arrow("currentversion"))
+                </a>
+            </th>
+
+            <th>
+                <a class="sort-link" href="@Url.Action("Index", new { sortField = "targetversion", sortOrder = NextOrder("targetversion") })">
+                    Target Version@(Arrow("targetversion"))
+                </a>
+            </th>
+
+            <th>
+                <a class="sort-link" href="@Url.Action("Index", new { sortField = "date", sortOrder = NextOrder("date") })">
+                    Date@(Arrow("date"))
+                </a>
+            </th>
+
+            <th>
+                <a class="sort-link" href="@Url.Action("Index", new { sortField = "time", sortOrder = NextOrder("time") })">
+                    Time@(Arrow("time"))
+                </a>
+            </th>
+
+            <th>
+                <a class="sort-link" href="@Url.Action("Index", new { sortField = "ticket", sortOrder = NextOrder("ticket") })">
+                    Ticket@(Arrow("ticket"))
+                </a>
+            </th>
+
+            <th>
+                <a class="sort-link" href="@Url.Action("Index", new { sortField = "status", sortOrder = NextOrder("status") })">
+                    Status@(Arrow("status"))
+                </a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ScheduleId</td>
+                    <td>@item.Customer?.CustomerName</td>
+                    <td>@item.Customer?.CustomerCode</td>
+                    <td>@item.HostingType</td>
+                    <td>@item.CurrentVersion</td>
+                    <td>@item.TargetVersion</td>
+                    <td>@item.ScheduleDate.ToString("yyyy-MM-dd")</td>
+                    <td>@(item.ScheduleTime.HasValue ? item.ScheduleTime.Value.ToString(@"hh\:mm") : "")</td>
+                    <td>@item.TicketNumber</td>
+                    <td>@item.Status</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="10">No schedules found.</td>
+            </tr>
+        }
+    </tbody>
+</table>

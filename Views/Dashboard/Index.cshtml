@@ -1,0 +1,25 @@
+﻿@model UpgradePortal.Web.Models.DashboardSummaryViewModel
+@{
+    Layout = "_Layout";
+}
+
+<h2>Dashboard</h2>
+
+<div class="dashboard-grid">
+    <div class="card">
+        <h3>@Model.TotalUsers</h3>
+        <p>Total Users</p>
+    </div>
+    <div class="card">
+        <h3>@Model.Total2FAUsers</h3>
+        <p>2FA Users</p>
+    </div>
+    <div class="card">
+        <h3>@Model.TotalSchedules</h3>
+        <p>Schedules</p>
+    </div>
+    <div class="card">
+        <h3>@Model.TotalShellRequests</h3>
+        <p>Shell Requests</p>
+    </div>
+</div>
