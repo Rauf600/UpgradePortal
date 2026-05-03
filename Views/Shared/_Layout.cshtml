@@ -3,24 +3,42 @@
 <head>
     <meta charset="utf-8" />
     <title>Upgrade Portal</title>
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-    <div class="sidebar">
-        <h2>Upgrade Portal</h2>
-        <a href="/Dashboard">Dashboard</a>
-        <a href="/Schedules">Schedules</a>
-        <a href="/ShellRequests">Shell Requests</a>
 
-        <form method="post" action="/Auth/Logout">
-            <button type="submit" class="btn btn-danger">Logout</button>
-        </form>
-    </div>
+    <header class="top-nav">
+        <div class="brand">
+            <div class="brand-title">Upgrade Portal</div>
+            <div class="brand-version">v1.0.0 | Local Prototype</div>
+        </div>
 
-    <main class="content">
+        <nav class="nav-tabs">
+            <a href="/Dashboard">Dashboard</a>
+            <a href="/Schedules">Schedules</a>
+            <a href="/ShellRequests">Shell Requests</a>
+            <a href="/Reports">Reports</a>
+            <a href="/UserManagement">User Management</a>
+        </nav>
+
+        <div class="nav-user">
+            <div class="user-pill">
+                <span>Logged in as</span>
+                <strong>@User.Identity?.Name</strong>
+            </div>
+
+            <form method="post" action="/Auth/Logout">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-danger btn-sm">Logout</button>
+            </form>
+        </div>
+    </header>
+
+    <main class="content horizontal-content">
         @RenderBody()
     </main>
 
     @RenderSection("Scripts", required: false)
+
 </body>
 </html>

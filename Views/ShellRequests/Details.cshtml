@@ -1,0 +1,48 @@
+﻿@model UpgradePortal.Web.Models.ShellRequest
+@{
+    Layout = "_Layout";
+}
+
+<h2>Shell Request Details</h2>
+
+<div class="details-card">
+    <div class="details-grid">
+        <div><strong>ID:</strong> @Model.ShellRequestId</div>
+        <div><strong>Status:</strong> <span class="status-badge status-@Model.Status">@Model.Status</span></div>
+
+        <div><strong>Customer Name:</strong> @Model.Customer?.CustomerName</div>
+        <div><strong>Customer Code:</strong> @Model.Customer?.CustomerCode</div>
+
+        <div><strong>Email:</strong> @Model.Email</div>
+        <div><strong>Clinic Name:</strong> @Model.ClinicName</div>
+
+        <div><strong>Address:</strong> @Model.Address</div>
+        <div><strong>Phone:</strong> @Model.Phone</div>
+
+        <div><strong>EMR ID:</strong> @Model.EmrId</div>
+        <div><strong>Token ID:</strong> @Model.TokenId</div>
+
+        <div><strong>Base Container:</strong> @Model.BaseContainer</div>
+        <div><strong>Profile Version:</strong> @Model.ProfileVersion</div>
+
+        <div><strong>Number of Providers:</strong> @Model.NumProviders</div>
+        <div><strong>Number of IH Servers:</strong> @Model.NumIHServers</div>
+
+        <div><strong>Region:</strong> @Model.Region</div>
+        <div><strong>Expected Date:</strong> @Model.ExpectedDate?.ToString("yyyy-MM-dd")</div>
+
+        <div><strong>Client Registry:</strong> @Model.ClientRegistry</div>
+        <div><strong>Integrations:</strong> @Model.Integrations</div>
+
+        <div><strong>Attachments:</strong> @Model.Attachments</div>
+    </div>
+
+    <div class="details-notes">
+        <strong>Notes:</strong>
+        <p>@Model.Notes</p>
+    </div>
+</div>
+
+<div style="margin-top:16px;">
+    <a href="/ShellRequests" class="btn btn-primary">Back to Shell Requests</a>
+</div>

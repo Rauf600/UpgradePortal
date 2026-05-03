@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UpgradePortal.Web.Data;
@@ -24,62 +25,29 @@ public class SchedulesController : Controller
         ViewBag.SortOrder = sortOrder;
 
         IQueryable<UpgradeSchedule> query = _db.UpgradeSchedules
-            .Include(x => x.Customer);
+            .Include(x => x.Customer)
+            .Include(x => x.CreatedByUser);
 
-        switch ((sortField ?? "").ToLower())
+        query = sortField.ToLower() switch
         {
-            case "customer":
-                query = sortOrder == "desc"
-                    ? query.OrderByDescending(x => x.Customer!.CustomerName)
-                    : query.OrderBy(x => x.Customer!.CustomerName);
-                break;
+            "customer" => sortOrder == "desc"
+                ? query.OrderByDescending(x => x.Customer!.CustomerName)
+                : query.OrderBy(x => x.Customer!.CustomerName),
 
-            case "hosting":
-                query = sortOrder == "desc"
-                    ? query.OrderByDescending(x => x.HostingType)
-                    : query.OrderBy(x => x.HostingType);
-                break;
+            "hosting" => sortOrder == "desc"
+                ? query.OrderByDescending(x => x.HostingType)
+                : query.OrderBy(x => x.HostingType),
 
-            case "currentversion":
-                query = sortOrder == "desc"
-                    ? query.OrderByDescending(x => x.CurrentVersion)
-                    : query.OrderBy(x => x.CurrentVersion);
-                break;
+            "status" => sortOrder == "desc"
+                ? query.OrderByDescending(x => x.Status)
+                : query.OrderBy(x => x.Status),
 
-            case "targetversion":
-                query = sortOrder == "desc"
-                    ? query.OrderByDescending(x => x.TargetVersion)
-                    : query.OrderBy(x => x.TargetVersion);
-                break;
+            _ => sortOrder == "desc"
+                ? query.OrderByDescending(x => x.ScheduleDate).ThenByDescending(x => x.ScheduleTime)
+                : query.OrderBy(x => x.ScheduleDate).ThenBy(x => x.ScheduleTime)
+        };
 
-            case "time":
-                query = sortOrder == "desc"
-                    ? query.OrderByDescending(x => x.ScheduleTime)
-                    : query.OrderBy(x => x.ScheduleTime);
-                break;
-
-            case "ticket":
-                query = sortOrder == "desc"
-                    ? query.OrderByDescending(x => x.TicketNumber)
-                    : query.OrderBy(x => x.TicketNumber);
-                break;
-
-            case "status":
-                query = sortOrder == "desc"
-                    ? query.OrderByDescending(x => x.Status)
-                    : query.OrderBy(x => x.Status);
-                break;
-
-            case "date":
-            default:
-                query = sortOrder == "desc"
-                    ? query.OrderByDescending(x => x.ScheduleDate).ThenByDescending(x => x.ScheduleTime)
-                    : query.OrderBy(x => x.ScheduleDate).ThenBy(x => x.ScheduleTime);
-                break;
-        }
-
-        var schedules = await query.ToListAsync();
-        return View(schedules);
+        return View(await query.ToListAsync());
     }
 
     [HttpGet("/Schedules/Create")]
@@ -112,9 +80,15 @@ public class SchedulesController : Controller
             await _db.SaveChangesAsync();
         }
 
+        var userIdValue = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        long? createdByUserId = long.TryParse(userIdValue, out var parsedUserId)
+            ? parsedUserId
+            : null;
+
         var schedule = new UpgradeSchedule
         {
             CustomerId = customer.CustomerId,
+            CreatedByUserId = createdByUserId,
             HostingType = model.HostingType,
             CurrentVersion = model.CurrentVersion,
             TargetVersion = model.TargetVersion,
@@ -127,6 +101,50 @@ public class SchedulesController : Controller
 
         _db.UpgradeSchedules.Add(schedule);
         await _db.SaveChangesAsync();
+
+        return RedirectToAction("Index");
+    }
+
+    [HttpGet("/Schedules/Details/{id}")]
+    public async Task<IActionResult> Details(long id)
+    {
+        var schedule = await _db.UpgradeSchedules
+            .Include(x => x.Customer)
+            .Include(x => x.CreatedByUser)
+            .FirstOrDefaultAsync(x => x.ScheduleId == id);
+
+        if (schedule == null)
+            return NotFound();
+
+        return View(schedule);
+    }
+
+    [HttpPost("/Schedules/Complete/{id}")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Complete(long id)
+    {
+        var schedule = await _db.UpgradeSchedules.FindAsync(id);
+
+        if (schedule != null)
+        {
+            schedule.Status = "completed";
+            await _db.SaveChangesAsync();
+        }
+
+        return RedirectToAction("Index");
+    }
+
+    [HttpPost("/Schedules/Cancel/{id}")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Cancel(long id)
+    {
+        var schedule = await _db.UpgradeSchedules.FindAsync(id);
+
+        if (schedule != null)
+        {
+            schedule.Status = "cancelled";
+            await _db.SaveChangesAsync();
+        }
 
         return RedirectToAction("Index");
     }
