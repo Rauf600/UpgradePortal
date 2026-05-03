@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UpgradePortal.Web.Data;
@@ -24,50 +25,29 @@ public class ShellRequestsController : Controller
         ViewBag.SortOrder = sortOrder;
 
         IQueryable<ShellRequest> query = _db.ShellRequests
-            .Include(x => x.Customer);
+            .Include(x => x.Customer)
+            .Include(x => x.CreatedByUser);
 
-        switch ((sortField ?? "").ToLower())
+        query = sortField.ToLower() switch
         {
-            case "customer":
-                query = sortOrder == "desc"
-                    ? query.OrderByDescending(x => x.Customer!.CustomerName)
-                    : query.OrderBy(x => x.Customer!.CustomerName);
-                break;
+            "customer" => sortOrder == "desc"
+                ? query.OrderByDescending(x => x.Customer!.CustomerName)
+                : query.OrderBy(x => x.Customer!.CustomerName),
 
-            case "clinic":
-                query = sortOrder == "desc"
-                    ? query.OrderByDescending(x => x.ClinicName)
-                    : query.OrderBy(x => x.ClinicName);
-                break;
+            "clinic" => sortOrder == "desc"
+                ? query.OrderByDescending(x => x.ClinicName)
+                : query.OrderBy(x => x.ClinicName),
 
-            case "version":
-                query = sortOrder == "desc"
-                    ? query.OrderByDescending(x => x.ProfileVersion)
-                    : query.OrderBy(x => x.ProfileVersion);
-                break;
+            "status" => sortOrder == "desc"
+                ? query.OrderByDescending(x => x.Status)
+                : query.OrderBy(x => x.Status),
 
-            case "registry":
-                query = sortOrder == "desc"
-                    ? query.OrderByDescending(x => x.ClientRegistry)
-                    : query.OrderBy(x => x.ClientRegistry);
-                break;
+            _ => sortOrder == "desc"
+                ? query.OrderByDescending(x => x.ExpectedDate)
+                : query.OrderBy(x => x.ExpectedDate)
+        };
 
-            case "status":
-                query = sortOrder == "desc"
-                    ? query.OrderByDescending(x => x.Status)
-                    : query.OrderBy(x => x.Status);
-                break;
-
-            case "date":
-            default:
-                query = sortOrder == "desc"
-                    ? query.OrderByDescending(x => x.ExpectedDate)
-                    : query.OrderBy(x => x.ExpectedDate);
-                break;
-        }
-
-        var requests = await query.ToListAsync();
-        return View(requests);
+        return View(await query.ToListAsync());
     }
 
     [HttpGet("/ShellRequests/Create")]
@@ -124,15 +104,19 @@ public class ShellRequestsController : Controller
             foreach (var file in model.Attachments)
             {
                 if (file != null && !string.IsNullOrWhiteSpace(file.FileName))
-                {
                     attachmentNames.Add(file.FileName);
-                }
             }
         }
+
+        var userIdValue = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        long? createdByUserId = long.TryParse(userIdValue, out var parsedUserId)
+            ? parsedUserId
+            : null;
 
         var shellRequest = new ShellRequest
         {
             CustomerId = customer.CustomerId,
+            CreatedByUserId = createdByUserId,
             ClinicName = model.ClinicName,
             Email = model.Email,
             Address = model.Address,
@@ -154,6 +138,50 @@ public class ShellRequestsController : Controller
 
         _db.ShellRequests.Add(shellRequest);
         await _db.SaveChangesAsync();
+
+        return RedirectToAction("Index");
+    }
+
+    [HttpGet("/ShellRequests/Details/{id}")]
+    public async Task<IActionResult> Details(long id)
+    {
+        var request = await _db.ShellRequests
+            .Include(x => x.Customer)
+            .Include(x => x.CreatedByUser)
+            .FirstOrDefaultAsync(x => x.ShellRequestId == id);
+
+        if (request == null)
+            return NotFound();
+
+        return View(request);
+    }
+
+    [HttpPost("/ShellRequests/Complete/{id}")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Complete(long id)
+    {
+        var request = await _db.ShellRequests.FindAsync(id);
+
+        if (request != null)
+        {
+            request.Status = "completed";
+            await _db.SaveChangesAsync();
+        }
+
+        return RedirectToAction("Index");
+    }
+
+    [HttpPost("/ShellRequests/Cancel/{id}")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Cancel(long id)
+    {
+        var request = await _db.ShellRequests.FindAsync(id);
+
+        if (request != null)
+        {
+            request.Status = "cancelled";
+            await _db.SaveChangesAsync();
+        }
 
         return RedirectToAction("Index");
     }

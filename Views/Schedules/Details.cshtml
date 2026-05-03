@@ -1,0 +1,37 @@
+﻿@model UpgradePortal.Web.Models.UpgradeSchedule
+@{
+    Layout = "_Layout";
+}
+
+<h2>Schedule Details</h2>
+
+<div class="details-card">
+    <div class="details-grid">
+        <div><strong>ID:</strong> @Model.ScheduleId</div>
+        <div><strong>Status:</strong> <span class="status-badge status-@Model.Status">@Model.Status</span></div>
+
+        <div><strong>Customer Name:</strong> @Model.Customer?.CustomerName</div>
+        <div><strong>Customer Code:</strong> @Model.Customer?.CustomerCode</div>
+
+        <div><strong>Email:</strong> @Model.Customer?.PrimaryEmail</div>
+        <div><strong>Region:</strong> @Model.Customer?.RegionCode</div>
+
+        <div><strong>Hosting Type:</strong> @Model.HostingType</div>
+        <div><strong>Current Version:</strong> @Model.CurrentVersion</div>
+
+        <div><strong>Target Version:</strong> @Model.TargetVersion</div>
+        <div><strong>Schedule Date:</strong> @Model.ScheduleDate.ToString("yyyy-MM-dd")</div>
+
+        <div><strong>Schedule Time:</strong> @(Model.ScheduleTime.HasValue ? Model.ScheduleTime.Value.ToString(@"hh\:mm") : "")</div>
+        <div><strong>Ticket Number:</strong> @Model.TicketNumber</div>
+    </div>
+
+    <div class="details-notes">
+        <strong>Notes:</strong>
+        <p>@Model.Notes</p>
+    </div>
+</div>
+
+<div style="margin-top:16px;">
+    <a href="/Schedules" class="btn btn-primary">Back to Schedules</a>
+</div>

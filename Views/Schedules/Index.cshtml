@@ -26,58 +26,36 @@
     <thead>
         <tr>
             <th>ID</th>
-
             <th>
                 <a class="sort-link" href="@Url.Action("Index", new { sortField = "customer", sortOrder = NextOrder("customer") })">
                     Customer Name@(Arrow("customer"))
                 </a>
             </th>
-
             <th>Customer Code</th>
-
             <th>
                 <a class="sort-link" href="@Url.Action("Index", new { sortField = "hosting", sortOrder = NextOrder("hosting") })">
                     Hosting@(Arrow("hosting"))
                 </a>
             </th>
-
-            <th>
-                <a class="sort-link" href="@Url.Action("Index", new { sortField = "currentversion", sortOrder = NextOrder("currentversion") })">
-                    Current Version@(Arrow("currentversion"))
-                </a>
-            </th>
-
-            <th>
-                <a class="sort-link" href="@Url.Action("Index", new { sortField = "targetversion", sortOrder = NextOrder("targetversion") })">
-                    Target Version@(Arrow("targetversion"))
-                </a>
-            </th>
-
+            <th>Current Version</th>
+            <th>Target Version</th>
             <th>
                 <a class="sort-link" href="@Url.Action("Index", new { sortField = "date", sortOrder = NextOrder("date") })">
                     Date@(Arrow("date"))
                 </a>
             </th>
-
-            <th>
-                <a class="sort-link" href="@Url.Action("Index", new { sortField = "time", sortOrder = NextOrder("time") })">
-                    Time@(Arrow("time"))
-                </a>
-            </th>
-
-            <th>
-                <a class="sort-link" href="@Url.Action("Index", new { sortField = "ticket", sortOrder = NextOrder("ticket") })">
-                    Ticket@(Arrow("ticket"))
-                </a>
-            </th>
-
+            <th>Time</th>
+            <th>Ticket</th>
+            <th>Submitted By</th>
             <th>
                 <a class="sort-link" href="@Url.Action("Index", new { sortField = "status", sortOrder = NextOrder("status") })">
                     Status@(Arrow("status"))
                 </a>
             </th>
+            <th>Actions</th>
         </tr>
     </thead>
+
     <tbody>
         @if (Model != null && Model.Count > 0)
         {
@@ -93,14 +71,41 @@
                     <td>@item.ScheduleDate.ToString("yyyy-MM-dd")</td>
                     <td>@(item.ScheduleTime.HasValue ? item.ScheduleTime.Value.ToString(@"hh\:mm") : "")</td>
                     <td>@item.TicketNumber</td>
-                    <td>@item.Status</td>
+                    <td>@item.CreatedByUser?.FullName</td>
+                    <td>
+                        <span class="status-badge status-@item.Status">
+                            @item.Status
+                        </span>
+                    </td>
+                    <td>
+                        <div class="action-row">
+                            <a href="/Schedules/Details/@item.ScheduleId" class="btn btn-info btn-sm">View</a>
+
+                            @if (item.Status == "pending")
+                            {
+                                <form method="post" action="/Schedules/Complete/@item.ScheduleId">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-success btn-sm">Complete</button>
+                                </form>
+
+                                <form method="post" action="/Schedules/Cancel/@item.ScheduleId">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-warning btn-sm">Cancel</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <span class="no-actions">No actions</span>
+                            }
+                        </div>
+                    </td>
                 </tr>
             }
         }
         else
         {
             <tr>
-                <td colspan="10">No schedules found.</td>
+                <td colspan="12">No schedules found.</td>
             </tr>
         }
     </tbody>

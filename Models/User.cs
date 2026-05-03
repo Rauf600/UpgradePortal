@@ -6,9 +6,11 @@ public class User
     public long RoleId { get; set; }
     public string FullName { get; set; } = "";
     public string Email { get; set; } = "";
+    public string? PhoneNumber { get; set; }
     public string PasswordHash { get; set; } = "";
     public bool TwoFactorEnabled { get; set; }
     public string? TwoFactorEmail { get; set; }
     public DateTime CreatedDate { get; set; }
     public bool IsActive { get; set; }
+    public Role? Role { get; set; }
 }

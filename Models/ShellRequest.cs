@@ -4,6 +4,8 @@ public class ShellRequest
 {
     public long ShellRequestId { get; set; }
     public long CustomerId { get; set; }
+    public long? CreatedByUserId { get; set; }
+
     public string ClinicName { get; set; } = "";
     public string? Email { get; set; }
     public string? Address { get; set; }
@@ -23,4 +25,5 @@ public class ShellRequest
     public string? Notes { get; set; }
 
     public Customer? Customer { get; set; }
+    public User? CreatedByUser { get; set; }
 }

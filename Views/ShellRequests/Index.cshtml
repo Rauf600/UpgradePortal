@@ -17,9 +17,12 @@
     }
 }
 
-<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+<div class="page-header">
     <h2>Shell Requests</h2>
-    <a href="/ShellRequests/Create" class="btn btn-primary">+ New Shell Request</a>
+
+    <div class="header-actions">
+        <a href="/ShellRequests/Create" class="btn btn-primary">+ New Shell Request</a>
+    </div>
 </div>
 
 <table class="portal-table">
@@ -41,11 +44,7 @@
                 </a>
             </th>
 
-            <th>
-                <a class="sort-link" href="@Url.Action("Index", new { sortField = "version", sortOrder = NextOrder("version") })">
-                    Profile Version@(Arrow("version"))
-                </a>
-            </th>
+            <th>Profile Version</th>
 
             <th>
                 <a class="sort-link" href="@Url.Action("Index", new { sortField = "date", sortOrder = NextOrder("date") })">
@@ -53,17 +52,17 @@
                 </a>
             </th>
 
-            <th>
-                <a class="sort-link" href="@Url.Action("Index", new { sortField = "registry", sortOrder = NextOrder("registry") })">
-                    Client Registry@(Arrow("registry"))
-                </a>
-            </th>
+            <th>Client Registry</th>
+
+            <th>Submitted By</th>
 
             <th>
                 <a class="sort-link" href="@Url.Action("Index", new { sortField = "status", sortOrder = NextOrder("status") })">
                     Status@(Arrow("status"))
                 </a>
             </th>
+
+            <th>Actions</th>
         </tr>
     </thead>
 
@@ -80,14 +79,45 @@
                     <td>@item.ProfileVersion</td>
                     <td>@item.ExpectedDate?.ToString("yyyy-MM-dd")</td>
                     <td>@item.ClientRegistry</td>
-                    <td>@item.Status</td>
+                    <td>@item.CreatedByUser?.FullName</td>
+
+                    <td>
+                        <span class="status-badge status-@item.Status">
+                            @item.Status
+                        </span>
+                    </td>
+
+                    <td>
+                        <div class="action-row">
+
+                            <a href="/ShellRequests/Details/@item.ShellRequestId" class="btn btn-info btn-sm">View</a>
+
+                            @if (item.Status == "pending")
+                            {
+                                <form method="post" action="/ShellRequests/Complete/@item.ShellRequestId">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-success btn-sm">Complete</button>
+                                </form>
+
+                                <form method="post" action="/ShellRequests/Cancel/@item.ShellRequestId">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-warning btn-sm">Cancel</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <span class="no-actions">No actions</span>
+                            }
+
+                        </div>
+                    </td>
                 </tr>
             }
         }
         else
         {
             <tr>
-                <td colspan="8">No shell requests found.</td>
+                <td colspan="10">No shell requests found.</td>
             </tr>
         }
     </tbody>

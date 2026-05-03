@@ -4,6 +4,8 @@ public class UpgradeSchedule
 {
     public long ScheduleId { get; set; }
     public long CustomerId { get; set; }
+    public long? CreatedByUserId { get; set; }
+
     public string HostingType { get; set; } = "";
     public string CurrentVersion { get; set; } = "";
     public string TargetVersion { get; set; } = "";
@@ -14,4 +16,5 @@ public class UpgradeSchedule
     public string Status { get; set; } = "";
 
     public Customer? Customer { get; set; }
+    public User? CreatedByUser { get; set; }
 }

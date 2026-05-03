@@ -1,0 +1,59 @@
+﻿@model UpgradePortal.Web.ViewModels.UserCreateViewModel
+@{
+    Layout = "_Layout";
+}
+
+<h2>Add New User</h2>
+
+<form method="post" action="/UserManagement/Create" class="form-card">
+    @Html.AntiForgeryToken()
+
+    <div class="form-grid">
+        <div>
+            <label>Full Name</label>
+            <input asp-for="FullName" class="form-control" />
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label>Email</label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div>
+            <label>Phone Number</label>
+            <input asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+        <div>
+            <label>Role</label>
+            <select asp-for="RoleId" asp-items="ViewBag.Roles" class="form-control">
+                <option value="">Select Role</option>
+            </select>
+            <span asp-validation-for="RoleId" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label>Password</label>
+            <input asp-for="Password" type="password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label>
+                <input asp-for="TwoFactorEnabled" />
+                Enable 2FA
+            </label>
+        </div>
+
+        <div>
+            <label>
+                <input asp-for="IsActive" />
+                Active User
+            </label>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create User</button>
+    <a href="/UserManagement" class="btn btn-info">Back</a>
+</form>
