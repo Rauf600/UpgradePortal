@@ -1,14 +1,16 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using UpgradePortal.Web.Data;
+using UpgradePortal.Web.Filters;
 using UpgradePortal.Web.Models;
 using UpgradePortal.Web.ViewModels;
 
 namespace UpgradePortal.Web.Controllers;
 
 [Authorize]
+[PermissionAuthorize("Schedules")]
 public class SchedulesController : Controller
 {
     private readonly AppDbContext _db;

@@ -1,16 +1,18 @@
-﻿using System.Security.Cryptography;
-using System.Text;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using System.Text;
 using UpgradePortal.Web.Data;
+using UpgradePortal.Web.Filters;
 using UpgradePortal.Web.Models;
 using UpgradePortal.Web.ViewModels;
 
 namespace UpgradePortal.Web.Controllers;
 
 [Authorize]
+[PermissionAuthorize("UserManagement")]
 public class UserManagementController : Controller
 {
     private readonly AppDbContext _db;
@@ -35,6 +37,8 @@ public class UserManagementController : Controller
     public async Task<IActionResult> Create()
     {
         await LoadRoles();
+        ViewBag.Permissions = GetCorePermissions();
+
         return View(new UserCreateViewModel());
     }
 
@@ -50,6 +54,7 @@ public class UserManagementController : Controller
         if (!ModelState.IsValid)
         {
             await LoadRoles();
+            ViewBag.Permissions = GetCorePermissions();
             return View(model);
         }
 
@@ -65,6 +70,122 @@ public class UserManagementController : Controller
         };
 
         _db.Users.Add(user);
+        await _db.SaveChangesAsync();
+
+        foreach (var permission in model.SelectedPermissions)
+        {
+            _db.UserPermissions.Add(new UserPermission
+            {
+                UserId = user.UserId,
+                PermissionCode = permission
+            });
+        }
+
+        await _db.SaveChangesAsync();
+
+        return RedirectToAction("Index");
+    }
+
+    [HttpGet("/UserManagement/Edit/{id}")]
+    public async Task<IActionResult> Edit(long id)
+    {
+        var user = await _db.Users
+            .Include(x => x.Permissions)
+            .FirstOrDefaultAsync(x => x.UserId == id);
+
+        if (user == null)
+            return NotFound();
+
+        var model = new UserEditViewModel
+        {
+            UserId = user.UserId,
+            FullName = user.FullName,
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber,
+            RoleId = user.RoleId,
+            TwoFactorEnabled = user.TwoFactorEnabled,
+            IsActive = user.IsActive,
+            SelectedPermissions = user.Permissions.Select(x => x.PermissionCode).ToList()
+        };
+
+        await LoadRoles();
+        ViewBag.Permissions = GetCorePermissions();
+
+        return View(model);
+    }
+
+    [HttpPost("/UserManagement/Edit")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(UserEditViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            await LoadRoles();
+            ViewBag.Permissions = GetCorePermissions();
+            return View(model);
+        }
+
+        var user = await _db.Users
+            .Include(x => x.Permissions)
+            .FirstOrDefaultAsync(x => x.UserId == model.UserId);
+
+        if (user == null)
+            return NotFound();
+
+        user.FullName = model.FullName;
+        user.Email = model.Email;
+        user.PhoneNumber = model.PhoneNumber;
+        user.RoleId = model.RoleId;
+        user.TwoFactorEnabled = model.TwoFactorEnabled;
+        user.IsActive = model.IsActive;
+
+        _db.UserPermissions.RemoveRange(user.Permissions);
+
+        foreach (var permission in model.SelectedPermissions)
+        {
+            _db.UserPermissions.Add(new UserPermission
+            {
+                UserId = user.UserId,
+                PermissionCode = permission
+            });
+        }
+
+        await _db.SaveChangesAsync();
+
+        return RedirectToAction("Index");
+    }
+
+    [HttpGet("/UserManagement/ResetPassword/{id}")]
+    public async Task<IActionResult> ResetPassword(long id)
+    {
+        var user = await _db.Users.FindAsync(id);
+
+        if (user == null)
+            return NotFound();
+
+        var model = new UserResetPasswordViewModel
+        {
+            UserId = user.UserId,
+            FullName = user.FullName
+        };
+
+        return View(model);
+    }
+
+    [HttpPost("/UserManagement/ResetPassword")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ResetPassword(UserResetPasswordViewModel model)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
+
+        var user = await _db.Users.FindAsync(model.UserId);
+
+        if (user == null)
+            return NotFound();
+
+        user.PasswordHash = HashPassword(model.NewPassword);
+
         await _db.SaveChangesAsync();
 
         return RedirectToAction("Index");
@@ -107,6 +228,19 @@ public class UserManagementController : Controller
             .ToListAsync();
 
         ViewBag.Roles = new SelectList(roles, "RoleId", "RoleName");
+    }
+
+    private static List<string> GetCorePermissions()
+    {
+        return new List<string>
+        {
+            "Dashboard",
+            "Schedules",
+            "ShellRequests",
+            "Reports",
+            "UserManagement",
+            "Settings"
+        };
     }
 
     private static string HashPassword(string password)

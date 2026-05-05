@@ -9,6 +9,7 @@ public class AppDbContext : DbContext
 
     public DbSet<User> Users => Set<User>();
     public DbSet<Role> Roles => Set<Role>();
+    public DbSet<UserPermission> UserPermissions => Set<UserPermission>();
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<UpgradeSchedule> UpgradeSchedules => Set<UpgradeSchedule>();
     public DbSet<ShellRequest> ShellRequests => Set<ShellRequest>();
@@ -19,6 +20,13 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<User>().ToTable("users").HasKey(x => x.UserId);
         modelBuilder.Entity<Role>().ToTable("roles").HasKey(x => x.RoleId);
+        modelBuilder.Entity<UserPermission>().ToTable("user_permissions").HasKey(x => x.UserPermissionId);
+
+        modelBuilder.Entity<UserPermission>().Property(x => x.UserPermissionId).HasColumnName("user_permission_id");
+        modelBuilder.Entity<UserPermission>().Property(x => x.UserId).HasColumnName("user_id");
+        modelBuilder.Entity<UserPermission>().Property(x => x.PermissionCode).HasColumnName("permission_code");
+        modelBuilder.Entity<UserPermission>().HasOne(x => x.User).WithMany(x => x.Permissions).HasForeignKey(x => x.UserId);
+
         modelBuilder.Entity<Customer>().ToTable("customers").HasKey(x => x.CustomerId);
         modelBuilder.Entity<UpgradeSchedule>().ToTable("upgrade_schedules").HasKey(x => x.ScheduleId);
         modelBuilder.Entity<ShellRequest>().ToTable("shell_requests").HasKey(x => x.ShellRequestId);

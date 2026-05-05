@@ -13,4 +13,5 @@ public class User
     public DateTime CreatedDate { get; set; }
     public bool IsActive { get; set; }
     public Role? Role { get; set; }
+    public List<UserPermission> Permissions { get; set; } = new();
 }

@@ -1,0 +1,43 @@
+﻿@model List<UpgradePortal.Web.Models.Role>
+@{
+    Layout = "_Layout";
+}
+
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+    <h2>Role Management</h2>
+    <a href="/RoleManagement/Create" class="btn btn-primary">+ Add Custom Role</a>
+</div>
+
+<table class="portal-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Role Name</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var role in Model)
+            {
+                <tr>
+                    <td>@role.RoleId</td>
+                    <td>@role.RoleName</td>
+                    <td>@role.Description</td>
+                    <td>
+                        <a href="/RoleManagement/Edit/@role.RoleId" class="btn btn-primary btn-sm">Edit</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4">No roles found.</td>
+            </tr>
+        }
+    </tbody>
+</table>

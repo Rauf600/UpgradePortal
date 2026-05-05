@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UpgradePortal.Web.Services;
+using UpgradePortal.Web.Filters;
 
 namespace UpgradePortal.Web.Controllers;
 
 [Authorize]
+[PermissionAuthorize("Dashboard")]
 public class DashboardController : Controller
 {
     private readonly ReportService _reportService;

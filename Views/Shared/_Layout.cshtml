@@ -1,4 +1,25 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+@using Microsoft.EntityFrameworkCore
+@inject UpgradePortal.Web.Data.AppDbContext Db
+
+@{
+    var userIdText = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    long.TryParse(userIdText, out var currentUserId);
+
+    var currentUser = await Db.Users
+        .Include(x => x.Role)
+        .Include(x => x.Permissions)
+        .FirstOrDefaultAsync(x => x.UserId == currentUserId);
+
+    bool isAdmin = currentUser?.Role?.RoleName?.Equals("admin", StringComparison.OrdinalIgnoreCase) == true;
+
+    bool HasPermission(string permission)
+    {
+        return isAdmin || currentUser?.Permissions.Any(x => x.PermissionCode == permission) == true;
+    }
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -14,11 +35,35 @@
         </div>
 
         <nav class="nav-tabs">
-            <a href="/Dashboard">Dashboard</a>
-            <a href="/Schedules">Schedules</a>
-            <a href="/ShellRequests">Shell Requests</a>
-            <a href="/Reports">Reports</a>
-            <a href="/UserManagement">User Management</a>
+            @if (HasPermission("Dashboard"))
+            {
+                <a href="/Dashboard">Dashboard</a>
+            }
+
+            @if (HasPermission("Schedules"))
+            {
+                <a href="/Schedules">Schedules</a>
+            }
+
+            @if (HasPermission("ShellRequests"))
+            {
+                <a href="/ShellRequests">Shell Requests</a>
+            }
+
+            @if (HasPermission("Reports"))
+            {
+                <a href="/Reports">Reports</a>
+            }
+
+            @if (HasPermission("UserManagement"))
+            {
+                <a href="/UserManagement">User Management</a>
+            }
+
+            @if (HasPermission("Settings"))
+            {
+                <a href="/Settings">Settings</a>
+            }
         </nav>
 
         <div class="nav-user">
