@@ -9,6 +9,7 @@ public class AppDbContext : DbContext
 
     public DbSet<User> Users => Set<User>();
     public DbSet<Role> Roles => Set<Role>();
+    public DbSet<UserPermission> UserPermissions => Set<UserPermission>();
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<UpgradeSchedule> UpgradeSchedules => Set<UpgradeSchedule>();
     public DbSet<ShellRequest> ShellRequests => Set<ShellRequest>();
@@ -19,6 +20,13 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<User>().ToTable("users").HasKey(x => x.UserId);
         modelBuilder.Entity<Role>().ToTable("roles").HasKey(x => x.RoleId);
+        modelBuilder.Entity<UserPermission>().ToTable("user_permissions").HasKey(x => x.UserPermissionId);
+
+        modelBuilder.Entity<UserPermission>().Property(x => x.UserPermissionId).HasColumnName("user_permission_id");
+        modelBuilder.Entity<UserPermission>().Property(x => x.UserId).HasColumnName("user_id");
+        modelBuilder.Entity<UserPermission>().Property(x => x.PermissionCode).HasColumnName("permission_code");
+        modelBuilder.Entity<UserPermission>().HasOne(x => x.User).WithMany(x => x.Permissions).HasForeignKey(x => x.UserId);
+
         modelBuilder.Entity<Customer>().ToTable("customers").HasKey(x => x.CustomerId);
         modelBuilder.Entity<UpgradeSchedule>().ToTable("upgrade_schedules").HasKey(x => x.ScheduleId);
         modelBuilder.Entity<ShellRequest>().ToTable("shell_requests").HasKey(x => x.ShellRequestId);
@@ -27,6 +35,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<User>().Property(x => x.RoleId).HasColumnName("role_id");
         modelBuilder.Entity<User>().Property(x => x.FullName).HasColumnName("full_name");
         modelBuilder.Entity<User>().Property(x => x.Email).HasColumnName("email");
+        modelBuilder.Entity<User>().Property(x => x.PhoneNumber).HasColumnName("phone_number");
         modelBuilder.Entity<User>().Property(x => x.PasswordHash).HasColumnName("password_hash");
         modelBuilder.Entity<User>().Property(x => x.TwoFactorEnabled).HasColumnName("two_factor_enabled");
         modelBuilder.Entity<User>().Property(x => x.TwoFactorEmail).HasColumnName("two_factor_email");
@@ -36,7 +45,6 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Role>().Property(x => x.RoleId).HasColumnName("role_id");
         modelBuilder.Entity<Role>().Property(x => x.RoleName).HasColumnName("role_name");
         modelBuilder.Entity<Role>().Property(x => x.Description).HasColumnName("description");
-
         modelBuilder.Entity<Customer>().Property(x => x.CustomerId).HasColumnName("customer_id");
         modelBuilder.Entity<Customer>().Property(x => x.CustomerCode).HasColumnName("customer_code");
         modelBuilder.Entity<Customer>().Property(x => x.CustomerName).HasColumnName("customer_name");
@@ -45,6 +53,7 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<UpgradeSchedule>().Property(x => x.ScheduleId).HasColumnName("schedule_id");
         modelBuilder.Entity<UpgradeSchedule>().Property(x => x.CustomerId).HasColumnName("customer_id");
+        modelBuilder.Entity<UpgradeSchedule>().Property(x => x.CreatedByUserId).HasColumnName("created_by_user_id");
         modelBuilder.Entity<UpgradeSchedule>().Property(x => x.HostingType).HasColumnName("hosting_type");
         modelBuilder.Entity<UpgradeSchedule>().Property(x => x.CurrentVersion).HasColumnName("current_version");
         modelBuilder.Entity<UpgradeSchedule>().Property(x => x.TargetVersion).HasColumnName("target_version");
@@ -56,6 +65,7 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<ShellRequest>().Property(x => x.ShellRequestId).HasColumnName("shell_request_id");
         modelBuilder.Entity<ShellRequest>().Property(x => x.CustomerId).HasColumnName("customer_id");
+        modelBuilder.Entity<ShellRequest>().Property(x => x.CreatedByUserId).HasColumnName("created_by_user_id");
         modelBuilder.Entity<ShellRequest>().Property(x => x.ClinicName).HasColumnName("clinic_name");
         modelBuilder.Entity<ShellRequest>().Property(x => x.Email).HasColumnName("email");
         modelBuilder.Entity<ShellRequest>().Property(x => x.Address).HasColumnName("address");
@@ -75,8 +85,25 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<ShellRequest>().Property(x => x.Notes).HasColumnName("notes");
 
         modelBuilder.Entity<UpgradeSchedule>()
+     .HasOne(x => x.Customer)
+     .WithMany()
+     .HasForeignKey(x => x.CustomerId);
+
+        modelBuilder.Entity<UpgradeSchedule>()
+            .HasOne(x => x.CreatedByUser)
+            .WithMany()
+            .HasForeignKey(x => x.CreatedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<ShellRequest>()
             .HasOne(x => x.Customer)
             .WithMany()
             .HasForeignKey(x => x.CustomerId);
+
+        modelBuilder.Entity<ShellRequest>()
+            .HasOne(x => x.CreatedByUser)
+            .WithMany()
+            .HasForeignKey(x => x.CreatedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

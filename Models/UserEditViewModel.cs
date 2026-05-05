@@ -2,8 +2,10 @@
 
 namespace UpgradePortal.Web.ViewModels;
 
-public class UserCreateViewModel
+public class UserEditViewModel
 {
+    public long UserId { get; set; }
+
     [Required]
     public string FullName { get; set; } = "";
 
@@ -11,19 +13,13 @@ public class UserCreateViewModel
     [EmailAddress]
     public string Email { get; set; } = "";
 
-    [Phone]
     public string? PhoneNumber { get; set; }
 
     [Required]
     public long RoleId { get; set; }
 
-    [Required]
-    [MinLength(6)]
-    public string Password { get; set; } = "";
-
     public bool TwoFactorEnabled { get; set; }
 
-    public bool IsActive { get; set; } = true;
+    public bool IsActive { get; set; }
     public List<string> SelectedPermissions { get; set; } = new();
-
 }

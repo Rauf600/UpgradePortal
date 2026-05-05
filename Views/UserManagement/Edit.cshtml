@@ -1,13 +1,14 @@
-﻿@model UpgradePortal.Web.ViewModels.UserCreateViewModel
+﻿@model UpgradePortal.Web.ViewModels.UserEditViewModel
 @{
     Layout = "_Layout";
     var permissions = ViewBag.Permissions as List<string>;
 }
 
-<h2>Add New User</h2>
+<h2>Edit User</h2>
 
-<form method="post" action="/UserManagement/Create" class="form-card">
+<form method="post" action="/UserManagement/Edit" class="form-card">
     @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="UserId" />
 
     <div class="form-grid">
         <div>
@@ -37,12 +38,6 @@
         </div>
 
         <div>
-            <label>Password</label>
-            <input asp-for="Password" type="password" class="form-control" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-
-        <div>
             <label>
                 <input asp-for="TwoFactorEnabled" />
                 Enable 2FA
@@ -63,7 +58,10 @@
         @foreach (var permission in permissions ?? new List<string>())
         {
             <label class="inline-option">
-                <input type="checkbox" name="SelectedPermissions" value="@permission" />
+                <input type="checkbox"
+                       name="SelectedPermissions"
+                       value="@permission"
+                @(Model.SelectedPermissions.Contains(permission) ? "checked" : "") />
                 @permission
             </label>
         }
@@ -71,6 +69,6 @@
 
     <br />
 
-    <button type="submit" class="btn btn-primary">Create User</button>
-    <a href="/UserManagement" class="btn btn-info">Back</a>
+    <button type="submit" class="btn btn-primary">Update User</button>
+    <a href="/UserManagement" class="btn btn-info">Cancel</a>
 </form>

@@ -1,0 +1,27 @@
+﻿@model UpgradePortal.Web.ViewModels.RoleViewModel
+@{
+    Layout = "_Layout";
+}
+
+<h2>Edit Role</h2>
+
+<form method="post" action="/RoleManagement/Edit" class="form-card">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="RoleId" />
+
+    <div class="form-grid">
+        <div>
+            <label>Role Name</label>
+            <input asp-for="RoleName" class="form-control" />
+            <span asp-validation-for="RoleName" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label>Description</label>
+            <input asp-for="Description" class="form-control" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update Role</button>
+    <a href="/RoleManagement" class="btn btn-info">Cancel</a>
+</form>
