@@ -58,6 +58,7 @@
             @if (HasPermission("UserManagement"))
             {
                 <a href="/UserManagement">User Management</a>
+                <a href="/RoleManagement">Roles</a>
             }
 
             @if (HasPermission("Settings"))
@@ -72,6 +73,8 @@
                 <strong>@User.Identity?.Name</strong>
             </div>
 
+            <button type="button" id="themeToggle" class="theme-toggle">🌙 Dark</button>
+
             <form method="post" action="/Auth/Logout">
                 @Html.AntiForgeryToken()
                 <button type="submit" class="btn btn-danger btn-sm">Logout</button>
@@ -85,5 +88,34 @@
 
     @RenderSection("Scripts", required: false)
 
+    <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const savedTheme = localStorage.getItem("theme") || "light";
+
+                if (savedTheme === "dark") {
+                    document.body.classList.add("dark-theme");
+                }
+
+                const themeToggle = document.getElementById("themeToggle");
+
+                if (!themeToggle) return;
+
+                function updateThemeButton() {
+                    const isDark = document.body.classList.contains("dark-theme");
+                    themeToggle.textContent = isDark ? "☀️ Light" : "🌙 Dark";
+                }
+
+                updateThemeButton();
+
+                themeToggle.addEventListener("click", function () {
+                    document.body.classList.toggle("dark-theme");
+
+                    const isDark = document.body.classList.contains("dark-theme");
+                    localStorage.setItem("theme", isDark ? "dark" : "light");
+
+                    updateThemeButton();
+                });
+            });
+    </script>
 </body>
 </html>
