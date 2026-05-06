@@ -1,55 +1,310 @@
 ﻿@{
     Layout = "_Layout";
+
+    var reportType = ViewBag.ReportType as string;
+    var scheduleResults = ViewBag.ScheduleResults as List<UpgradePortal.Web.Models.UpgradeSchedule>;
+    var shellResults = ViewBag.ShellResults as List<UpgradePortal.Web.Models.ShellRequest>;
+    var userResults = ViewBag.UserResults as List<UpgradePortal.Web.Models.User>;
 }
 
 <h2>Reports</h2>
 
-<div class="dashboard-grid">
+<form method="post" action="/Reports" class="form-card">
+    @Html.AntiForgeryToken()
 
-    <div class="card">
-        <h3>@ViewBag.TotalSchedules</h3>
-        <p>Total Schedules</p>
+    <h3>Report Type</h3>
+
+    <div class="form-grid">
+
+        <div>
+            <label>Select Report Type <span class="text-danger">*</span></label>
+            <select name="reportType" class="form-control" required>
+                <option value="Upgrade Schedules" selected="@(reportType == "Upgrade Schedules")">Upgrade Schedules</option>
+                <option value="Shell Requests" selected="@(reportType == "Shell Requests")">Shell Requests</option>
+                <option value="User Activity" selected="@(reportType == "User Activity")">User Activity</option>
+                <option value="Completed Upgrades" selected="@(reportType == "Completed Upgrades")">Completed Upgrades</option>
+            </select>
+        </div>
+
+        <div>
+            <label>Region</label>
+            <select name="region" class="form-control">
+                <option>All Regions</option>
+                <option>ON</option>
+                <option>BC</option>
+                <option>AB</option>
+                <option>NB</option>
+                <option>NS</option>
+                <option>PEI</option>
+                <option>NL</option>
+            </select>
+        </div>
+
+        <div>
+            <label>Hosting Type</label>
+            <select name="hostingType" class="form-control">
+                <option>All Types</option>
+                <option value="Hosted">Hosted</option>
+                <option value="Self-Hosted">Self-Hosted</option>
+            </select>
+        </div>
+
+        <div>
+            <label>Status</label>
+            <select name="status" class="form-control">
+                <option>All Status</option>
+                <option value="pending">Pending</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
+            </select>
+        </div>
+
+        <div>
+            <label>Date From</label>
+            <input type="date" name="dateFrom" class="form-control" value="@ViewBag.DateFrom" />
+        </div>
+
+        <div>
+            <label>Date To</label>
+            <input type="date" name="dateTo" class="form-control" value="@ViewBag.DateTo" />
+        </div>
+
     </div>
 
-    <div class="card">
-        <h3>@ViewBag.PendingSchedules</h3>
-        <p>Pending Schedules</p>
+    <div class="report-actions">
+        <button type="submit" class="btn btn-primary">Generate Report</button>
+        <button type="submit"
+                class="btn btn-info"
+                formaction="/Reports/ExportCsv"
+                formmethod="post">
+            Export to CSV
+        </button>
     </div>
-
-    <div class="card">
-        <h3>@ViewBag.CompletedSchedules</h3>
-        <p>Completed Schedules</p>
-    </div>
-
-    <div class="card">
-        <h3>@ViewBag.CancelledSchedules</h3>
-        <p>Cancelled Schedules</p>
-    </div>
-
-</div>
+</form>
 
 <br />
 
-<div class="dashboard-grid">
+<h3>Report Charts</h3>
 
+<div class="chart-grid">
     <div class="card">
-        <h3>@ViewBag.TotalShellRequests</h3>
-        <p>Total Shell Requests</p>
+        <h4>Schedule Status Bar Chart</h4>
+        <canvas id="scheduleBarChart" width="420" height="240"></canvas>
     </div>
 
     <div class="card">
-        <h3>@ViewBag.PendingShellRequests</h3>
-        <p>Pending Shell Requests</p>
+        <h4>Shell Request Status Pie Chart</h4>
+        <canvas id="shellPieChart" width="420" height="240"></canvas>
     </div>
-
-    <div class="card">
-        <h3>@ViewBag.CompletedShellRequests</h3>
-        <p>Completed Shell Requests</p>
-    </div>
-
-    <div class="card">
-        <h3>@ViewBag.CancelledShellRequests</h3>
-        <p>Cancelled Shell Requests</p>
-    </div>
-
 </div>
+
+@if (scheduleResults != null)
+{
+    <h3>Schedule Report Results</h3>
+
+    <table class="portal-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Customer</th>
+                <th>Hosting</th>
+                <th>Current Version</th>
+                <th>Target Version</th>
+                <th>Date</th>
+                <th>Ticket</th>
+                <th>Status</th>
+                <th>Submitted By</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in scheduleResults)
+            {
+                <tr>
+                    <td>@item.ScheduleId</td>
+                    <td>@item.Customer?.CustomerName</td>
+                    <td>@item.HostingType</td>
+                    <td>@item.CurrentVersion</td>
+                    <td>@item.TargetVersion</td>
+                    <td>@item.ScheduleDate.ToString("yyyy-MM-dd")</td>
+                    <td>@item.TicketNumber</td>
+                    <td>@item.Status</td>
+                    <td>@item.CreatedByUser?.FullName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (shellResults != null)
+{
+    <h3>Shell Request Report Results</h3>
+
+    <table class="portal-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Customer</th>
+                <th>Clinic</th>
+                <th>Profile Version</th>
+                <th>Expected Date</th>
+                <th>Region</th>
+                <th>Status</th>
+                <th>Submitted By</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in shellResults)
+            {
+                <tr>
+                    <td>@item.ShellRequestId</td>
+                    <td>@item.Customer?.CustomerName</td>
+                    <td>@item.ClinicName</td>
+                    <td>@item.ProfileVersion</td>
+                    <td>@item.ExpectedDate?.ToString("yyyy-MM-dd")</td>
+                    <td>@item.Region</td>
+                    <td>@item.Status</td>
+                    <td>@item.CreatedByUser?.FullName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (userResults != null)
+{
+    <h3>User Activity Report Results</h3>
+
+    <table class="portal-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>2FA</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in userResults)
+            {
+                <tr>
+                    <td>@user.UserId</td>
+                    <td>@user.FullName</td>
+                    <td>@user.Email</td>
+                    <td>@user.Role?.RoleName</td>
+                    <td>@(user.TwoFactorEnabled ? "Enabled" : "Disabled")</td>
+                    <td>@(user.IsActive ? "Active" : "Inactive")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<script>
+    const scheduleData = {
+        pending: Number("@ViewBag.SchedulePending"),
+        completed: Number("@ViewBag.ScheduleCompleted"),
+        cancelled: Number("@ViewBag.ScheduleCancelled")
+    };
+
+    const shellData = {
+        pending: Number("@ViewBag.ShellPending"),
+        completed: Number("@ViewBag.ShellCompleted"),
+        cancelled: Number("@ViewBag.ShellCancelled")
+    };
+
+        function drawScheduleBarChart() {
+        const canvas = document.getElementById("scheduleBarChart");
+        const ctx = canvas.getContext("2d");
+
+        const labels = ["Pending", "Completed", "Cancelled"];
+        const values = [scheduleData.pending, scheduleData.completed, scheduleData.cancelled];
+
+        const colors = ["#f59e0b", "#16a34a", "#dc2626"]; // Orange, Green, Red
+
+        const max = Math.max(...values, 1);
+        const barWidth = 70;
+        const gap = 45;
+        const baseY = 185;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.font = "14px Arial";
+
+        values.forEach((value, i) => {
+            const barHeight = (value / max) * 130;
+            const x = 60 + i * (barWidth + gap);
+            const y = baseY - barHeight;
+
+            ctx.fillStyle = colors[i];   // 👈 COLOR APPLIED
+            ctx.fillRect(x, y, barWidth, barHeight);
+
+            ctx.fillStyle = "#111827";
+            ctx.fillText(value, x + 28, y - 8);
+            ctx.fillText(labels[i], x - 5, baseY + 25);
+        });
+    }
+
+            function drawShellPieChart() {
+        const canvas = document.getElementById("shellPieChart");
+        const ctx = canvas.getContext("2d");
+
+        const values = [shellData.pending, shellData.completed, shellData.cancelled];
+        const labels = ["Pending", "Completed", "Cancelled"];
+        const colors = ["#f59e0b", "#16a34a", "#dc2626"];
+
+        const total = values.reduce((a, b) => a + b, 0) || 1;
+
+        let startAngle = 0;
+        const centerX = 145;
+        const centerY = 115;
+        const radius = 80;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        values.forEach((value, i) => {
+            const sliceAngle = (value / total) * 2 * Math.PI;
+            const endAngle = startAngle + sliceAngle;
+
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+            ctx.closePath();
+            ctx.fillStyle = colors[i];
+            ctx.fill();
+
+            if (value > 0) {
+                const percent = Math.round((value / total) * 100);
+                const midAngle = startAngle + sliceAngle / 2;
+
+                const textX = centerX + Math.cos(midAngle) * 45;
+                const textY = centerY + Math.sin(midAngle) * 45;
+
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "bold 13px Arial";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText(percent + "%", textX, textY);
+            }
+
+            startAngle = endAngle;
+        });
+
+        ctx.font = "14px Arial";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "alphabetic";
+
+        labels.forEach((label, i) => {
+            const percent = Math.round((values[i] / total) * 100);
+
+            ctx.fillStyle = colors[i];
+            ctx.fillRect(270, 70 + i * 30, 14, 14);
+
+            ctx.fillStyle = "#111827";
+            ctx.fillText(`${label}: ${values[i]} (${percent}%)`, 292, 82 + i * 30);
+        });
+    }
+
+    drawScheduleBarChart();
+    drawShellPieChart();
+</script>
