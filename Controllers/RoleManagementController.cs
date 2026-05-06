@@ -56,6 +56,28 @@ public class RoleManagementController : Controller
 
         return RedirectToAction("Index");
     }
+    [HttpPost("/RoleManagement/Delete/{id}")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Delete(long id)
+    {
+        var role = await _db.Roles.FindAsync(id);
+
+        if (role == null)
+            return NotFound();
+
+        var roleInUse = await _db.Users.AnyAsync(x => x.RoleId == id);
+
+        if (roleInUse)
+        {
+            TempData["Error"] = "This role cannot be deleted because it is assigned to one or more users.";
+            return RedirectToAction("Index");
+        }
+
+        _db.Roles.Remove(role);
+        await _db.SaveChangesAsync();
+
+        return RedirectToAction("Index");
+    }
 
     [HttpGet("/RoleManagement/Edit/{id}")]
     public async Task<IActionResult> Edit(long id)
@@ -93,5 +115,6 @@ public class RoleManagementController : Controller
         await _db.SaveChangesAsync();
 
         return RedirectToAction("Index");
+
     }
 }
