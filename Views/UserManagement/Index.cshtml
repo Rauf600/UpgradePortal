@@ -48,6 +48,11 @@
                         <div class="action-row">
                             <a href="/UserManagement/Edit/@user.UserId" class="btn btn-primary btn-sm">Edit</a>
                             <a href="/UserManagement/ResetPassword/@user.UserId" class="btn btn-info btn-sm">Reset Password</a>
+                            <form method="post" action="/UserManagement/Delete/@user.UserId"
+                                  onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
 
                             @if (user.IsActive)
                             {

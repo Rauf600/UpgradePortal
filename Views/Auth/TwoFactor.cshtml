@@ -1,0 +1,44 @@
+﻿@model UpgradePortal.Web.ViewModels.TwoFactorViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Two-Factor Verification</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="login-page">
+
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-logo-circle">EMR</div>
+                <h1>Verify Code</h1>
+                <p>Enter the 6-digit code sent to your email</p>
+            </div>
+
+            <form method="post" action="/Auth/TwoFactor">
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" asp-for="Email" />
+
+                <div class="login-field">
+                    <label>Verification Code</label>
+                    <input asp-for="Code" class="login-input" />
+                </div>
+
+                <button type="submit" class="login-button">Verify</button>
+
+                @if (ViewBag.Error != null)
+                {
+                    <div class="text-danger">@ViewBag.Error</div>
+                }
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

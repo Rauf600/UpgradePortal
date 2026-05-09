@@ -13,6 +13,8 @@ public class AppDbContext : DbContext
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<UpgradeSchedule> UpgradeSchedules => Set<UpgradeSchedule>();
     public DbSet<ShellRequest> ShellRequests => Set<ShellRequest>();
+    public DbSet<AppSettings> AppSettings => Set<AppSettings>();
+    public DbSet<SendGridSettings> SendGridSettings => Set<SendGridSettings>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -83,6 +85,27 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<ShellRequest>().Property(x => x.Attachments).HasColumnName("attachments");
         modelBuilder.Entity<ShellRequest>().Property(x => x.Status).HasColumnName("status");
         modelBuilder.Entity<ShellRequest>().Property(x => x.Notes).HasColumnName("notes");
+        modelBuilder.Entity<AppSettings>().ToTable("app_settings").HasKey(x => x.AppSettingsId);
+
+        modelBuilder.Entity<AppSettings>().Property(x => x.AppSettingsId).HasColumnName("app_settings_id");
+        modelBuilder.Entity<AppSettings>().Property(x => x.JiraEnabled).HasColumnName("jira_enabled");
+        modelBuilder.Entity<AppSettings>().Property(x => x.JiraBaseUrl).HasColumnName("jira_base_url");
+        modelBuilder.Entity<AppSettings>().Property(x => x.JiraProjectKey).HasColumnName("jira_project_key");
+        modelBuilder.Entity<AppSettings>().Property(x => x.JiraUsername).HasColumnName("jira_username");
+        modelBuilder.Entity<AppSettings>().Property(x => x.JiraApiToken).HasColumnName("jira_api_token");
+        modelBuilder.Entity<AppSettings>().Property(x => x.UpdatedAt).HasColumnName("updated_at");
+
+        modelBuilder.Entity<SendGridSettings>().ToTable("sendgrid_settings").HasKey(x => x.SendGridSettingsId);
+
+        modelBuilder.Entity<SendGridSettings>().Property(x => x.SendGridSettingsId).HasColumnName("sendgrid_settings_id");
+        modelBuilder.Entity<SendGridSettings>().Property(x => x.SmtpHost).HasColumnName("smtp_host");
+        modelBuilder.Entity<SendGridSettings>().Property(x => x.SmtpPort).HasColumnName("smtp_port");
+        modelBuilder.Entity<SendGridSettings>().Property(x => x.Username).HasColumnName("username");
+        modelBuilder.Entity<SendGridSettings>().Property(x => x.ApiKeyEncrypted).HasColumnName("api_key_encrypted");
+        modelBuilder.Entity<SendGridSettings>().Property(x => x.FromEmail).HasColumnName("from_email");
+        modelBuilder.Entity<SendGridSettings>().Property(x => x.FromName).HasColumnName("from_name");
+        modelBuilder.Entity<SendGridSettings>().Property(x => x.Enabled).HasColumnName("enabled");
+        modelBuilder.Entity<SendGridSettings>().Property(x => x.UpdatedAt).HasColumnName("updated_at");
 
         modelBuilder.Entity<UpgradeSchedule>()
      .HasOne(x => x.Customer)

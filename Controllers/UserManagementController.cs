@@ -7,6 +7,7 @@ using System.Text;
 using UpgradePortal.Web.Data;
 using UpgradePortal.Web.Filters;
 using UpgradePortal.Web.Models;
+using UpgradePortal.Web.Services;
 using UpgradePortal.Web.ViewModels;
 
 namespace UpgradePortal.Web.Controllers;
@@ -247,6 +248,21 @@ public class UserManagementController : Controller
     {
         using var sha = SHA256.Create();
         var bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(password));
-        return Convert.ToBase64String(bytes);
+        return AuthService.Sha256(password);
+
+    }
+    [HttpPost("/UserManagement/Delete/{id}")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Delete(long id)
+    {
+        var user = await _db.Users.FindAsync(id);
+
+        if (user != null)
+        {
+            _db.Users.Remove(user);
+            await _db.SaveChangesAsync();
+        }
+
+        return RedirectToAction("Index");
     }
 }

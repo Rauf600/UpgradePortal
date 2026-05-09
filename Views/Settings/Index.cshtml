@@ -1,17 +1,135 @@
-﻿@{
+﻿@if (TempData["Success"] != null)
+{
+    <div class="success-message">@TempData["Success"]</div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="error-message">@TempData["Error"]</div>
+}
+@model UpgradePortal.Web.ViewModels.SettingsViewModel
+@{
     Layout = "_Layout";
 }
 
-<h2>Settings</h2>
+<h2>Integration Settings</h2>
+<p class="settings-subtitle">Configure external integrations and API connections</p>
 
-<div class="form-card">
-    <h3>Coming Soon</h3>
-    <p>Settings for SendGrid Email 2FA and Jira Integration will be added in a future release.</p>
+@if (TempData["Success"] != null)
+{
+    <div class="success-message">@TempData["Success"]</div>
+}
 
-    <ul>
-        <li>SendGrid account configuration</li>
-        <li>Email-based 2FA setup</li>
-        <li>Jira integration settings</li>
-        <li>API token management</li>
-    </ul>
+<div class="settings-card">
+
+    <h3>Jira Integration</h3>
+
+    <div class="info-box">
+        <strong>About Jira Integration:</strong>
+        <p>
+            When enabled, this feature will automatically create Jira tickets for new schedules
+            and shell requests, and sync status updates. Jira API credentials are required.
+        </p>
+    </div>
+
+    <form method="post" action="/Settings/SaveJira">
+        @Html.AntiForgeryToken()
+
+        <label class="inline-option">
+            <input asp-for="JiraEnabled" />
+            Enable Jira Integration
+        </label>
+
+        <div class="form-grid">
+            <div>
+                <label>Jira Base URL</label>
+                <input asp-for="JiraBaseUrl" class="form-control" placeholder="https://yourcompany.atlassian.net" />
+            </div>
+
+            <div>
+                <label>Jira Project Key</label>
+                <input asp-for="JiraProjectKey" class="form-control" placeholder="UPG" />
+            </div>
+
+            <div>
+                <label>Jira Username / Email</label>
+                <input asp-for="JiraUsername" class="form-control" />
+            </div>
+
+            <div>
+                <label>Jira API Token</label>
+                <input asp-for="JiraApiToken" type="password" class="form-control" />
+            </div>
+        </div>
+
+        <div class="settings-actions">
+            <button type="submit" formaction="/Settings/TestJira" class="btn btn-info">
+                Test Connection
+            </button>
+
+            <button type="submit" class="btn btn-primary">
+                Save Settings
+            </button>
+        </div>
+    </form>
+
+    <hr />
+
+    <h3>SendGrid Email (2FA)</h3>
+
+    <div class="info-box">
+        <strong>About 2FA Email:</strong>
+        <p>
+            When enabled for a user, a 6-digit verification code is sent using SendGrid and must be
+            entered during login.
+        </p>
+    </div>
+
+    <form method="post" action="/Settings/SaveSendGrid">
+        @Html.AntiForgeryToken()
+
+        <label class="inline-option">
+            <input asp-for="SendGridEnabled" />
+            Enable SendGrid Email 2FA
+        </label>
+
+        <div class="form-grid">
+            <div>
+                <label>SendGrid API Key <span class="text-danger">*</span></label>
+                <input asp-for="SendGridApiKey" type="password" class="form-control" />
+            </div>
+
+            <div>
+                <label>From Email <span class="text-danger">*</span></label>
+                <input asp-for="FromEmail" class="form-control" placeholder="noreply@company.com" />
+            </div>
+
+            <div>
+                <label>From Name</label>
+                <input asp-for="FromName" class="form-control" placeholder="Upgrade Portal" />
+            </div>
+
+            <div>
+                <label>Test Email Address</label>
+                <input asp-for="TestEmail" class="form-control" placeholder="your.email@example.com" />
+            </div>
+        </div>
+
+        <div class="settings-actions">
+            <button type="submit"
+                    formaction="/Settings/SendTestEmail"
+                    class="btn btn-info">
+                Send Test Email
+            </button>
+
+            <button type="submit" class="btn btn-primary">
+                Save SendGrid Settings
+            </button>
+        </div>
+
+        <p class="settings-note">
+            Note: “From Email” must be a verified sender in SendGrid.
+        </p>
+    </form>
+
 </div>
