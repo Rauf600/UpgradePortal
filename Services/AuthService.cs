@@ -48,10 +48,15 @@ public class AuthService
         await httpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
     }
 
-    private static string Sha256(string input)
+    public static string Sha256(string input)
     {
         using var sha = SHA256.Create();
         var bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(input));
         return Convert.ToHexString(bytes).ToLowerInvariant();
+    }
+
+    public static string GenerateSixDigitCode()
+    {
+        return RandomNumberGenerator.GetInt32(100000, 999999).ToString();
     }
 }

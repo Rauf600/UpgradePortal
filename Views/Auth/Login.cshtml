@@ -85,6 +85,12 @@
                 font-size: 14px;
             }
 
+                .login-input:focus {
+                    outline: none;
+                    border-color: #2563eb;
+                    box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+                }
+
             .login-button {
                 width: 100%;
                 padding: 12px;
@@ -101,6 +107,22 @@
                 .login-button:hover {
                     background: #1d4ed8;
                 }
+
+            .forgot-password {
+                margin-top: 14px;
+                text-align: center;
+            }
+
+                .forgot-password a {
+                    color: #2563eb;
+                    text-decoration: none;
+                    font-weight: 600;
+                    font-size: 14px;
+                }
+
+                    .forgot-password a:hover {
+                        text-decoration: underline;
+                    }
 
             .text-danger {
                 color: #dc2626;
@@ -126,24 +148,43 @@
                 <p>Sign in to continue</p>
             </div>
 
-            <form action="/Auth/Login" method="post">
+            <form asp-controller="Auth"
+                  asp-action="Login"
+                  method="post">
+
                 @Html.AntiForgeryToken()
 
                 <div class="login-field">
                     <label>Email</label>
-                    <input name="Email" value="@Model?.Email" class="login-input" />
+
+                    <input asp-for="Email"
+                           class="login-input" />
                 </div>
 
                 <div class="login-field">
                     <label>Password</label>
-                    <input name="Password" type="password" class="login-input" />
+
+                    <input asp-for="Password"
+                           type="password"
+                           class="login-input" />
                 </div>
 
-                <button type="submit" class="login-button">Login</button>
+                <button type="submit"
+                        class="login-button">
+                    Login
+                </button>
+
+                <div class="forgot-password">
+                    <a href="/Auth/ForgotPassword">
+                        Forgot Password?
+                    </a>
+                </div>
 
                 @if (ViewBag.Error != null)
                 {
-                    <div class="text-danger">@ViewBag.Error</div>
+                    <div class="text-danger">
+                        @ViewBag.Error
+                    </div>
                 }
             </form>
 

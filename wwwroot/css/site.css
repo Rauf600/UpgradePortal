@@ -674,3 +674,67 @@ body.dark-theme .custom-modal-content {
     body.dark-theme .custom-modal-content p {
         color: #cbd5e1;
     }
+.settings-subtitle {
+    color: #64748b;
+    margin-top: -8px;
+    margin-bottom: 18px;
+}
+
+.settings-card {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    max-width: 1100px;
+}
+
+.info-box {
+    background: #e0f2fe;
+    border-left: 4px solid #0ea5e9;
+    padding: 14px 16px;
+    border-radius: 8px;
+    margin: 16px 0 22px;
+    color: #0f172a;
+}
+
+    .info-box p {
+        margin: 6px 0 0;
+        color: #334155;
+    }
+
+.settings-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.settings-note {
+    margin-top: 14px;
+    color: #64748b;
+    font-size: 13px;
+}
+
+body.dark-theme .settings-card {
+    background: #1e293b;
+    color: #e5e7eb;
+}
+
+body.dark-theme .info-box {
+    background: #0f172a;
+    border-left-color: #38bdf8;
+    color: #e5e7eb;
+}
+
+    body.dark-theme .info-box p,
+    body.dark-theme .settings-note,
+    body.dark-theme .settings-subtitle {
+        color: #cbd5e1;
+    }
+.error-message {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
