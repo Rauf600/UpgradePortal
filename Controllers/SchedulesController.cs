@@ -5,6 +5,7 @@ using System.Security.Claims;
 using UpgradePortal.Web.Data;
 using UpgradePortal.Web.Filters;
 using UpgradePortal.Web.Models;
+using UpgradePortal.Web.Services;
 using UpgradePortal.Web.ViewModels;
 
 namespace UpgradePortal.Web.Controllers;
@@ -14,10 +15,12 @@ namespace UpgradePortal.Web.Controllers;
 public class SchedulesController : Controller
 {
     private readonly AppDbContext _db;
+    private readonly SendGridEmailService _emailService;
 
-    public SchedulesController(AppDbContext db)
+    public SchedulesController(AppDbContext db, SendGridEmailService emailService)
     {
         _db = db;
+        _emailService = emailService;
     }
 
     [HttpGet("/Schedules")]
@@ -103,6 +106,13 @@ public class SchedulesController : Controller
 
         _db.UpgradeSchedules.Add(schedule);
         await _db.SaveChangesAsync();
+
+        await _emailService.SendTechOpsNotificationAsync(
+            "rauf.ibrahimkhail@intrahealth.com",
+            "Upgrade Schedule",
+            User.Identity?.Name ?? "Unknown User",
+            $"New upgrade schedule submitted for {customer.CustomerName} on {schedule.ScheduleDate:yyyy-MM-dd}"
+        );
 
         return RedirectToAction("Index");
     }

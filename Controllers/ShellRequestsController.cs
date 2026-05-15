@@ -5,6 +5,7 @@ using System.Security.Claims;
 using UpgradePortal.Web.Data;
 using UpgradePortal.Web.Filters;
 using UpgradePortal.Web.Models;
+using UpgradePortal.Web.Services;
 using UpgradePortal.Web.ViewModels;
 
 namespace UpgradePortal.Web.Controllers;
@@ -14,10 +15,12 @@ namespace UpgradePortal.Web.Controllers;
 public class ShellRequestsController : Controller
 {
     private readonly AppDbContext _db;
+    private readonly SendGridEmailService _emailService;
 
-    public ShellRequestsController(AppDbContext db)
+    public ShellRequestsController(AppDbContext db, SendGridEmailService emailService)
     {
         _db = db;
+        _emailService = emailService;
     }
 
     [HttpGet("/ShellRequests")]
@@ -140,6 +143,13 @@ public class ShellRequestsController : Controller
 
         _db.ShellRequests.Add(shellRequest);
         await _db.SaveChangesAsync();
+
+        await _emailService.SendTechOpsNotificationAsync(
+            "rauf.ibrahimkhail@intrahealth.com",
+            "Shell Request",
+            User.Identity?.Name ?? "Unknown User",
+            $"New shell request submitted for {model.ClinicName}"
+        );
 
         return RedirectToAction("Index");
     }
