@@ -87,4 +87,49 @@ public class SendGridEmailService
         var response = await client.SendEmailAsync(msg);
         return response.IsSuccessStatusCode;
     }
+
+    public async Task<bool> SendTechOpsNotificationAsync(
+        string techOpsEmail,
+        string requestType,
+        string submittedBy,
+        string summary)
+    {
+        var settings = await _db.SendGridSettings
+            .FirstOrDefaultAsync(x => x.Enabled);
+
+        if (settings == null)
+            return false;
+
+        if (string.IsNullOrWhiteSpace(settings.ApiKeyEncrypted) ||
+            string.IsNullOrWhiteSpace(settings.FromEmail) ||
+            string.IsNullOrWhiteSpace(techOpsEmail))
+        {
+            return false;
+        }
+
+        var client = new SendGridClient(settings.ApiKeyEncrypted);
+
+        var from = new EmailAddress(
+            settings.FromEmail,
+            string.IsNullOrWhiteSpace(settings.FromName) ? "Upgrade Portal" : settings.FromName);
+
+        var to = new EmailAddress(techOpsEmail);
+
+        var subject = $"New {requestType} Submitted in Upgrade Portal";
+        var plainTextContent =
+            $"A new {requestType} has been submitted.\n\nSubmitted By: {submittedBy}\nSummary: {summary}";
+
+        var htmlContent = $@"
+            <div style='font-family:Arial,sans-serif;'>
+                <h2>New {requestType} Submitted</h2>
+                <p><strong>Submitted By:</strong> {submittedBy}</p>
+                <p><strong>Summary:</strong> {summary}</p>
+                <p>Please log in to the portal to review the request.</p>
+            </div>";
+
+        var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+
+        var response = await client.SendEmailAsync(msg);
+        return response.IsSuccessStatusCode;
+    }
 }
