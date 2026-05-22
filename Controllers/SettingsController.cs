@@ -70,6 +70,14 @@ public class SettingsController : Controller
         return RedirectToAction("Index");
     }
 
+    [HttpPost("/Settings/TestJira")]
+    [ValidateAntiForgeryToken]
+    public IActionResult TestJira()
+    {
+        TempData["Info"] = "Jira integration is coming soon.";
+        return RedirectToAction("Index");
+    }
+
     [HttpPost("/Settings/SaveSendGrid")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> SaveSendGrid(SettingsViewModel model)

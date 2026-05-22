@@ -738,3 +738,21 @@ body.dark-theme .info-box {
     border-radius: 8px;
     margin-bottom: 16px;
 }
+.info-banner {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    border: 1px solid #cfe5ff;
+    background: #f4f9ff;
+    color: #1f3b63;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+    .info-banner strong {
+        color: #0f4c81;
+        white-space: nowrap;
+    }
