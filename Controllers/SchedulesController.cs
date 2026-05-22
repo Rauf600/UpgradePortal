@@ -16,11 +16,16 @@ public class SchedulesController : Controller
 {
     private readonly AppDbContext _db;
     private readonly SendGridEmailService _emailService;
+    private readonly ILogger<SchedulesController> _logger;
 
-    public SchedulesController(AppDbContext db, SendGridEmailService emailService)
+    public SchedulesController(
+        AppDbContext db,
+        SendGridEmailService emailService,
+        ILogger<SchedulesController> logger)
     {
         _db = db;
         _emailService = emailService;
+        _logger = logger;
     }
 
     [HttpGet("/Schedules")]
@@ -66,55 +71,86 @@ public class SchedulesController : Controller
     public async Task<IActionResult> Create(UpgradeScheduleCreateViewModel model)
     {
         if (!ModelState.IsValid)
-            return View(model);
-
-        var customer = await _db.Customers
-            .FirstOrDefaultAsync(x => x.CustomerCode == model.CustomerCode);
-
-        if (customer == null)
         {
-            customer = new Customer
-            {
-                CustomerCode = model.CustomerCode,
-                CustomerName = model.CustomerName,
-                PrimaryEmail = model.Email,
-                RegionCode = model.Region
-            };
+            _logger.LogWarning(
+                "Invalid schedule submission from {User}.",
+                User.Identity?.Name ?? "Unknown");
 
-            _db.Customers.Add(customer);
-            await _db.SaveChangesAsync();
+            return View(model);
         }
 
-        var userIdValue = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        long? createdByUserId = long.TryParse(userIdValue, out var parsedUserId)
-            ? parsedUserId
-            : null;
-
-        var schedule = new UpgradeSchedule
+        try
         {
-            CustomerId = customer.CustomerId,
-            CreatedByUserId = createdByUserId,
-            HostingType = model.HostingType,
-            CurrentVersion = model.CurrentVersion,
-            TargetVersion = model.TargetVersion,
-            ScheduleDate = model.ScheduleDate,
-            ScheduleTime = model.ScheduleTime,
-            TicketNumber = model.TicketNumber,
-            Notes = model.Notes,
-            Status = "pending"
-        };
+            var customer = await _db.Customers
+                .FirstOrDefaultAsync(x => x.CustomerCode == model.CustomerCode);
 
-        _db.UpgradeSchedules.Add(schedule);
-        await _db.SaveChangesAsync();
+            if (customer == null)
+            {
+                customer = new Customer
+                {
+                    CustomerCode = model.CustomerCode,
+                    CustomerName = model.CustomerName,
+                    PrimaryEmail = model.Email,
+                    RegionCode = model.Region
+                };
 
-        await _emailService.SendTechOpsNotificationAsync(
-            "rauf.ibrahimkhail@intrahealth.com",
-            "Upgrade Schedule",
-            User.Identity?.Name ?? "Unknown User",
-            $"New upgrade schedule submitted for {customer.CustomerName} on {schedule.ScheduleDate:yyyy-MM-dd}"
-        );
+                _db.Customers.Add(customer);
+                await _db.SaveChangesAsync();
 
-        return RedirectToAction("Index");
+                _logger.LogInformation(
+                    "Created new customer {CustomerCode}.",
+                    model.CustomerCode);
+            }
+
+            var userIdValue = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            long? createdByUserId = long.TryParse(userIdValue, out var parsedUserId)
+                ? parsedUserId
+                : null;
+
+            var schedule = new UpgradeSchedule
+            {
+                CustomerId = customer.CustomerId,
+                CreatedByUserId = createdByUserId,
+                HostingType = model.HostingType,
+                CurrentVersion = model.CurrentVersion,
+                TargetVersion = model.TargetVersion,
+                ScheduleDate = model.ScheduleDate,
+                ScheduleTime = model.ScheduleTime,
+                TicketNumber = model.TicketNumber,
+                Notes = model.Notes,
+                Status = "pending"
+            };
+
+            _db.UpgradeSchedules.Add(schedule);
+            await _db.SaveChangesAsync();
+
+            _logger.LogInformation(
+                "New schedule created for {CustomerName} by {User}.",
+                customer.CustomerName,
+                User.Identity?.Name ?? "Unknown");
+
+            await _emailService.SendTechOpsNotificationAsync(
+                "rauf.ibrahimkhail@intrahealth.com",
+                "Upgrade Schedule",
+                User.Identity?.Name ?? "Unknown User",
+                $"New upgrade schedule submitted for {customer.CustomerName} on {schedule.ScheduleDate:yyyy-MM-dd}"
+            );
+
+            _logger.LogInformation(
+                "TechOps notification sent for schedule {ScheduleId}.",
+                schedule.ScheduleId);
+
+            return RedirectToAction("Index");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(
+                ex,
+                "Error while creating schedule for {CustomerCode}.",
+                model.CustomerCode);
+
+            throw;
+        }
     }
 
     [HttpGet("/Schedules/Details/{id}")]
@@ -141,6 +177,11 @@ public class SchedulesController : Controller
         {
             schedule.Status = "completed";
             await _db.SaveChangesAsync();
+
+            _logger.LogInformation(
+                "Schedule {ScheduleId} marked as completed by {User}.",
+                id,
+                User.Identity?.Name ?? "Unknown");
         }
 
         return RedirectToAction("Index");
@@ -156,6 +197,11 @@ public class SchedulesController : Controller
         {
             schedule.Status = "cancelled";
             await _db.SaveChangesAsync();
+
+            _logger.LogInformation(
+                "Schedule {ScheduleId} marked as cancelled by {User}.",
+                id,
+                User.Identity?.Name ?? "Unknown");
         }
 
         return RedirectToAction("Index");
