@@ -1,13 +1,4 @@
-﻿@if (TempData["Success"] != null)
-{
-    <div class="success-message">@TempData["Success"]</div>
-}
-
-@if (TempData["Error"] != null)
-{
-    <div class="error-message">@TempData["Error"]</div>
-}
-@model UpgradePortal.Web.ViewModels.SettingsViewModel
+﻿@model UpgradePortal.Web.ViewModels.SettingsViewModel
 @{
     Layout = "_Layout";
 }
@@ -17,7 +8,24 @@
 
 @if (TempData["Success"] != null)
 {
-    <div class="success-message">@TempData["Success"]</div>
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+@if (TempData["Info"] != null)
+{
+    <div class="info-banner">
+        <strong>Coming Soon</strong>
+        <span>@TempData["Info"]</span>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
 }
 
 <div class="settings-card">
@@ -63,7 +71,9 @@
         </div>
 
         <div class="settings-actions">
-            <button type="submit" formaction="/Settings/TestJira" class="btn btn-info">
+            <button type="submit"
+                    formaction="/Settings/TestJira"
+                    class="btn btn-info">
                 Test Connection
             </button>
 
