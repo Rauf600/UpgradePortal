@@ -75,6 +75,9 @@
   footer { background: var(--navy); color: var(--ice); text-align: center; padding: 2.5rem 2rem; font-size: 0.85rem; line-height: 1.8; }
   footer a { color: var(--teal2); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
+
+  /* suppress any GitHub Pages injected elements */
+  .site-header, .site-nav, .site-footer, .wrapper > nav:last-of-type { display: none !important; }
 </style>
 </head>
 <body>
@@ -189,7 +192,6 @@
       <div class="card-body">SendGrid Web API<br><br>2FA codes · Password resets · TechOps shell request alerts</div>
     </div>
   </div>
-  <img src="images/architecture.png" alt="System Architecture Diagram" style="width:100%;border-radius:12px;margin-top:2rem;border:1px solid var(--light);">
 </section>
 
 <hr class="divider">
