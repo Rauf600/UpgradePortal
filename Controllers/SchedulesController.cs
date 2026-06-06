@@ -29,7 +29,7 @@ public class SchedulesController : Controller
     }
 
     [HttpGet("/Schedules")]
-    public async Task<IActionResult> Index(string sortField = "date", string sortOrder = "asc")
+    public async Task<IActionResult> Index(string sortField = "date", string sortOrder = "desc")
     {
         ViewBag.SortField = sortField;
         ViewBag.SortOrder = sortOrder;

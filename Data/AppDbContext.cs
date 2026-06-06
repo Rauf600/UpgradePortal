@@ -47,6 +47,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Role>().Property(x => x.RoleId).HasColumnName("role_id");
         modelBuilder.Entity<Role>().Property(x => x.RoleName).HasColumnName("role_name");
         modelBuilder.Entity<Role>().Property(x => x.Description).HasColumnName("description");
+
         modelBuilder.Entity<Customer>().Property(x => x.CustomerId).HasColumnName("customer_id");
         modelBuilder.Entity<Customer>().Property(x => x.CustomerCode).HasColumnName("customer_code");
         modelBuilder.Entity<Customer>().Property(x => x.CustomerName).HasColumnName("customer_name");
@@ -76,17 +77,21 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<ShellRequest>().Property(x => x.TokenId).HasColumnName("token_id");
         modelBuilder.Entity<ShellRequest>().Property(x => x.BaseContainer).HasColumnName("base_container");
         modelBuilder.Entity<ShellRequest>().Property(x => x.ProfileVersion).HasColumnName("profile_version");
-        modelBuilder.Entity<ShellRequest>().Property(x => x.NumProviders).HasColumnName("num_providers");
+        modelBuilder.Entity<ShellRequest>().Property(x => x.NumUsers).HasColumnName("num_users");
         modelBuilder.Entity<ShellRequest>().Property(x => x.NumIHServers).HasColumnName("num_ih_servers");
-        modelBuilder.Entity<ShellRequest>().Property(x => x.Region).HasColumnName("region");
-        modelBuilder.Entity<ShellRequest>().Property(x => x.ExpectedDate).HasColumnName("expected_date");
         modelBuilder.Entity<ShellRequest>().Property(x => x.ClientRegistry).HasColumnName("client_registry");
+        modelBuilder.Entity<ShellRequest>().Property(x => x.ExpectedDate).HasColumnName("expected_date");
+        modelBuilder.Entity<ShellRequest>().Property(x => x.Notes).HasColumnName("notes");
+        modelBuilder.Entity<ShellRequest>().Property(x => x.Status).HasColumnName("status");
+        modelBuilder.Entity<ShellRequest>().Property(x => x.CreatedAt).HasColumnName("created_at");
+        modelBuilder.Entity<ShellRequest>().Property(x => x.UpdatedAt).HasColumnName("updated_at");
+        modelBuilder.Entity<ShellRequest>().Property(x => x.Region).HasColumnName("region");
         modelBuilder.Entity<ShellRequest>().Property(x => x.Integrations).HasColumnName("integrations");
         modelBuilder.Entity<ShellRequest>().Property(x => x.Attachments).HasColumnName("attachments");
-        modelBuilder.Entity<ShellRequest>().Property(x => x.Status).HasColumnName("status");
-        modelBuilder.Entity<ShellRequest>().Property(x => x.Notes).HasColumnName("notes");
-        modelBuilder.Entity<AppSettings>().ToTable("app_settings").HasKey(x => x.AppSettingsId);
+        modelBuilder.Entity<ShellRequest>().Property(x => x.NumDedicatedServers).HasColumnName("num_dedicated_servers");
+        modelBuilder.Entity<ShellRequest>().Property(x => x.TotalServers).HasColumnName("total_servers");
 
+        modelBuilder.Entity<AppSettings>().ToTable("app_settings").HasKey(x => x.AppSettingsId);
         modelBuilder.Entity<AppSettings>().Property(x => x.AppSettingsId).HasColumnName("app_settings_id");
         modelBuilder.Entity<AppSettings>().Property(x => x.JiraEnabled).HasColumnName("jira_enabled");
         modelBuilder.Entity<AppSettings>().Property(x => x.JiraBaseUrl).HasColumnName("jira_base_url");
@@ -96,7 +101,6 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<AppSettings>().Property(x => x.UpdatedAt).HasColumnName("updated_at");
 
         modelBuilder.Entity<SendGridSettings>().ToTable("sendgrid_settings").HasKey(x => x.SendGridSettingsId);
-
         modelBuilder.Entity<SendGridSettings>().Property(x => x.SendGridSettingsId).HasColumnName("sendgrid_settings_id");
         modelBuilder.Entity<SendGridSettings>().Property(x => x.SmtpHost).HasColumnName("smtp_host");
         modelBuilder.Entity<SendGridSettings>().Property(x => x.SmtpPort).HasColumnName("smtp_port");
@@ -108,9 +112,9 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<SendGridSettings>().Property(x => x.UpdatedAt).HasColumnName("updated_at");
 
         modelBuilder.Entity<UpgradeSchedule>()
-     .HasOne(x => x.Customer)
-     .WithMany()
-     .HasForeignKey(x => x.CustomerId);
+            .HasOne(x => x.Customer)
+            .WithMany()
+            .HasForeignKey(x => x.CustomerId);
 
         modelBuilder.Entity<UpgradeSchedule>()
             .HasOne(x => x.CreatedByUser)

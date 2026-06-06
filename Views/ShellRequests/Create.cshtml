@@ -1,155 +1,335 @@
 ﻿@model UpgradePortal.Web.ViewModels.ShellRequestCreateViewModel
 @{
+    ViewData["Title"] = "Create Shell Request";
     Layout = "_Layout";
 }
 
-<h2>Create Shell Request</h2>
-
-<form asp-action="Create" method="post" enctype="multipart/form-data" class="form-card shell-form">
-    @Html.AntiForgeryToken()
-
-    <div asp-validation-summary="All" class="text-danger"></div>
-
-    <div class="form-grid">
-
-        <div>
-            <label>Customer ID</label>
-            <input asp-for="CustomerCode" class="form-control" />
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Create Shell Request</h3>
         </div>
 
-        <div>
-            <label>Customer Name</label>
-            <input asp-for="CustomerName" class="form-control" />
-        </div>
+        <div class="card-body">
+            <form asp-action="Create"
+                  asp-controller="ShellRequests"
+                  method="post"
+                  enctype="multipart/form-data">
 
-        <div>
-            <label>Email</label>
-            <input asp-for="Email" class="form-control" />
-        </div>
+                @Html.AntiForgeryToken()
 
-        <div>
-            <label>Clinic Name</label>
-            <input asp-for="ClinicName" class="form-control" />
-        </div>
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-        <div>
-            <label>Address</label>
-            <input asp-for="Address" class="form-control" />
-        </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="CustomerCode" class="form-label">
+                            Customer ID
+                        </label>
+                        <input asp-for="CustomerCode" class="form-control" placeholder="Enter Customer ID" />
+                        <span asp-validation-for="CustomerCode" class="text-danger"></span>
+                    </div>
 
-        <div>
-            <label>Phone</label>
-            <input asp-for="Phone" class="form-control" />
-        </div>
+                    <div class="col-md-6">
+                        <label asp-for="CustomerName" class="form-label">Customer Name</label>
+                        <input asp-for="CustomerName" class="form-control" />
+                        <span asp-validation-for="CustomerName" class="text-danger"></span>
+                    </div>
+                </div>
 
-        <div>
-            <label>EMR ID</label>
-            <input asp-for="EmrId" class="form-control" />
-        </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="ClinicName" class="form-label">Clinic Name</label>
+                        <input asp-for="ClinicName" class="form-control" />
+                        <span asp-validation-for="ClinicName" class="text-danger"></span>
+                    </div>
 
-        <div>
-            <label>Token ID</label>
-            <input asp-for="TokenId" class="form-control" />
-        </div>
+                    <div class="col-md-6">
+                        <label asp-for="Email" class="form-label">Email</label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
 
-        <div>
-            <label>Base Container</label>
-            <input asp-for="BaseContainer" class="form-control" />
-        </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="Phone" class="form-label">Phone</label>
+                        <input asp-for="Phone" class="form-control" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
 
-        <div>
-            <label>Profile Version</label>
-            <input asp-for="ProfileVersion" class="form-control" />
-        </div>
+                    <div class="col-md-6">
+                        <label asp-for="Region" class="form-label">Region</label>
+                        <select asp-for="Region" id="regionSelect" class="form-select">
+                            <option value="">-- Select Region --</option>
+                            <option value="BC">BC</option>
+                            <option value="NB">NB</option>
+                            <option value="AU">AU</option>
+                            <option value="NZ">NZ</option>
+                            <option value="ON">ON</option>
+                        </select>
+                        <span asp-validation-for="Region" class="text-danger"></span>
+                    </div>
+                </div>
 
-        <div>
-            <label>Number of Providers</label>
-            <input asp-for="NumProviders" type="number" class="form-control" />
-        </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="Address" class="form-label">Address</label>
+                        <input asp-for="Address" class="form-control" />
+                    </div>
 
-        <div>
-            <label>Number of IH Servers</label>
-            <input asp-for="NumIHServers" type="number" class="form-control" />
-        </div>
+                    <div class="col-md-6">
+                        <label asp-for="ExpectedDate" class="form-label">Expected Date</label>
+                        <input asp-for="ExpectedDate" type="date" class="form-control" />
+                        <span asp-validation-for="ExpectedDate" class="text-danger"></span>
+                    </div>
+                </div>
 
-        <!-- FIXED REGION DROPDOWN -->
-        <div>
-            <label>Region</label>
-            <select asp-for="Region" class="form-control region-select">
-                <option value="">Select Region</option>
-                <option value="AB">AB</option>
-                <option value="BC">BC</option>
-                <option value="MB">MB</option>
-                <option value="NB">NB</option>
-                <option value="NL">NL</option>
-                <option value="NS">NS</option>
-                <option value="NT">NT</option>
-                <option value="NU">NU</option>
-                <option value="ON">ON</option>
-                <option value="PE">PE</option>
-                <option value="QC">QC</option>
-                <option value="SK">SK</option>
-                <option value="YT">YT</option>
-            </select>
-        </div>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label asp-for="EmrId" class="form-label">EMR ID</label>
+                        <input asp-for="EmrId" id="emrId" class="form-control" />
+                    </div>
 
-        <div>
-            <label>Expected Date</label>
-            <input asp-for="ExpectedDate" type="date" class="form-control" />
-        </div>
+                    <div class="col-md-4">
+                        <label asp-for="TokenId" class="form-label">Token Key</label>
+                        <input asp-for="TokenId" id="tokenId" class="form-control" />
+                    </div>
 
+                    <div class="col-md-4">
+                        <label asp-for="BaseContainer" class="form-label">Base Container</label>
+                        <input asp-for="BaseContainer" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="ProfileVersion" class="form-label">Profile Version</label>
+                        <input asp-for="ProfileVersion" class="form-control" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Client Registry</label>
+
+                        <div class="form-check form-check-inline">
+                            <input asp-for="ClientRegistry"
+                                   class="form-check-input"
+                                   type="radio"
+                                   value="Read Only"
+                                   id="registryReadOnly" />
+                            <label class="form-check-label" for="registryReadOnly">
+                                Read Only
+                            </label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input asp-for="ClientRegistry"
+                                   class="form-check-input"
+                                   type="radio"
+                                   value="RHA Managed"
+                                   id="registryManaged" />
+                            <label class="form-check-label" for="registryManaged">
+                                RHA Managed
+                            </label>
+                        </div>
+
+                        <div>
+                            <span asp-validation-for="ClientRegistry" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+
+                <h5 class="mb-3">Sizing</h5>
+
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label asp-for="NumUsers" class="form-label">Number of Users</label>
+                        <input asp-for="NumUsers"
+                               id="numUsers"
+                               type="number"
+                               min="1"
+                               class="form-control" />
+                        <span asp-validation-for="NumUsers" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label asp-for="NumIHServers" class="form-label">IH Servers</label>
+                        <input asp-for="NumIHServers"
+                               id="numIHServers"
+                               class="form-control"
+                               readonly />
+                    </div>
+
+                    <div class="col-md-3">
+                        <label asp-for="NumDedicatedServers" class="form-label">Dedicated Servers</label>
+                        <input asp-for="NumDedicatedServers"
+                               id="numDedicatedServers"
+                               class="form-control"
+                               readonly />
+                    </div>
+
+                    <div class="col-md-3">
+                        <label asp-for="TotalServers" class="form-label">Total Servers</label>
+                        <input asp-for="TotalServers"
+                               id="totalServers"
+                               class="form-control"
+                               readonly />
+                    </div>
+                </div>
+
+                <hr />
+
+                <h5 class="mb-3">Integrations</h5>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <div class="form-check">
+                            <input asp-for="IntegrationEFax" class="form-check-input" />
+                            <label asp-for="IntegrationEFax" class="form-check-label">eFax</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input asp-for="IntegrationSMS" class="form-check-input" />
+                            <label asp-for="IntegrationSMS" class="form-check-label">SMS</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input asp-for="IntegrationExcelleris" class="form-check-input" />
+                            <label asp-for="IntegrationExcelleris" class="form-check-label">Excelleris</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input asp-for="IntegrationMCE" id="integrationMCE" class="form-check-input" />
+                            <label asp-for="IntegrationMCE" class="form-check-label">MCE</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-check">
+                            <input asp-for="IntegrationEHR" id="integrationEHR" class="form-check-input" />
+                            <label asp-for="IntegrationEHR" class="form-check-label">EHR</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input asp-for="IntegrationVSFormulary" class="form-check-input" />
+                            <label asp-for="IntegrationVSFormulary" class="form-check-label">VS Formulary</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input asp-for="IntegrationTelemedicine" class="form-check-input" />
+                            <label asp-for="IntegrationTelemedicine" class="form-check-label">Telemedicine</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-check">
+                            <input asp-for="IntegrationPrescribeIT" class="form-check-input" />
+                            <label asp-for="IntegrationPrescribeIT" class="form-check-label">PrescribeIT</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input asp-for="IntegrationFDBFormulary" class="form-check-input" />
+                            <label asp-for="IntegrationFDBFormulary" class="form-check-label">FDB Formulary</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input asp-for="IntegrationSendGridEmail" class="form-check-input" />
+                            <label asp-for="IntegrationSendGridEmail" class="form-check-label">SendGrid Email (2FA)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="mb-3">
+                    <label asp-for="Attachments" class="form-label">Attachments</label>
+                    <input asp-for="Attachments" type="file" class="form-control" multiple />
+                    <span asp-validation-for="Attachments" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Notes" class="form-label">Notes</label>
+                    <textarea asp-for="Notes" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Notes" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        Submit Shell Request
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
     </div>
-
-    <!-- CLIENT REGISTRY -->
-    <div class="full-width-block">
-        <label>Client Registry</label>
-        <div class="radio-row">
-            <label class="inline-option">
-                <input type="radio" asp-for="ClientRegistry" value="Read Only" />
-                Read Only
-            </label>
-
-            <label class="inline-option">
-                <input type="radio" asp-for="ClientRegistry" value="RHA Managed" />
-                RHA Managed
-            </label>
-        </div>
-    </div>
-
-    <!-- INTEGRATIONS -->
-    <div class="full-width-block">
-        <label>Integrations</label>
-        <div class="checkbox-grid">
-            <label><input asp-for="IntegrationEFax" type="checkbox" /> eFax</label>
-            <label><input asp-for="IntegrationSMS" type="checkbox" /> SMS</label>
-            <label><input asp-for="IntegrationExcelleris" type="checkbox" /> Excelleris</label>
-            <label><input asp-for="IntegrationMCE" type="checkbox" /> MCE</label>
-            <label><input asp-for="IntegrationEHR" type="checkbox" /> EHR</label>
-            <label><input asp-for="IntegrationVSFormulary" type="checkbox" /> VS Formulary</label>
-            <label><input asp-for="IntegrationTelemedicine" type="checkbox" /> Telemedicine</label>
-            <label><input asp-for="IntegrationPrescribeIT" type="checkbox" /> PrescribeIT</label>
-            <label><input asp-for="IntegrationFDBFormulary" type="checkbox" /> FDB Formulary</label>
-            <label><input asp-for="IntegrationSendGridEmail" type="checkbox" /> SendGrid Email</label>
-        </div>
-    </div>
-
-    <!-- FILE + NOTES -->
-    <div class="form-grid">
-        <div>
-            <label>Attachments</label>
-            <input asp-for="Attachments" type="file" multiple class="form-control" />
-        </div>
-
-        <div>
-            <label>Notes</label>
-            <textarea asp-for="Notes" class="form-control notes-box"></textarea>
-        </div>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Submit Shell Request</button>
-
-</form>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        function calculateServers() {
+            const usersInput = document.getElementById("numUsers");
+            const ihServersInput = document.getElementById("numIHServers");
+            const dedicatedServersInput = document.getElementById("numDedicatedServers");
+            const totalServersInput = document.getElementById("totalServers");
+
+            const users = parseInt(usersInput.value || "0");
+            const ihServers = users > 0 ? Math.ceil(users / 5) : 1;
+            const dedicatedServers = 1;
+            const totalServers = ihServers + dedicatedServers;
+
+            ihServersInput.value = ihServers;
+            dedicatedServersInput.value = dedicatedServers;
+            totalServersInput.value = totalServers;
+        }
+
+        function toggleRegionRules() {
+            const region = document.getElementById("regionSelect").value;
+            const isRestricted = ["BC", "AU", "NZ", "ON"].includes(region);
+            const isNB = region === "NB";
+
+            const emrId = document.getElementById("emrId");
+            const tokenId = document.getElementById("tokenId");
+            const registryReadOnly = document.getElementById("registryReadOnly");
+            const registryManaged = document.getElementById("registryManaged");
+            const integrationMCE = document.getElementById("integrationMCE");
+            const integrationEHR = document.getElementById("integrationEHR");
+
+            [emrId, tokenId, integrationMCE, integrationEHR].forEach(el => {
+                if (!el) return;
+                el.disabled = isRestricted;
+                el.classList.toggle("bg-light", isRestricted);
+            });
+
+            const allowClientRegistry = isNB;
+
+            [registryReadOnly, registryManaged].forEach(el => {
+                if (!el) return;
+                el.disabled = !allowClientRegistry || isRestricted;
+                el.classList.toggle("bg-light", !allowClientRegistry || isRestricted);
+            });
+
+            if (isRestricted) {
+                emrId.value = "";
+                tokenId.value = "";
+                integrationMCE.checked = false;
+                integrationEHR.checked = false;
+            }
+
+            if (!allowClientRegistry || isRestricted) {
+                registryReadOnly.checked = false;
+                registryManaged.checked = false;
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            calculateServers();
+            toggleRegionRules();
+
+            document.getElementById("numUsers").addEventListener("input", calculateServers);
+            document.getElementById("regionSelect").addEventListener("change", toggleRegionRules);
+        });
+    </script>
 }

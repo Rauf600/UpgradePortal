@@ -1,112 +1,430 @@
-﻿@model List<UpgradePortal.Web.Models.UpgradeSchedule>
+﻿@model IEnumerable<UpgradePortal.Web.Models.UpgradeSchedule>
 @{
+    ViewData["Title"] = "Schedules";
     Layout = "_Layout";
 
-    string currentField = ViewBag.SortField as string ?? "date";
-    string currentOrder = ViewBag.SortOrder as string ?? "asc";
+    string sortField = ViewBag.SortField ?? "date";
+    string sortOrder = ViewBag.SortOrder ?? "desc";
 
-    string NextOrder(string field)
-    {
-        return currentField == field && currentOrder == "asc" ? "desc" : "asc";
-    }
+    string NextOrder(string field) =>
+        sortField == field && sortOrder == "asc" ? "desc" : "asc";
 
-    string Arrow(string field)
-    {
-        if (currentField != field) return "";
-        return currentOrder == "asc" ? " ▲" : " ▼";
-    }
+    string GetSortIcon(string field) =>
+        sortField == field ? (sortOrder == "asc" ? " ↑" : " ↓") : " ↕";
 }
 
-<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-    <h2>Schedules</h2>
-    <a href="/Schedules/Create" class="btn btn-primary">+ New Schedule</a>
+<style>
+    #schedulesTable {
+        table-layout: auto;
+        min-width: 1500px;
+    }
+
+        #schedulesTable th,
+        #schedulesTable td {
+            white-space: nowrap;
+            vertical-align: middle;
+        }
+
+        #schedulesTable th {
+            text-align: left;
+        }
+
+            #schedulesTable th.text-center {
+                text-align: center;
+            }
+
+        #schedulesTable tbody td {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #schedulesTable th a {
+            text-decoration: none;
+            color: inherit;
+            font-weight: 600;
+        }
+
+            #schedulesTable th a:hover {
+                text-decoration: underline;
+            }
+
+    .actions-group {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        flex-wrap: nowrap;
+    }
+
+        .actions-group form {
+            margin: 0;
+        }
+
+        .actions-group .btn {
+            white-space: nowrap;
+        }
+
+    .page-header {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        flex-wrap: nowrap !important;
+        margin-bottom: 1rem;
+    }
+
+    /* CONFIRM MODAL */
+    .confirm-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: rgba(15, 23, 42, 0.6);
+        justify-content: center;
+        align-items: center;
+    }
+
+        .confirm-overlay.active {
+            display: flex;
+        }
+
+    .confirm-box {
+        background: #fff;
+        border-radius: 14px;
+        padding: 32px;
+        width: 380px;
+        max-width: 90%;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        animation: fadeSlideIn 0.18s ease;
+    }
+
+    .confirm-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        margin-bottom: 16px;
+    }
+
+        .confirm-icon.success {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .confirm-icon.warning {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+    .confirm-box h4 {
+        margin: 0 0 8px;
+        font-size: 18px;
+        font-weight: 700;
+        color: #0f172a;
+    }
+
+    .confirm-box p {
+        margin: 0 0 24px;
+        color: #64748b;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .confirm-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    @@keyframes fadeSlideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-12px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    body.dark-theme .confirm-box {
+        background: #1e293b;
+        color: #e5e7eb;
+    }
+
+        body.dark-theme .confirm-box h4 {
+            color: #f1f5f9;
+        }
+
+        body.dark-theme .confirm-box p {
+            color: #94a3b8;
+        }
+</style>
+
+<!-- Confirm Modal -->
+<div class="confirm-overlay" id="confirmOverlay">
+    <div class="confirm-box">
+        <div class="confirm-icon" id="confirmIcon"></div>
+        <h4 id="confirmTitle"></h4>
+        <p id="confirmMessage"></p>
+        <div class="confirm-actions">
+            <button class="btn btn-sm btn-secondary" id="confirmCancel">Cancel</button>
+            <button class="btn btn-sm" id="confirmOk">Confirm</button>
+        </div>
+    </div>
 </div>
 
-<table class="portal-table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>
-                <a class="sort-link" href="@Url.Action("Index", new { sortField = "customer", sortOrder = NextOrder("customer") })">
-                    Customer Name@(Arrow("customer"))
-                </a>
-            </th>
-            <th>Customer Code</th>
-            <th>
-                <a class="sort-link" href="@Url.Action("Index", new { sortField = "hosting", sortOrder = NextOrder("hosting") })">
-                    Hosting@(Arrow("hosting"))
-                </a>
-            </th>
-            <th>Current Version</th>
-            <th>Target Version</th>
-            <th>
-                <a class="sort-link" href="@Url.Action("Index", new { sortField = "date", sortOrder = NextOrder("date") })">
-                    Date@(Arrow("date"))
-                </a>
-            </th>
-            <th>Time</th>
-            <th>Ticket</th>
-            <th>Submitted By</th>
-            <th>
-                <a class="sort-link" href="@Url.Action("Index", new { sortField = "status", sortOrder = NextOrder("status") })">
-                    Status@(Arrow("status"))
-                </a>
-            </th>
-            <th>Actions</th>
-        </tr>
-    </thead>
+<div class="container-fluid py-4">
+    <div class="page-header">
+        <div>
+            <h2 class="mb-1 fw-bold">Schedules</h2>
+            <p class="text-muted mb-0">Track upgrade schedules and their current status.</p>
+        </div>
+        <a asp-action="Create" class="btn btn-primary px-4 text-nowrap flex-shrink-0">
+            + New Schedule
+        </a>
+    </div>
 
-    <tbody>
-        @if (Model != null && Model.Count > 0)
-        {
-            foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.ScheduleId</td>
-                    <td>@item.Customer?.CustomerName</td>
-                    <td>@item.Customer?.CustomerCode</td>
-                    <td>@item.HostingType</td>
-                    <td>@item.CurrentVersion</td>
-                    <td>@item.TargetVersion</td>
-                    <td>@item.ScheduleDate.ToString("yyyy-MM-dd")</td>
-                    <td>@(item.ScheduleTime.HasValue ? item.ScheduleTime.Value.ToString(@"hh\:mm") : "")</td>
-                    <td>@item.TicketNumber</td>
-                    <td>@item.CreatedByUser?.FullName</td>
-                    <td>
-                        <span class="status-badge status-@item.Status">
-                            @item.Status
-                        </span>
-                    </td>
-                    <td>
-                        <div class="action-row">
-                            <a href="/Schedules/Details/@item.ScheduleId" class="btn btn-info btn-sm">View</a>
+    <div class="card shadow-sm border-0 mb-3">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <input type="text"
+                           id="scheduleSearch"
+                           class="form-control"
+                           placeholder="Search by customer, code, hosting, version, ticket..." />
+                </div>
+            </div>
+        </div>
+    </div>
 
-                            @if (item.Status == "pending")
-                            {
-                                <form method="post" action="/Schedules/Complete/@item.ScheduleId">
-                                    @Html.AntiForgeryToken()
-                                    <button type="submit" class="btn btn-success btn-sm">Complete</button>
-                                </form>
+    <div class="card shadow-sm border-0">
+        <div class="table-responsive">
+            <table id="schedulesTable" class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>
+                            <a asp-action="Index"
+                               asp-route-sortField="id"
+                               asp-route-sortOrder="@(NextOrder("id"))">
+                                ID @(GetSortIcon("id"))
+                            </a>
+                        </th>
+                        <th>
+                            <a asp-action="Index"
+                               asp-route-sortField="customer"
+                               asp-route-sortOrder="@(NextOrder("customer"))">
+                                Customer Name @(GetSortIcon("customer"))
+                            </a>
+                        </th>
+                        <th>
+                            <a asp-action="Index"
+                               asp-route-sortField="customercode"
+                               asp-route-sortOrder="@(NextOrder("customercode"))">
+                                Customer Code @(GetSortIcon("customercode"))
+                            </a>
+                        </th>
+                        <th>
+                            <a asp-action="Index"
+                               asp-route-sortField="hosting"
+                               asp-route-sortOrder="@(NextOrder("hosting"))">
+                                Hosting @(GetSortIcon("hosting"))
+                            </a>
+                        </th>
+                        <th>
+                            <a asp-action="Index"
+                               asp-route-sortField="currentversion"
+                               asp-route-sortOrder="@(NextOrder("currentversion"))">
+                                Current Version @(GetSortIcon("currentversion"))
+                            </a>
+                        </th>
+                        <th>
+                            <a asp-action="Index"
+                               asp-route-sortField="targetversion"
+                               asp-route-sortOrder="@(NextOrder("targetversion"))">
+                                Target Version @(GetSortIcon("targetversion"))
+                            </a>
+                        </th>
+                        <th>
+                            <a asp-action="Index"
+                               asp-route-sortField="date"
+                               asp-route-sortOrder="@(NextOrder("date"))">
+                                Date @(GetSortIcon("date"))
+                            </a>
+                        </th>
+                        <th>
+                            <a asp-action="Index"
+                               asp-route-sortField="time"
+                               asp-route-sortOrder="@(NextOrder("time"))">
+                                Time @(GetSortIcon("time"))
+                            </a>
+                        </th>
+                        <th>
+                            <a asp-action="Index"
+                               asp-route-sortField="ticket"
+                               asp-route-sortOrder="@(NextOrder("ticket"))">
+                                Ticket @(GetSortIcon("ticket"))
+                            </a>
+                        </th>
+                        <th>
+                            <a asp-action="Index"
+                               asp-route-sortField="submittedby"
+                               asp-route-sortOrder="@(NextOrder("submittedby"))">
+                                Submitted By @(GetSortIcon("submittedby"))
+                            </a>
+                        </th>
+                        <th>
+                            <a asp-action="Index"
+                               asp-route-sortField="status"
+                               asp-route-sortOrder="@(NextOrder("status"))">
+                                Status @(GetSortIcon("status"))
+                            </a>
+                        </th>
+                        <th class="text-center" style="width: 230px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.ScheduleId</td>
+                            <td>@item.Customer?.CustomerName</td>
+                            <td>@item.Customer?.CustomerCode</td>
+                            <td>@item.HostingType</td>
+                            <td>@item.CurrentVersion</td>
+                            <td>@item.TargetVersion</td>
+                            <td>@item.ScheduleDate.ToString("yyyy-MM-dd")</td>
+                            <td>@item.ScheduleTime</td>
+                            <td>@item.TicketNumber</td>
+                            <td>@item.CreatedByUser?.FullName</td>
+                            <td>
+                                @if (item.Status == "completed")
+                                {
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2">Completed</span>
+                                }
+                                else if (item.Status == "cancelled")
+                                {
+                                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2">Cancelled</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-2">Pending</span>
+                                }
+                            </td>
+                            <td class="text-center text-nowrap">
+                                <div class="actions-group">
+                                    <a asp-action="Details"
+                                       asp-route-id="@item.ScheduleId"
+                                       class="btn btn-sm btn-primary">
+                                        View
+                                    </a>
 
-                                <form method="post" action="/Schedules/Cancel/@item.ScheduleId">
-                                    @Html.AntiForgeryToken()
-                                    <button type="submit" class="btn btn-warning btn-sm">Cancel</button>
-                                </form>
-                            }
-                            else
-                            {
-                                <span class="no-actions">No actions</span>
-                            }
-                        </div>
-                    </td>
-                </tr>
-            }
-        }
-        else
-        {
-            <tr>
-                <td colspan="12">No schedules found.</td>
-            </tr>
-        }
-    </tbody>
-</table>
+                                    @if (item.Status == "pending")
+                                    {
+                                        <form asp-action="Complete"
+                                              asp-route-id="@item.ScheduleId"
+                                              method="post">
+                                            @Html.AntiForgeryToken()
+                                            <button type="button"
+                                                    class="btn btn-sm btn-success confirm-btn"
+                                                    data-title="Mark as Completed"
+                                                    data-message="Are you sure you want to mark this schedule as completed? This action cannot be undone."
+                                                    data-type="success"
+                                                    data-icon="✓">
+                                                Complete
+                                            </button>
+                                        </form>
+
+                                        <form asp-action="Cancel"
+                                              asp-route-id="@item.ScheduleId"
+                                              method="post">
+                                            @Html.AntiForgeryToken()
+                                            <button type="button"
+                                                    class="btn btn-sm btn-warning text-dark confirm-btn"
+                                                    data-title="Cancel Schedule"
+                                                    data-message="Are you sure you want to cancel this schedule? This action cannot be undone."
+                                                    data-type="warning"
+                                                    data-icon="!">
+                                                Cancel
+                                            </button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted small">No actions</span>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // Search
+            const searchInput = document.getElementById("scheduleSearch");
+            searchInput.addEventListener("keyup", function () {
+                const search = this.value.toLowerCase();
+                const rows = document.querySelectorAll("#schedulesTable tbody tr");
+                rows.forEach(row => {
+                    row.style.display = row.innerText.toLowerCase().includes(search) ? "" : "none";
+                });
+            });
+
+            // Custom confirm modal
+            const overlay = document.getElementById("confirmOverlay");
+            const confirmTitle = document.getElementById("confirmTitle");
+            const confirmMessage = document.getElementById("confirmMessage");
+            const confirmIcon = document.getElementById("confirmIcon");
+            const confirmOk = document.getElementById("confirmOk");
+            const confirmCancel = document.getElementById("confirmCancel");
+
+            let pendingForm = null;
+
+            document.querySelectorAll(".confirm-btn").forEach(btn => {
+                btn.addEventListener("click", function () {
+                    pendingForm = this.closest("form");
+
+                    const type = this.dataset.type;
+                    confirmTitle.textContent = this.dataset.title;
+                    confirmMessage.textContent = this.dataset.message;
+                    confirmIcon.textContent = this.dataset.icon;
+                    confirmIcon.className = "confirm-icon " + type;
+
+                    confirmOk.className = "btn btn-sm " + (type === "success" ? "btn-success" : "btn-warning text-dark");
+                    confirmOk.textContent = type === "success" ? "Yes, Complete" : "Yes, Cancel";
+
+                    overlay.classList.add("active");
+                });
+            });
+
+            confirmOk.addEventListener("click", function () {
+                if (pendingForm) {
+                    pendingForm.submit();
+                }
+                overlay.classList.remove("active");
+            });
+
+            confirmCancel.addEventListener("click", function () {
+                overlay.classList.remove("active");
+                pendingForm = null;
+            });
+
+            overlay.addEventListener("click", function (e) {
+                if (e.target === overlay) {
+                    overlay.classList.remove("active");
+                    pendingForm = null;
+                }
+            });
+        });
+    </script>
+}
