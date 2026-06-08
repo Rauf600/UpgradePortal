@@ -1,0 +1,1423 @@
+2026-05-22 12:29:02.757 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Dashboard - null null
+2026-05-22 12:29:02.932 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web)'
+2026-05-22 12:29:02.961 -07:00 [INF] Route matched with {action = "Index", controller = "Dashboard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller UpgradePortal.Web.Controllers.DashboardController (UpgradePortal.Web).
+2026-05-22 12:29:03.318 -07:00 [INF] Executed DbCommand (33ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 12:29:03.352 -07:00 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [users] AS [u]
+WHERE [u].[is_active] = CAST(1 AS bit)
+2026-05-22 12:29:03.361 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [users] AS [u]
+WHERE [u].[is_active] = CAST(1 AS bit) AND [u].[two_factor_enabled] = CAST(1 AS bit)
+2026-05-22 12:29:03.373 -07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [upgrade_schedules] AS [u]
+2026-05-22 12:29:03.386 -07:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [shell_requests] AS [s]
+2026-05-22 12:29:03.409 -07:00 [INF] Executing ViewResult, running view Index.
+2026-05-22 12:29:03.421 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 12:29:03.436 -07:00 [INF] Executed ViewResult - view Index executed in 43.0321ms.
+2026-05-22 12:29:03.440 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web) in 471.9991ms
+2026-05-22 12:29:03.444 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web)'
+2026-05-22 12:29:03.447 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Dashboard - 200 null text/html; charset=utf-8 698.0221ms
+2026-05-22 12:29:06.779 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/ShellRequests - null null
+2026-05-22 12:29:06.788 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.ShellRequestsController.Index (UpgradePortal.Web)'
+2026-05-22 12:29:06.792 -07:00 [INF] Route matched with {action = "Index", controller = "ShellRequests"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index(System.String, System.String) on controller UpgradePortal.Web.Controllers.ShellRequestsController (UpgradePortal.Web).
+2026-05-22 12:29:06.801 -07:00 [INF] Executed DbCommand (2ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 12:29:06.828 -07:00 [INF] Executed DbCommand (16ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[shell_request_id], [s].[address], [s].[attachments], [s].[base_container], [s].[client_registry], [s].[clinic_name], [s].[created_by_user_id], [s].[customer_id], [s].[email], [s].[emr_id], [s].[expected_date], [s].[integrations], [s].[notes], [s].[num_ih_servers], [s].[num_providers], [s].[phone], [s].[profile_version], [s].[region], [s].[status], [s].[token_id], [c].[customer_id], [c].[customer_code], [c].[customer_name], [c].[primary_email], [c].[region_code], [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled]
+FROM [shell_requests] AS [s]
+INNER JOIN [customers] AS [c] ON [s].[customer_id] = [c].[customer_id]
+LEFT JOIN [users] AS [u] ON [s].[created_by_user_id] = [u].[user_id]
+ORDER BY [s].[expected_date]
+2026-05-22 12:29:06.843 -07:00 [INF] Executing ViewResult, running view Index.
+2026-05-22 12:29:06.859 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 12:29:06.868 -07:00 [INF] Executed ViewResult - view Index executed in 27.0543ms.
+2026-05-22 12:29:06.871 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.ShellRequestsController.Index (UpgradePortal.Web) in 74.3927ms
+2026-05-22 12:29:06.875 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.ShellRequestsController.Index (UpgradePortal.Web)'
+2026-05-22 12:29:06.879 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/ShellRequests - 200 null text/html; charset=utf-8 100.2804ms
+2026-05-22 12:29:06.914 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/css/site.css?v=vUhwNsUOjdMYCcf7UBhwCkYG4F31OX39AFRlNLenbf8 - null null
+2026-05-22 12:29:06.930 -07:00 [INF] The file /css/site.css was not modified
+2026-05-22 12:29:06.934 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/css/site.css?v=vUhwNsUOjdMYCcf7UBhwCkYG4F31OX39AFRlNLenbf8 - 304 null text/css 19.208ms
+2026-05-22 12:29:08.728 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Reports - null null
+2026-05-22 12:29:08.742 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.ReportsController.Index (UpgradePortal.Web)'
+2026-05-22 12:29:08.819 -07:00 [INF] Route matched with {action = "Index", controller = "Reports"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller UpgradePortal.Web.Controllers.ReportsController (UpgradePortal.Web).
+2026-05-22 12:29:08.829 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 12:29:09.055 -07:00 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [upgrade_schedules] AS [u]
+WHERE [u].[status] = N'pending'
+2026-05-22 12:29:09.093 -07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [upgrade_schedules] AS [u]
+WHERE [u].[status] = N'completed'
+2026-05-22 12:29:09.109 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [upgrade_schedules] AS [u]
+WHERE [u].[status] = N'cancelled'
+2026-05-22 12:29:09.129 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [shell_requests] AS [s]
+WHERE [s].[status] = N'pending'
+2026-05-22 12:29:09.145 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [shell_requests] AS [s]
+WHERE [s].[status] = N'completed'
+2026-05-22 12:29:09.163 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [shell_requests] AS [s]
+WHERE [s].[status] = N'cancelled'
+2026-05-22 12:29:09.178 -07:00 [INF] Executing ViewResult, running view ~/Views/ReportsView/Index.cshtml.
+2026-05-22 12:29:09.362 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 12:29:09.375 -07:00 [INF] Executed ViewResult - view ~/Views/ReportsView/Index.cshtml executed in 203.3864ms.
+2026-05-22 12:29:09.380 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.ReportsController.Index (UpgradePortal.Web) in 556.0309ms
+2026-05-22 12:29:09.386 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.ReportsController.Index (UpgradePortal.Web)'
+2026-05-22 12:29:09.392 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Reports - 200 null text/html; charset=utf-8 664.1383ms
+2026-05-22 12:29:21.058 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/UserManagement - null null
+2026-05-22 12:29:21.069 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.UserManagementController.Index (UpgradePortal.Web)'
+2026-05-22 12:29:21.074 -07:00 [INF] Route matched with {action = "Index", controller = "UserManagement"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller UpgradePortal.Web.Controllers.UserManagementController (UpgradePortal.Web).
+2026-05-22 12:29:21.085 -07:00 [INF] Executed DbCommand (4ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 12:29:21.114 -07:00 [INF] Executed DbCommand (19ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id], [r].[description], [r].[role_name]
+FROM [users] AS [u]
+INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+ORDER BY [u].[full_name]
+2026-05-22 12:29:21.122 -07:00 [INF] User management list opened by Admin User.
+2026-05-22 12:29:21.127 -07:00 [INF] Executing ViewResult, running view Index.
+2026-05-22 12:29:21.136 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 12:29:21.144 -07:00 [INF] Executed ViewResult - view Index executed in 17.9329ms.
+2026-05-22 12:29:21.147 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.UserManagementController.Index (UpgradePortal.Web) in 68.0424ms
+2026-05-22 12:29:21.152 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.UserManagementController.Index (UpgradePortal.Web)'
+2026-05-22 12:29:21.155 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/UserManagement - 200 null text/html; charset=utf-8 97.3165ms
+2026-05-22 12:29:24.349 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/RoleManagement - null null
+2026-05-22 12:29:24.357 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.RoleManagementController.Index (UpgradePortal.Web)'
+2026-05-22 12:29:24.361 -07:00 [INF] Route matched with {action = "Index", controller = "RoleManagement"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller UpgradePortal.Web.Controllers.RoleManagementController (UpgradePortal.Web).
+2026-05-22 12:29:24.375 -07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [r].[role_id], [r].[description], [r].[role_name]
+FROM [roles] AS [r]
+ORDER BY [r].[role_name]
+2026-05-22 12:29:24.382 -07:00 [INF] Executing ViewResult, running view Index.
+2026-05-22 12:29:24.393 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 12:29:24.404 -07:00 [INF] Executed ViewResult - view Index executed in 22.6376ms.
+2026-05-22 12:29:24.408 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.RoleManagementController.Index (UpgradePortal.Web) in 42.4875ms
+2026-05-22 12:29:24.411 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.RoleManagementController.Index (UpgradePortal.Web)'
+2026-05-22 12:29:24.414 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/RoleManagement - 200 null text/html; charset=utf-8 65.6741ms
+2026-05-22 12:29:27.036 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Settings - null null
+2026-05-22 12:29:27.044 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.SettingsController.Index (UpgradePortal.Web)'
+2026-05-22 12:29:27.048 -07:00 [INF] Route matched with {action = "Index", controller = "Settings"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller UpgradePortal.Web.Controllers.SettingsController (UpgradePortal.Web).
+2026-05-22 12:29:27.059 -07:00 [INF] Executed DbCommand (4ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 12:29:27.071 -07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[app_settings_id], [a].[jira_api_token], [a].[jira_base_url], [a].[jira_enabled], [a].[jira_project_key], [a].[jira_username], [a].[updated_at]
+FROM [app_settings] AS [a]
+2026-05-22 12:29:27.081 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [s].[sendgrid_settings_id], [s].[api_key_encrypted], [s].[enabled], [s].[from_email], [s].[from_name], [s].[smtp_host], [s].[smtp_port], [s].[updated_at], [s].[username]
+FROM [sendgrid_settings] AS [s]
+2026-05-22 12:29:27.088 -07:00 [INF] Executing ViewResult, running view Index.
+2026-05-22 12:29:27.106 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 12:29:27.114 -07:00 [INF] Executed ViewResult - view Index executed in 27.4479ms.
+2026-05-22 12:29:27.118 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.SettingsController.Index (UpgradePortal.Web) in 65.4963ms
+2026-05-22 12:29:27.122 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.SettingsController.Index (UpgradePortal.Web)'
+2026-05-22 12:29:27.125 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Settings - 200 null text/html; charset=utf-8 89.2984ms
+2026-05-22 12:29:31.315 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Dashboard - null null
+2026-05-22 12:29:31.326 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web)'
+2026-05-22 12:29:31.330 -07:00 [INF] Route matched with {action = "Index", controller = "Dashboard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller UpgradePortal.Web.Controllers.DashboardController (UpgradePortal.Web).
+2026-05-22 12:29:31.339 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 12:29:31.347 -07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [users] AS [u]
+WHERE [u].[is_active] = CAST(1 AS bit)
+2026-05-22 12:29:31.355 -07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [users] AS [u]
+WHERE [u].[is_active] = CAST(1 AS bit) AND [u].[two_factor_enabled] = CAST(1 AS bit)
+2026-05-22 12:29:31.363 -07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [upgrade_schedules] AS [u]
+2026-05-22 12:29:31.371 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [shell_requests] AS [s]
+2026-05-22 12:29:31.378 -07:00 [INF] Executing ViewResult, running view Index.
+2026-05-22 12:29:31.384 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 12:29:31.391 -07:00 [INF] Executed ViewResult - view Index executed in 13.4952ms.
+2026-05-22 12:29:31.396 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web) in 60.9484ms
+2026-05-22 12:29:31.399 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web)'
+2026-05-22 12:29:31.403 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Dashboard - 200 null text/html; charset=utf-8 88.4556ms
+2026-05-22 19:05:05.651 -07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5003/Auth/Logout - application/x-www-form-urlencoded 225
+2026-05-22 19:05:05.780 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.AuthController.Logout (UpgradePortal.Web)'
+2026-05-22 19:05:05.795 -07:00 [INF] Route matched with {action = "Logout", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Logout() on controller UpgradePortal.Web.Controllers.AuthController (UpgradePortal.Web).
+2026-05-22 19:05:05.849 -07:00 [INF] AuthenticationScheme: Cookies signed out.
+2026-05-22 19:05:05.858 -07:00 [INF] Executing RedirectResult, redirecting to /.
+2026-05-22 19:05:05.863 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.AuthController.Logout (UpgradePortal.Web) in 60.7391ms
+2026-05-22 19:05:05.867 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.AuthController.Logout (UpgradePortal.Web)'
+2026-05-22 19:05:05.871 -07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5003/Auth/Logout - 302 0 null 231.0378ms
+2026-05-22 19:05:05.882 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/ - null null
+2026-05-22 19:05:05.891 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.AuthController.Login (UpgradePortal.Web)'
+2026-05-22 19:05:05.894 -07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Login() on controller UpgradePortal.Web.Controllers.AuthController (UpgradePortal.Web).
+2026-05-22 19:05:05.917 -07:00 [INF] Executing ViewResult, running view Login.
+2026-05-22 19:05:05.950 -07:00 [INF] Executed ViewResult - view Login executed in 48.6384ms.
+2026-05-22 19:05:05.954 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.AuthController.Login (UpgradePortal.Web) in 54.6975ms
+2026-05-22 19:05:05.957 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.AuthController.Login (UpgradePortal.Web)'
+2026-05-22 19:05:05.959 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/ - 200 null text/html; charset=utf-8 77.2549ms
+2026-05-22 19:06:44.888 -07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5003/ - application/x-www-form-urlencoded 241
+2026-05-22 19:06:44.897 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.AuthController.Login (UpgradePortal.Web)'
+2026-05-22 19:06:44.901 -07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(UpgradePortal.Web.ViewModels.LoginViewModel) on controller UpgradePortal.Web.Controllers.AuthController (UpgradePortal.Web).
+2026-05-22 19:06:45.248 -07:00 [INF] Executed DbCommand (30ms) [Parameters=[@email='?' (Size = 4000), @passwordHash='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled]
+FROM [users] AS [u]
+WHERE [u].[email] = @email AND [u].[password_hash] = @passwordHash AND [u].[is_active] = CAST(1 AS bit)
+2026-05-22 19:06:45.388 -07:00 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [s].[sendgrid_settings_id], [s].[api_key_encrypted], [s].[enabled], [s].[from_email], [s].[from_name], [s].[smtp_host], [s].[smtp_port], [s].[updated_at], [s].[username]
+FROM [sendgrid_settings] AS [s]
+WHERE [s].[enabled] = CAST(1 AS bit)
+2026-05-22 19:06:46.334 -07:00 [INF] Executing RedirectResult, redirecting to /Auth/TwoFactor.
+2026-05-22 19:06:46.337 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.AuthController.Login (UpgradePortal.Web) in 1431.3051ms
+2026-05-22 19:06:46.341 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.AuthController.Login (UpgradePortal.Web)'
+2026-05-22 19:06:46.354 -07:00 [INF] Session started; Key:79a7b2a9-0c00-04d9-c338-6b3e3a281cfd, Id:9b34a702-d938-6850-0f59-06036d1ae411
+2026-05-22 19:06:46.365 -07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5003/ - 302 0 null 1477.5091ms
+2026-05-22 19:06:46.373 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Auth/TwoFactor - null null
+2026-05-22 19:06:46.382 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web)'
+2026-05-22 19:06:46.396 -07:00 [INF] Route matched with {action = "TwoFactor", controller = "Auth"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult TwoFactor() on controller UpgradePortal.Web.Controllers.AuthController (UpgradePortal.Web).
+2026-05-22 19:06:46.407 -07:00 [INF] Executing ViewResult, running view TwoFactor.
+2026-05-22 19:06:46.468 -07:00 [INF] Executed ViewResult - view TwoFactor executed in 63.6986ms.
+2026-05-22 19:06:46.471 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web) in 71.0703ms
+2026-05-22 19:06:46.474 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web)'
+2026-05-22 19:06:46.477 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Auth/TwoFactor - 200 null text/html; charset=utf-8 103.1771ms
+2026-05-22 19:06:46.550 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/css/site.css?v=vUhwNsUOjdMYCcf7UBhwCkYG4F31OX39AFRlNLenbf8 - null null
+2026-05-22 19:06:46.560 -07:00 [INF] The file /css/site.css was not modified
+2026-05-22 19:06:46.564 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/css/site.css?v=vUhwNsUOjdMYCcf7UBhwCkYG4F31OX39AFRlNLenbf8 - 304 null text/css 14.3699ms
+2026-05-22 19:08:00.089 -07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5003/Auth/TwoFactor - application/x-www-form-urlencoded 236
+2026-05-22 19:08:00.167 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web)'
+2026-05-22 19:08:00.193 -07:00 [INF] Route matched with {action = "TwoFactor", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] TwoFactor(UpgradePortal.Web.ViewModels.TwoFactorViewModel) on controller UpgradePortal.Web.Controllers.AuthController (UpgradePortal.Web).
+2026-05-22 19:08:00.242 -07:00 [INF] Executed DbCommand (6ms) [Parameters=[@savedEmail='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled]
+FROM [users] AS [u]
+WHERE [u].[email] = @savedEmail AND [u].[is_active] = CAST(1 AS bit)
+2026-05-22 19:08:00.276 -07:00 [INF] AuthenticationScheme: Cookies signed in.
+2026-05-22 19:08:00.279 -07:00 [INF] Executing RedirectResult, redirecting to /Dashboard.
+2026-05-22 19:08:00.290 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web) in 90.026ms
+2026-05-22 19:08:00.293 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web)'
+2026-05-22 19:08:00.296 -07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5003/Auth/TwoFactor - 302 0 null 206.5169ms
+2026-05-22 19:08:00.329 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Dashboard - null null
+2026-05-22 19:08:00.345 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web)'
+2026-05-22 19:08:00.355 -07:00 [INF] Route matched with {action = "Index", controller = "Dashboard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller UpgradePortal.Web.Controllers.DashboardController (UpgradePortal.Web).
+2026-05-22 19:08:00.423 -07:00 [INF] Executed DbCommand (41ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:08:00.554 -07:00 [INF] Executed DbCommand (17ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [users] AS [u]
+WHERE [u].[is_active] = CAST(1 AS bit)
+2026-05-22 19:08:00.569 -07:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [users] AS [u]
+WHERE [u].[is_active] = CAST(1 AS bit) AND [u].[two_factor_enabled] = CAST(1 AS bit)
+2026-05-22 19:08:00.589 -07:00 [INF] Executed DbCommand (16ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [upgrade_schedules] AS [u]
+2026-05-22 19:08:00.605 -07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [shell_requests] AS [s]
+2026-05-22 19:08:00.613 -07:00 [INF] Executing ViewResult, running view Index.
+2026-05-22 19:08:00.651 -07:00 [INF] Executed DbCommand (15ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:08:00.661 -07:00 [INF] Executed ViewResult - view Index executed in 50.7783ms.
+2026-05-22 19:08:00.669 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web) in 310.4145ms
+2026-05-22 19:08:00.672 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web)'
+2026-05-22 19:08:00.687 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Dashboard - 200 null text/html; charset=utf-8 357.0819ms
+2026-05-22 19:10:03.467 -07:00 [INF] Application is shutting down...
+2026-05-22 19:10:29.933 -07:00 [INF] User profile is available. Using 'C:\Users\rauf.ibrahimkhail\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-05-22 19:10:30.650 -07:00 [INF] Now listening on: http://localhost:5003
+2026-05-22 19:10:30.658 -07:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-05-22 19:10:30.661 -07:00 [INF] Hosting environment: Development
+2026-05-22 19:10:30.664 -07:00 [INF] Content root path: C:\Users\rauf.ibrahimkhail\source\repos\UpgradePortal.Web\UpgradePortal.Web
+2026-05-22 19:10:31.420 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Dashboard - null null
+2026-05-22 19:10:31.419 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Dashboard - null null
+2026-05-22 19:10:31.440 -07:00 [WRN] Failed to determine the https port for redirect.
+2026-05-22 19:10:31.518 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web)'
+2026-05-22 19:10:31.518 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web)'
+2026-05-22 19:10:31.805 -07:00 [INF] Route matched with {action = "Index", controller = "Dashboard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller UpgradePortal.Web.Controllers.DashboardController (UpgradePortal.Web).
+2026-05-22 19:10:31.805 -07:00 [INF] Route matched with {action = "Index", controller = "Dashboard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller UpgradePortal.Web.Controllers.DashboardController (UpgradePortal.Web).
+2026-05-22 19:10:33.583 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Auth/TwoFactor - null null
+2026-05-22 19:10:33.599 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web)'
+2026-05-22 19:10:33.607 -07:00 [INF] Route matched with {action = "TwoFactor", controller = "Auth"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult TwoFactor() on controller UpgradePortal.Web.Controllers.AuthController (UpgradePortal.Web).
+2026-05-22 19:10:33.624 -07:00 [INF] Accessing expired session, Key:79a7b2a9-0c00-04d9-c338-6b3e3a281cfd
+2026-05-22 19:10:33.662 -07:00 [INF] Executing RedirectResult, redirecting to /.
+2026-05-22 19:10:33.673 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web) in 53.4645ms
+2026-05-22 19:10:33.679 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web)'
+2026-05-22 19:10:33.693 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Auth/TwoFactor - 302 0 null 110.0741ms
+2026-05-22 19:10:33.706 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/ - null null
+2026-05-22 19:10:33.713 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.AuthController.Login (UpgradePortal.Web)'
+2026-05-22 19:10:33.720 -07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Login() on controller UpgradePortal.Web.Controllers.AuthController (UpgradePortal.Web).
+2026-05-22 19:10:33.748 -07:00 [INF] Executing ViewResult, running view Login.
+2026-05-22 19:10:33.958 -07:00 [INF] Executed ViewResult - view Login executed in 218.0489ms.
+2026-05-22 19:10:33.963 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.AuthController.Login (UpgradePortal.Web) in 236.0892ms
+2026-05-22 19:10:33.967 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.AuthController.Login (UpgradePortal.Web)'
+2026-05-22 19:10:33.974 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/ - 200 null text/html; charset=utf-8 268.3692ms
+2026-05-22 19:10:34.410 -07:00 [INF] Executed DbCommand (90ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:10:34.410 -07:00 [INF] Executed DbCommand (90ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:10:34.705 -07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [users] AS [u]
+WHERE [u].[is_active] = CAST(1 AS bit)
+2026-05-22 19:10:34.705 -07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [users] AS [u]
+WHERE [u].[is_active] = CAST(1 AS bit)
+2026-05-22 19:10:34.726 -07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [users] AS [u]
+WHERE [u].[is_active] = CAST(1 AS bit) AND [u].[two_factor_enabled] = CAST(1 AS bit)
+2026-05-22 19:10:34.726 -07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [users] AS [u]
+WHERE [u].[is_active] = CAST(1 AS bit) AND [u].[two_factor_enabled] = CAST(1 AS bit)
+2026-05-22 19:10:34.742 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [upgrade_schedules] AS [u]
+2026-05-22 19:10:34.742 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [upgrade_schedules] AS [u]
+2026-05-22 19:10:34.760 -07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [shell_requests] AS [s]
+2026-05-22 19:10:34.760 -07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [shell_requests] AS [s]
+2026-05-22 19:10:34.775 -07:00 [INF] Executing ViewResult, running view Index.
+2026-05-22 19:10:34.775 -07:00 [INF] Executing ViewResult, running view Index.
+2026-05-22 19:10:34.837 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:10:34.837 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:10:34.873 -07:00 [INF] Executed ViewResult - view Index executed in 99.4236ms.
+2026-05-22 19:10:34.873 -07:00 [INF] Executed ViewResult - view Index executed in 99.4259ms.
+2026-05-22 19:10:34.881 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web) in 3066.5228ms
+2026-05-22 19:10:34.881 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web) in 3070.714ms
+2026-05-22 19:10:34.887 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web)'
+2026-05-22 19:10:34.889 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web)'
+2026-05-22 19:10:34.903 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Dashboard - 200 null text/html; charset=utf-8 3491.6417ms
+2026-05-22 19:10:34.903 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Dashboard - 200 null text/html; charset=utf-8 3484.7402ms
+2026-05-22 19:10:52.382 -07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5003/ - application/x-www-form-urlencoded 284
+2026-05-22 19:10:52.391 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.AuthController.Login (UpgradePortal.Web)'
+2026-05-22 19:10:52.416 -07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(UpgradePortal.Web.ViewModels.LoginViewModel) on controller UpgradePortal.Web.Controllers.AuthController (UpgradePortal.Web).
+2026-05-22 19:10:52.578 -07:00 [INF] Executed DbCommand (4ms) [Parameters=[@email='?' (Size = 4000), @passwordHash='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled]
+FROM [users] AS [u]
+WHERE [u].[email] = @email AND [u].[password_hash] = @passwordHash AND [u].[is_active] = CAST(1 AS bit)
+2026-05-22 19:10:52.587 -07:00 [INF] Accessing expired session, Key:79a7b2a9-0c00-04d9-c338-6b3e3a281cfd
+2026-05-22 19:10:52.608 -07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [s].[sendgrid_settings_id], [s].[api_key_encrypted], [s].[enabled], [s].[from_email], [s].[from_name], [s].[smtp_host], [s].[smtp_port], [s].[updated_at], [s].[username]
+FROM [sendgrid_settings] AS [s]
+WHERE [s].[enabled] = CAST(1 AS bit)
+2026-05-22 19:10:53.270 -07:00 [INF] Executing RedirectResult, redirecting to /Auth/TwoFactor.
+2026-05-22 19:10:53.274 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.AuthController.Login (UpgradePortal.Web) in 851.7336ms
+2026-05-22 19:10:53.277 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.AuthController.Login (UpgradePortal.Web)'
+2026-05-22 19:10:53.283 -07:00 [INF] Session started; Key:79a7b2a9-0c00-04d9-c338-6b3e3a281cfd, Id:de06bd5a-af70-fe41-4bfc-7fb9763d6f4c
+2026-05-22 19:10:53.288 -07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5003/ - 302 0 null 905.9536ms
+2026-05-22 19:10:53.295 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Auth/TwoFactor - null null
+2026-05-22 19:10:53.303 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web)'
+2026-05-22 19:10:53.306 -07:00 [INF] Route matched with {action = "TwoFactor", controller = "Auth"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult TwoFactor() on controller UpgradePortal.Web.Controllers.AuthController (UpgradePortal.Web).
+2026-05-22 19:10:53.313 -07:00 [INF] Executing ViewResult, running view TwoFactor.
+2026-05-22 19:10:53.345 -07:00 [INF] Executed ViewResult - view TwoFactor executed in 32.8623ms.
+2026-05-22 19:10:53.349 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web) in 37.8358ms
+2026-05-22 19:10:53.352 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web)'
+2026-05-22 19:10:53.355 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Auth/TwoFactor - 200 null text/html; charset=utf-8 59.9936ms
+2026-05-22 19:11:22.998 -07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5003/Auth/TwoFactor - application/x-www-form-urlencoded 279
+2026-05-22 19:11:23.006 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web)'
+2026-05-22 19:11:23.018 -07:00 [INF] Route matched with {action = "TwoFactor", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] TwoFactor(UpgradePortal.Web.ViewModels.TwoFactorViewModel) on controller UpgradePortal.Web.Controllers.AuthController (UpgradePortal.Web).
+2026-05-22 19:11:23.040 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[@savedEmail='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled]
+FROM [users] AS [u]
+WHERE [u].[email] = @savedEmail AND [u].[is_active] = CAST(1 AS bit)
+2026-05-22 19:11:23.051 -07:00 [INF] AuthenticationScheme: Cookies signed in.
+2026-05-22 19:11:23.057 -07:00 [INF] Executing RedirectResult, redirecting to /Dashboard.
+2026-05-22 19:11:23.061 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web) in 37.6282ms
+2026-05-22 19:11:23.065 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web)'
+2026-05-22 19:11:23.068 -07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5003/Auth/TwoFactor - 302 0 null 69.9404ms
+2026-05-22 19:11:23.077 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Dashboard - null null
+2026-05-22 19:11:23.090 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web)'
+2026-05-22 19:11:23.094 -07:00 [INF] Route matched with {action = "Index", controller = "Dashboard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller UpgradePortal.Web.Controllers.DashboardController (UpgradePortal.Web).
+2026-05-22 19:11:23.106 -07:00 [INF] Executed DbCommand (4ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:11:23.116 -07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [users] AS [u]
+WHERE [u].[is_active] = CAST(1 AS bit)
+2026-05-22 19:11:23.126 -07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [users] AS [u]
+WHERE [u].[is_active] = CAST(1 AS bit) AND [u].[two_factor_enabled] = CAST(1 AS bit)
+2026-05-22 19:11:23.134 -07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [upgrade_schedules] AS [u]
+2026-05-22 19:11:23.143 -07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [shell_requests] AS [s]
+2026-05-22 19:11:23.149 -07:00 [INF] Executing ViewResult, running view Index.
+2026-05-22 19:11:23.158 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:11:23.167 -07:00 [INF] Executed ViewResult - view Index executed in 17.6811ms.
+2026-05-22 19:11:23.170 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web) in 70.5538ms
+2026-05-22 19:11:23.174 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web)'
+2026-05-22 19:11:23.177 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Dashboard - 200 null text/html; charset=utf-8 100.021ms
+2026-05-22 19:13:28.518 -07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5003/Auth/Logout - application/x-www-form-urlencoded 225
+2026-05-22 19:13:28.526 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.AuthController.Logout (UpgradePortal.Web)'
+2026-05-22 19:13:28.541 -07:00 [INF] Route matched with {action = "Logout", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Logout() on controller UpgradePortal.Web.Controllers.AuthController (UpgradePortal.Web).
+2026-05-22 19:13:28.551 -07:00 [INF] AuthenticationScheme: Cookies signed out.
+2026-05-22 19:13:28.555 -07:00 [INF] Executing RedirectResult, redirecting to /.
+2026-05-22 19:13:28.560 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.AuthController.Logout (UpgradePortal.Web) in 12.5104ms
+2026-05-22 19:13:28.564 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.AuthController.Logout (UpgradePortal.Web)'
+2026-05-22 19:13:28.568 -07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5003/Auth/Logout - 302 0 null 49.2946ms
+2026-05-22 19:13:28.578 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/ - null null
+2026-05-22 19:13:28.586 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.AuthController.Login (UpgradePortal.Web)'
+2026-05-22 19:13:28.589 -07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Login() on controller UpgradePortal.Web.Controllers.AuthController (UpgradePortal.Web).
+2026-05-22 19:13:28.596 -07:00 [INF] Executing ViewResult, running view Login.
+2026-05-22 19:13:28.602 -07:00 [INF] Executed ViewResult - view Login executed in 6.4309ms.
+2026-05-22 19:13:28.607 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.AuthController.Login (UpgradePortal.Web) in 11.6922ms
+2026-05-22 19:13:28.612 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.AuthController.Login (UpgradePortal.Web)'
+2026-05-22 19:13:28.618 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/ - 200 null text/html; charset=utf-8 40.0812ms
+2026-05-22 19:13:41.370 -07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5003/ - application/x-www-form-urlencoded 241
+2026-05-22 19:13:41.377 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.AuthController.Login (UpgradePortal.Web)'
+2026-05-22 19:13:41.381 -07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(UpgradePortal.Web.ViewModels.LoginViewModel) on controller UpgradePortal.Web.Controllers.AuthController (UpgradePortal.Web).
+2026-05-22 19:13:41.393 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[@email='?' (Size = 4000), @passwordHash='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled]
+FROM [users] AS [u]
+WHERE [u].[email] = @email AND [u].[password_hash] = @passwordHash AND [u].[is_active] = CAST(1 AS bit)
+2026-05-22 19:13:41.401 -07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [s].[sendgrid_settings_id], [s].[api_key_encrypted], [s].[enabled], [s].[from_email], [s].[from_name], [s].[smtp_host], [s].[smtp_port], [s].[updated_at], [s].[username]
+FROM [sendgrid_settings] AS [s]
+WHERE [s].[enabled] = CAST(1 AS bit)
+2026-05-22 19:13:41.773 -07:00 [INF] Executing RedirectResult, redirecting to /Auth/TwoFactor.
+2026-05-22 19:13:41.777 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.AuthController.Login (UpgradePortal.Web) in 390.6312ms
+2026-05-22 19:13:41.780 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.AuthController.Login (UpgradePortal.Web)'
+2026-05-22 19:13:41.784 -07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5003/ - 302 0 null 413.7626ms
+2026-05-22 19:13:41.793 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Auth/TwoFactor - null null
+2026-05-22 19:13:41.800 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web)'
+2026-05-22 19:13:41.804 -07:00 [INF] Route matched with {action = "TwoFactor", controller = "Auth"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult TwoFactor() on controller UpgradePortal.Web.Controllers.AuthController (UpgradePortal.Web).
+2026-05-22 19:13:41.810 -07:00 [INF] Executing ViewResult, running view TwoFactor.
+2026-05-22 19:13:41.815 -07:00 [INF] Executed ViewResult - view TwoFactor executed in 5.4284ms.
+2026-05-22 19:13:41.819 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web) in 9.5935ms
+2026-05-22 19:13:41.822 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web)'
+2026-05-22 19:13:41.825 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Auth/TwoFactor - 200 null text/html; charset=utf-8 32.468ms
+2026-05-22 19:13:45.018 -07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5003/Auth/TwoFactor - application/x-www-form-urlencoded 230
+2026-05-22 19:13:45.026 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web)'
+2026-05-22 19:13:45.030 -07:00 [INF] Route matched with {action = "TwoFactor", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] TwoFactor(UpgradePortal.Web.ViewModels.TwoFactorViewModel) on controller UpgradePortal.Web.Controllers.AuthController (UpgradePortal.Web).
+2026-05-22 19:13:45.039 -07:00 [INF] Executing ViewResult, running view TwoFactor.
+2026-05-22 19:13:45.053 -07:00 [INF] Executed ViewResult - view TwoFactor executed in 14.5668ms.
+2026-05-22 19:13:45.058 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web) in 23.2693ms
+2026-05-22 19:13:45.062 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web)'
+2026-05-22 19:13:45.065 -07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5003/Auth/TwoFactor - 200 null text/html; charset=utf-8 47.027ms
+2026-05-22 19:16:57.232 -07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5003/Auth/TwoFactor - application/x-www-form-urlencoded 236
+2026-05-22 19:16:57.241 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web)'
+2026-05-22 19:16:57.245 -07:00 [INF] Route matched with {action = "TwoFactor", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] TwoFactor(UpgradePortal.Web.ViewModels.TwoFactorViewModel) on controller UpgradePortal.Web.Controllers.AuthController (UpgradePortal.Web).
+2026-05-22 19:16:57.378 -07:00 [INF] Executed DbCommand (8ms) [Parameters=[@savedEmail='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled]
+FROM [users] AS [u]
+WHERE [u].[email] = @savedEmail AND [u].[is_active] = CAST(1 AS bit)
+2026-05-22 19:16:57.385 -07:00 [INF] AuthenticationScheme: Cookies signed in.
+2026-05-22 19:16:57.388 -07:00 [INF] Executing RedirectResult, redirecting to /Dashboard.
+2026-05-22 19:16:57.392 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web) in 141.0485ms
+2026-05-22 19:16:57.396 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.AuthController.TwoFactor (UpgradePortal.Web)'
+2026-05-22 19:16:57.399 -07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5003/Auth/TwoFactor - 302 0 null 167.0505ms
+2026-05-22 19:16:57.406 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Dashboard - null null
+2026-05-22 19:16:57.413 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web)'
+2026-05-22 19:16:57.417 -07:00 [INF] Route matched with {action = "Index", controller = "Dashboard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller UpgradePortal.Web.Controllers.DashboardController (UpgradePortal.Web).
+2026-05-22 19:16:57.437 -07:00 [INF] Executed DbCommand (14ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:16:57.448 -07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [users] AS [u]
+WHERE [u].[is_active] = CAST(1 AS bit)
+2026-05-22 19:16:57.457 -07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [users] AS [u]
+WHERE [u].[is_active] = CAST(1 AS bit) AND [u].[two_factor_enabled] = CAST(1 AS bit)
+2026-05-22 19:16:57.468 -07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [upgrade_schedules] AS [u]
+2026-05-22 19:16:57.478 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [shell_requests] AS [s]
+2026-05-22 19:16:57.485 -07:00 [INF] Executing ViewResult, running view Index.
+2026-05-22 19:16:57.493 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:16:57.500 -07:00 [INF] Executed ViewResult - view Index executed in 15.9051ms.
+2026-05-22 19:16:57.505 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web) in 83.381ms
+2026-05-22 19:16:57.509 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web)'
+2026-05-22 19:16:57.513 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Dashboard - 200 null text/html; charset=utf-8 107.0005ms
+2026-05-22 19:17:10.077 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Schedules - null null
+2026-05-22 19:17:10.086 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.SchedulesController.Index (UpgradePortal.Web)'
+2026-05-22 19:17:10.101 -07:00 [INF] Route matched with {action = "Index", controller = "Schedules"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index(System.String, System.String) on controller UpgradePortal.Web.Controllers.SchedulesController (UpgradePortal.Web).
+2026-05-22 19:17:10.111 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:17:10.188 -07:00 [INF] Executed DbCommand (22ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[schedule_id], [u].[created_by_user_id], [u].[current_version], [u].[customer_id], [u].[hosting_type], [u].[notes], [u].[schedule_date], [u].[schedule_time], [u].[status], [u].[target_version], [u].[ticket_number], [c].[customer_id], [c].[customer_code], [c].[customer_name], [c].[primary_email], [c].[region_code], [u0].[user_id], [u0].[created_date], [u0].[email], [u0].[full_name], [u0].[is_active], [u0].[password_hash], [u0].[phone_number], [u0].[role_id], [u0].[two_factor_email], [u0].[two_factor_enabled]
+FROM [upgrade_schedules] AS [u]
+INNER JOIN [customers] AS [c] ON [u].[customer_id] = [c].[customer_id]
+LEFT JOIN [users] AS [u0] ON [u].[created_by_user_id] = [u0].[user_id]
+ORDER BY [u].[schedule_date], [u].[schedule_time]
+2026-05-22 19:17:10.251 -07:00 [INF] Executing ViewResult, running view Index.
+2026-05-22 19:17:10.287 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:17:10.294 -07:00 [INF] Executed ViewResult - view Index executed in 45.2919ms.
+2026-05-22 19:17:10.298 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.SchedulesController.Index (UpgradePortal.Web) in 191.7096ms
+2026-05-22 19:17:10.302 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.SchedulesController.Index (UpgradePortal.Web)'
+2026-05-22 19:17:10.305 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Schedules - 200 null text/html; charset=utf-8 227.579ms
+2026-05-22 19:17:12.501 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Schedules/Create - null null
+2026-05-22 19:17:12.509 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.SchedulesController.Create (UpgradePortal.Web)'
+2026-05-22 19:17:12.515 -07:00 [INF] Route matched with {action = "Create", controller = "Schedules"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Create() on controller UpgradePortal.Web.Controllers.SchedulesController (UpgradePortal.Web).
+2026-05-22 19:17:12.523 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:17:12.532 -07:00 [INF] Executing ViewResult, running view Create.
+2026-05-22 19:17:12.629 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:17:12.651 -07:00 [INF] Executed ViewResult - view Create executed in 120.3259ms.
+2026-05-22 19:17:12.655 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.SchedulesController.Create (UpgradePortal.Web) in 134.1206ms
+2026-05-22 19:17:12.659 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.SchedulesController.Create (UpgradePortal.Web)'
+2026-05-22 19:17:12.662 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Schedules/Create - 200 null text/html; charset=utf-8 161.1773ms
+2026-05-22 19:21:23.057 -07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5003/Schedules/Create - application/x-www-form-urlencoded 619
+2026-05-22 19:21:23.069 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.SchedulesController.Create (UpgradePortal.Web)'
+2026-05-22 19:21:23.083 -07:00 [INF] Route matched with {action = "Create", controller = "Schedules"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(UpgradePortal.Web.ViewModels.UpgradeScheduleCreateViewModel) on controller UpgradePortal.Web.Controllers.SchedulesController (UpgradePortal.Web).
+2026-05-22 19:21:23.096 -07:00 [INF] Executed DbCommand (5ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:21:23.129 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[@model_CustomerCode='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [c].[customer_id], [c].[customer_code], [c].[customer_name], [c].[primary_email], [c].[region_code]
+FROM [customers] AS [c]
+WHERE [c].[customer_code] = @model_CustomerCode
+2026-05-22 19:21:23.356 -07:00 [INF] Executed DbCommand (24ms) [Parameters=[@p0='?' (Size = 4000), @p1='?' (Size = 4000), @p2='?' (Size = 4000), @p3='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [customers] ([customer_code], [customer_name], [primary_email], [region_code])
+OUTPUT INSERTED.[customer_id]
+VALUES (@p0, @p1, @p2, @p3);
+2026-05-22 19:21:23.397 -07:00 [INF] Created new customer CAN-1245.
+2026-05-22 19:21:23.449 -07:00 [INF] Executed DbCommand (16ms) [Parameters=[@p0='?' (DbType = Int64), @p1='?' (Size = 4000), @p2='?' (DbType = Int64), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (DbType = DateTime2), @p6='?' (DbType = Time), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [upgrade_schedules] ([created_by_user_id], [current_version], [customer_id], [hosting_type], [notes], [schedule_date], [schedule_time], [status], [target_version], [ticket_number])
+OUTPUT INSERTED.[schedule_id]
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9);
+2026-05-22 19:21:23.459 -07:00 [INF] New schedule created for North Vancouver Medical Walk In Clinic by Abdul Rauf Ibrahimkhail.
+2026-05-22 19:21:23.468 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [s].[sendgrid_settings_id], [s].[api_key_encrypted], [s].[enabled], [s].[from_email], [s].[from_name], [s].[smtp_host], [s].[smtp_port], [s].[updated_at], [s].[username]
+FROM [sendgrid_settings] AS [s]
+WHERE [s].[enabled] = CAST(1 AS bit)
+2026-05-22 19:21:23.803 -07:00 [INF] TechOps notification sent for schedule 10.
+2026-05-22 19:21:23.806 -07:00 [INF] Executing RedirectResult, redirecting to /Schedules.
+2026-05-22 19:21:23.810 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.SchedulesController.Create (UpgradePortal.Web) in 721.0643ms
+2026-05-22 19:21:23.814 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.SchedulesController.Create (UpgradePortal.Web)'
+2026-05-22 19:21:23.817 -07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5003/Schedules/Create - 302 0 null 760.3491ms
+2026-05-22 19:21:23.825 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Schedules - null null
+2026-05-22 19:21:23.833 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.SchedulesController.Index (UpgradePortal.Web)'
+2026-05-22 19:21:23.836 -07:00 [INF] Route matched with {action = "Index", controller = "Schedules"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index(System.String, System.String) on controller UpgradePortal.Web.Controllers.SchedulesController (UpgradePortal.Web).
+2026-05-22 19:21:23.844 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:21:23.856 -07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[schedule_id], [u].[created_by_user_id], [u].[current_version], [u].[customer_id], [u].[hosting_type], [u].[notes], [u].[schedule_date], [u].[schedule_time], [u].[status], [u].[target_version], [u].[ticket_number], [c].[customer_id], [c].[customer_code], [c].[customer_name], [c].[primary_email], [c].[region_code], [u0].[user_id], [u0].[created_date], [u0].[email], [u0].[full_name], [u0].[is_active], [u0].[password_hash], [u0].[phone_number], [u0].[role_id], [u0].[two_factor_email], [u0].[two_factor_enabled]
+FROM [upgrade_schedules] AS [u]
+INNER JOIN [customers] AS [c] ON [u].[customer_id] = [c].[customer_id]
+LEFT JOIN [users] AS [u0] ON [u].[created_by_user_id] = [u0].[user_id]
+ORDER BY [u].[schedule_date], [u].[schedule_time]
+2026-05-22 19:21:23.864 -07:00 [INF] Executing ViewResult, running view Index.
+2026-05-22 19:21:23.874 -07:00 [INF] Executed DbCommand (4ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:21:23.881 -07:00 [INF] Executed ViewResult - view Index executed in 17.0551ms.
+2026-05-22 19:21:23.885 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.SchedulesController.Index (UpgradePortal.Web) in 43.6401ms
+2026-05-22 19:21:23.889 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.SchedulesController.Index (UpgradePortal.Web)'
+2026-05-22 19:21:23.892 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Schedules - 200 null text/html; charset=utf-8 66.4146ms
+2026-05-22 19:21:32.044 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Schedules?sortField=date&sortOrder=desc - null null
+2026-05-22 19:21:32.052 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.SchedulesController.Index (UpgradePortal.Web)'
+2026-05-22 19:21:32.057 -07:00 [INF] Route matched with {action = "Index", controller = "Schedules"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index(System.String, System.String) on controller UpgradePortal.Web.Controllers.SchedulesController (UpgradePortal.Web).
+2026-05-22 19:21:32.064 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:21:32.101 -07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[schedule_id], [u].[created_by_user_id], [u].[current_version], [u].[customer_id], [u].[hosting_type], [u].[notes], [u].[schedule_date], [u].[schedule_time], [u].[status], [u].[target_version], [u].[ticket_number], [c].[customer_id], [c].[customer_code], [c].[customer_name], [c].[primary_email], [c].[region_code], [u0].[user_id], [u0].[created_date], [u0].[email], [u0].[full_name], [u0].[is_active], [u0].[password_hash], [u0].[phone_number], [u0].[role_id], [u0].[two_factor_email], [u0].[two_factor_enabled]
+FROM [upgrade_schedules] AS [u]
+INNER JOIN [customers] AS [c] ON [u].[customer_id] = [c].[customer_id]
+LEFT JOIN [users] AS [u0] ON [u].[created_by_user_id] = [u0].[user_id]
+ORDER BY [u].[schedule_date] DESC, [u].[schedule_time] DESC
+2026-05-22 19:21:32.110 -07:00 [INF] Executing ViewResult, running view Index.
+2026-05-22 19:21:32.116 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:21:32.124 -07:00 [INF] Executed ViewResult - view Index executed in 14.481ms.
+2026-05-22 19:21:32.128 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.SchedulesController.Index (UpgradePortal.Web) in 66.657ms
+2026-05-22 19:21:32.132 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.SchedulesController.Index (UpgradePortal.Web)'
+2026-05-22 19:21:32.136 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Schedules?sortField=date&sortOrder=desc - 200 null text/html; charset=utf-8 91.0596ms
+2026-05-22 19:21:34.538 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Schedules?sortField=date&sortOrder=asc - null null
+2026-05-22 19:21:34.545 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.SchedulesController.Index (UpgradePortal.Web)'
+2026-05-22 19:21:34.549 -07:00 [INF] Route matched with {action = "Index", controller = "Schedules"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index(System.String, System.String) on controller UpgradePortal.Web.Controllers.SchedulesController (UpgradePortal.Web).
+2026-05-22 19:21:34.556 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:21:34.565 -07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[schedule_id], [u].[created_by_user_id], [u].[current_version], [u].[customer_id], [u].[hosting_type], [u].[notes], [u].[schedule_date], [u].[schedule_time], [u].[status], [u].[target_version], [u].[ticket_number], [c].[customer_id], [c].[customer_code], [c].[customer_name], [c].[primary_email], [c].[region_code], [u0].[user_id], [u0].[created_date], [u0].[email], [u0].[full_name], [u0].[is_active], [u0].[password_hash], [u0].[phone_number], [u0].[role_id], [u0].[two_factor_email], [u0].[two_factor_enabled]
+FROM [upgrade_schedules] AS [u]
+INNER JOIN [customers] AS [c] ON [u].[customer_id] = [c].[customer_id]
+LEFT JOIN [users] AS [u0] ON [u].[created_by_user_id] = [u0].[user_id]
+ORDER BY [u].[schedule_date], [u].[schedule_time]
+2026-05-22 19:21:34.572 -07:00 [INF] Executing ViewResult, running view Index.
+2026-05-22 19:21:34.578 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:21:34.583 -07:00 [INF] Executed ViewResult - view Index executed in 11.0668ms.
+2026-05-22 19:21:34.652 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.SchedulesController.Index (UpgradePortal.Web) in 99.2715ms
+2026-05-22 19:21:34.657 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.SchedulesController.Index (UpgradePortal.Web)'
+2026-05-22 19:21:34.660 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Schedules?sortField=date&sortOrder=asc - 200 null text/html; charset=utf-8 122.3376ms
+2026-05-22 19:23:45.584 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Schedules?sortField=status&sortOrder=asc - null null
+2026-05-22 19:23:45.591 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.SchedulesController.Index (UpgradePortal.Web)'
+2026-05-22 19:23:45.596 -07:00 [INF] Route matched with {action = "Index", controller = "Schedules"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index(System.String, System.String) on controller UpgradePortal.Web.Controllers.SchedulesController (UpgradePortal.Web).
+2026-05-22 19:23:45.606 -07:00 [INF] Executed DbCommand (4ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:23:45.645 -07:00 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[schedule_id], [u].[created_by_user_id], [u].[current_version], [u].[customer_id], [u].[hosting_type], [u].[notes], [u].[schedule_date], [u].[schedule_time], [u].[status], [u].[target_version], [u].[ticket_number], [c].[customer_id], [c].[customer_code], [c].[customer_name], [c].[primary_email], [c].[region_code], [u0].[user_id], [u0].[created_date], [u0].[email], [u0].[full_name], [u0].[is_active], [u0].[password_hash], [u0].[phone_number], [u0].[role_id], [u0].[two_factor_email], [u0].[two_factor_enabled]
+FROM [upgrade_schedules] AS [u]
+INNER JOIN [customers] AS [c] ON [u].[customer_id] = [c].[customer_id]
+LEFT JOIN [users] AS [u0] ON [u].[created_by_user_id] = [u0].[user_id]
+ORDER BY [u].[status]
+2026-05-22 19:23:45.653 -07:00 [INF] Executing ViewResult, running view Index.
+2026-05-22 19:23:45.662 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:23:45.669 -07:00 [INF] Executed ViewResult - view Index executed in 15.6943ms.
+2026-05-22 19:23:45.673 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.SchedulesController.Index (UpgradePortal.Web) in 72.2467ms
+2026-05-22 19:23:45.677 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.SchedulesController.Index (UpgradePortal.Web)'
+2026-05-22 19:23:45.680 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Schedules?sortField=status&sortOrder=asc - 200 null text/html; charset=utf-8 95.8683ms
+2026-05-22 19:23:48.169 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Schedules?sortField=status&sortOrder=desc - null null
+2026-05-22 19:23:48.176 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.SchedulesController.Index (UpgradePortal.Web)'
+2026-05-22 19:23:48.180 -07:00 [INF] Route matched with {action = "Index", controller = "Schedules"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index(System.String, System.String) on controller UpgradePortal.Web.Controllers.SchedulesController (UpgradePortal.Web).
+2026-05-22 19:23:48.187 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:23:48.220 -07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[schedule_id], [u].[created_by_user_id], [u].[current_version], [u].[customer_id], [u].[hosting_type], [u].[notes], [u].[schedule_date], [u].[schedule_time], [u].[status], [u].[target_version], [u].[ticket_number], [c].[customer_id], [c].[customer_code], [c].[customer_name], [c].[primary_email], [c].[region_code], [u0].[user_id], [u0].[created_date], [u0].[email], [u0].[full_name], [u0].[is_active], [u0].[password_hash], [u0].[phone_number], [u0].[role_id], [u0].[two_factor_email], [u0].[two_factor_enabled]
+FROM [upgrade_schedules] AS [u]
+INNER JOIN [customers] AS [c] ON [u].[customer_id] = [c].[customer_id]
+LEFT JOIN [users] AS [u0] ON [u].[created_by_user_id] = [u0].[user_id]
+ORDER BY [u].[status] DESC
+2026-05-22 19:23:48.229 -07:00 [INF] Executing ViewResult, running view Index.
+2026-05-22 19:23:48.234 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:23:48.241 -07:00 [INF] Executed ViewResult - view Index executed in 12.2858ms.
+2026-05-22 19:23:48.245 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.SchedulesController.Index (UpgradePortal.Web) in 60.409ms
+2026-05-22 19:23:48.249 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.SchedulesController.Index (UpgradePortal.Web)'
+2026-05-22 19:23:48.251 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Schedules?sortField=status&sortOrder=desc - 200 null text/html; charset=utf-8 82.4976ms
+2026-05-22 19:29:26.534 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/ShellRequests - null null
+2026-05-22 19:29:26.544 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.ShellRequestsController.Index (UpgradePortal.Web)'
+2026-05-22 19:29:26.566 -07:00 [INF] Route matched with {action = "Index", controller = "ShellRequests"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index(System.String, System.String) on controller UpgradePortal.Web.Controllers.ShellRequestsController (UpgradePortal.Web).
+2026-05-22 19:29:26.579 -07:00 [INF] Executed DbCommand (4ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:29:26.648 -07:00 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[shell_request_id], [s].[address], [s].[attachments], [s].[base_container], [s].[client_registry], [s].[clinic_name], [s].[created_by_user_id], [s].[customer_id], [s].[email], [s].[emr_id], [s].[expected_date], [s].[integrations], [s].[notes], [s].[num_ih_servers], [s].[num_providers], [s].[phone], [s].[profile_version], [s].[region], [s].[status], [s].[token_id], [c].[customer_id], [c].[customer_code], [c].[customer_name], [c].[primary_email], [c].[region_code], [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled]
+FROM [shell_requests] AS [s]
+INNER JOIN [customers] AS [c] ON [s].[customer_id] = [c].[customer_id]
+LEFT JOIN [users] AS [u] ON [s].[created_by_user_id] = [u].[user_id]
+ORDER BY [s].[expected_date]
+2026-05-22 19:29:26.715 -07:00 [INF] Executing ViewResult, running view Index.
+2026-05-22 19:29:26.742 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:29:26.748 -07:00 [INF] Executed ViewResult - view Index executed in 35.2302ms.
+2026-05-22 19:29:26.752 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.ShellRequestsController.Index (UpgradePortal.Web) in 180.3484ms
+2026-05-22 19:29:26.756 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.ShellRequestsController.Index (UpgradePortal.Web)'
+2026-05-22 19:29:26.760 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/ShellRequests - 200 null text/html; charset=utf-8 225.9054ms
+2026-05-22 19:29:58.929 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/ShellRequests/Create - null null
+2026-05-22 19:29:58.937 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.ShellRequestsController.Create (UpgradePortal.Web)'
+2026-05-22 19:29:58.943 -07:00 [INF] Route matched with {action = "Create", controller = "ShellRequests"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Create() on controller UpgradePortal.Web.Controllers.ShellRequestsController (UpgradePortal.Web).
+2026-05-22 19:29:58.955 -07:00 [INF] Executed DbCommand (5ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:29:58.964 -07:00 [INF] Executing ViewResult, running view Create.
+2026-05-22 19:29:59.089 -07:00 [INF] Executed DbCommand (4ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:29:59.098 -07:00 [INF] Executed ViewResult - view Create executed in 134.9676ms.
+2026-05-22 19:29:59.102 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.ShellRequestsController.Create (UpgradePortal.Web) in 153.4213ms
+2026-05-22 19:29:59.107 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.ShellRequestsController.Create (UpgradePortal.Web)'
+2026-05-22 19:29:59.110 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/ShellRequests/Create - 200 null text/html; charset=utf-8 181.1714ms
+2026-05-22 19:33:45.164 -07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5003/ShellRequests/Create - multipart/form-data; boundary=----WebKitFormBoundaryTlgAOwFbheKIzWKH 4058
+2026-05-22 19:33:45.172 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.ShellRequestsController.Create (UpgradePortal.Web)'
+2026-05-22 19:33:45.191 -07:00 [INF] Route matched with {action = "Create", controller = "ShellRequests"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(UpgradePortal.Web.ViewModels.ShellRequestCreateViewModel) on controller UpgradePortal.Web.Controllers.ShellRequestsController (UpgradePortal.Web).
+2026-05-22 19:33:45.203 -07:00 [INF] Executed DbCommand (5ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:33:45.246 -07:00 [INF] Executed DbCommand (2ms) [Parameters=[@model_CustomerCode='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [c].[customer_id], [c].[customer_code], [c].[customer_name], [c].[primary_email], [c].[region_code]
+FROM [customers] AS [c]
+WHERE [c].[customer_code] = @model_CustomerCode
+2026-05-22 19:33:45.260 -07:00 [INF] Executed DbCommand (4ms) [Parameters=[@p0='?' (Size = 4000), @p1='?' (Size = 4000), @p2='?' (Size = 4000), @p3='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [customers] ([customer_code], [customer_name], [primary_email], [region_code])
+OUTPUT INSERTED.[customer_id]
+VALUES (@p0, @p1, @p2, @p3);
+2026-05-22 19:33:45.266 -07:00 [INF] Created new customer CAN-4456.
+2026-05-22 19:33:45.317 -07:00 [INF] Executed DbCommand (9ms) [Parameters=[@p0='?' (Size = 4000), @p1='?' (Size = 4000), @p2='?' (Size = 4000), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (DbType = Int64), @p6='?' (DbType = Int64), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (DbType = DateTime2), @p10='?' (Size = 4000), @p11='?' (Size = 4000), @p12='?' (DbType = Int32), @p13='?' (DbType = Int32), @p14='?' (Size = 4000), @p15='?' (Size = 4000), @p16='?' (Size = 4000), @p17='?' (Size = 4000), @p18='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [shell_requests] ([address], [attachments], [base_container], [client_registry], [clinic_name], [created_by_user_id], [customer_id], [email], [emr_id], [expected_date], [integrations], [notes], [num_ih_servers], [num_providers], [phone], [profile_version], [region], [status], [token_id])
+OUTPUT INSERTED.[shell_request_id]
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18);
+2026-05-22 19:33:45.332 -07:00 [INF] Shell request submitted by Abdul Rauf Ibrahimkhail for North Van GP Office.
+2026-05-22 19:33:45.339 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [s].[sendgrid_settings_id], [s].[api_key_encrypted], [s].[enabled], [s].[from_email], [s].[from_name], [s].[smtp_host], [s].[smtp_port], [s].[updated_at], [s].[username]
+FROM [sendgrid_settings] AS [s]
+WHERE [s].[enabled] = CAST(1 AS bit)
+2026-05-22 19:33:45.787 -07:00 [INF] TechOps notification sent for shell request North Van GP Office.
+2026-05-22 19:33:45.790 -07:00 [INF] Executing RedirectResult, redirecting to /ShellRequests.
+2026-05-22 19:33:45.793 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.ShellRequestsController.Create (UpgradePortal.Web) in 597.7053ms
+2026-05-22 19:33:45.797 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.ShellRequestsController.Create (UpgradePortal.Web)'
+2026-05-22 19:33:45.800 -07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5003/ShellRequests/Create - 302 0 null 636.1263ms
+2026-05-22 19:33:45.808 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/ShellRequests - null null
+2026-05-22 19:33:45.815 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.ShellRequestsController.Index (UpgradePortal.Web)'
+2026-05-22 19:33:45.818 -07:00 [INF] Route matched with {action = "Index", controller = "ShellRequests"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index(System.String, System.String) on controller UpgradePortal.Web.Controllers.ShellRequestsController (UpgradePortal.Web).
+2026-05-22 19:33:45.826 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:33:45.837 -07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[shell_request_id], [s].[address], [s].[attachments], [s].[base_container], [s].[client_registry], [s].[clinic_name], [s].[created_by_user_id], [s].[customer_id], [s].[email], [s].[emr_id], [s].[expected_date], [s].[integrations], [s].[notes], [s].[num_ih_servers], [s].[num_providers], [s].[phone], [s].[profile_version], [s].[region], [s].[status], [s].[token_id], [c].[customer_id], [c].[customer_code], [c].[customer_name], [c].[primary_email], [c].[region_code], [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled]
+FROM [shell_requests] AS [s]
+INNER JOIN [customers] AS [c] ON [s].[customer_id] = [c].[customer_id]
+LEFT JOIN [users] AS [u] ON [s].[created_by_user_id] = [u].[user_id]
+ORDER BY [s].[expected_date]
+2026-05-22 19:33:45.846 -07:00 [INF] Executing ViewResult, running view Index.
+2026-05-22 19:33:45.855 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:33:45.862 -07:00 [INF] Executed ViewResult - view Index executed in 16.4156ms.
+2026-05-22 19:33:45.866 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.ShellRequestsController.Index (UpgradePortal.Web) in 42.4731ms
+2026-05-22 19:33:45.869 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.ShellRequestsController.Index (UpgradePortal.Web)'
+2026-05-22 19:33:45.872 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/ShellRequests - 200 null text/html; charset=utf-8 64.4168ms
+2026-05-22 19:37:29.704 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Reports - null null
+2026-05-22 19:37:29.711 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.ReportsController.Index (UpgradePortal.Web)'
+2026-05-22 19:37:29.724 -07:00 [INF] Route matched with {action = "Index", controller = "Reports"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller UpgradePortal.Web.Controllers.ReportsController (UpgradePortal.Web).
+2026-05-22 19:37:29.737 -07:00 [INF] Executed DbCommand (6ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:37:29.767 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [upgrade_schedules] AS [u]
+WHERE [u].[status] = N'pending'
+2026-05-22 19:37:29.792 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [upgrade_schedules] AS [u]
+WHERE [u].[status] = N'completed'
+2026-05-22 19:37:29.805 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [upgrade_schedules] AS [u]
+WHERE [u].[status] = N'cancelled'
+2026-05-22 19:37:29.820 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [shell_requests] AS [s]
+WHERE [s].[status] = N'pending'
+2026-05-22 19:37:29.835 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [shell_requests] AS [s]
+WHERE [s].[status] = N'completed'
+2026-05-22 19:37:29.847 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [shell_requests] AS [s]
+WHERE [s].[status] = N'cancelled'
+2026-05-22 19:37:29.857 -07:00 [INF] Executing ViewResult, running view ~/Views/ReportsView/Index.cshtml.
+2026-05-22 19:37:29.936 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:37:29.946 -07:00 [INF] Executed ViewResult - view ~/Views/ReportsView/Index.cshtml executed in 90.0351ms.
+2026-05-22 19:37:29.949 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.ReportsController.Index (UpgradePortal.Web) in 219.3173ms
+2026-05-22 19:37:29.953 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.ReportsController.Index (UpgradePortal.Web)'
+2026-05-22 19:37:29.956 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Reports - 200 null text/html; charset=utf-8 252.1532ms
+2026-05-22 19:38:57.631 -07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5003/Reports/ExportCsv - application/x-www-form-urlencoded 336
+2026-05-22 19:38:57.641 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.ReportsController.ExportCsv (UpgradePortal.Web)'
+2026-05-22 19:38:57.655 -07:00 [INF] Route matched with {action = "ExportCsv", controller = "Reports"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ExportCsv(System.String, System.String, System.String, System.String, System.Nullable`1[System.DateTime], System.Nullable`1[System.DateTime]) on controller UpgradePortal.Web.Controllers.ReportsController (UpgradePortal.Web).
+2026-05-22 19:38:57.667 -07:00 [INF] Executed DbCommand (4ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 19:38:57.727 -07:00 [INF] Executed DbCommand (12ms) [Parameters=[@region='?' (Size = 4000), @dateFrom_Value='?' (DbType = DateTime2), @dateTo_Value='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[shell_request_id], [s].[address], [s].[attachments], [s].[base_container], [s].[client_registry], [s].[clinic_name], [s].[created_by_user_id], [s].[customer_id], [s].[email], [s].[emr_id], [s].[expected_date], [s].[integrations], [s].[notes], [s].[num_ih_servers], [s].[num_providers], [s].[phone], [s].[profile_version], [s].[region], [s].[status], [s].[token_id], [c].[customer_id], [c].[customer_code], [c].[customer_name], [c].[primary_email], [c].[region_code], [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled]
+FROM [shell_requests] AS [s]
+INNER JOIN [customers] AS [c] ON [s].[customer_id] = [c].[customer_id]
+LEFT JOIN [users] AS [u] ON [s].[created_by_user_id] = [u].[user_id]
+WHERE [s].[region] = @region AND [s].[expected_date] >= @dateFrom_Value AND [s].[expected_date] <= @dateTo_Value
+ORDER BY [s].[expected_date] DESC
+2026-05-22 19:38:57.739 -07:00 [INF] Executing FileContentResult, sending file with download name 'report_20260522_193857.csv' ...
+2026-05-22 19:38:57.752 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.ReportsController.ExportCsv (UpgradePortal.Web) in 91.2898ms
+2026-05-22 19:38:57.756 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.ReportsController.ExportCsv (UpgradePortal.Web)'
+2026-05-22 19:38:57.759 -07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5003/Reports/ExportCsv - 200 317 text/csv 127.7725ms
+2026-05-22 19:42:05.366 -07:00 [INF] Application is shutting down...
+2026-05-22 19:42:40.126 -07:00 [INF] User profile is available. Using 'C:\Users\rauf.ibrahimkhail\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-05-22 19:42:40.258 -07:00 [INF] Now listening on: http://localhost:5003
+2026-05-22 19:42:40.261 -07:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-05-22 19:42:40.263 -07:00 [INF] Hosting environment: Development
+2026-05-22 19:42:40.264 -07:00 [INF] Content root path: C:\Users\rauf.ibrahimkhail\source\repos\UpgradePortal.Web\UpgradePortal.Web
+2026-05-22 20:08:46.211 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Schedules - null null
+2026-05-22 20:08:46.257 -07:00 [WRN] Failed to determine the https port for redirect.
+2026-05-22 20:08:46.444 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.SchedulesController.Index (UpgradePortal.Web)'
+2026-05-22 20:08:46.865 -07:00 [INF] Route matched with {action = "Index", controller = "Schedules"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index(System.String, System.String) on controller UpgradePortal.Web.Controllers.SchedulesController (UpgradePortal.Web).
+2026-05-22 20:08:49.650 -07:00 [INF] Executed DbCommand (115ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 20:08:50.109 -07:00 [INF] Executed DbCommand (33ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[schedule_id], [u].[created_by_user_id], [u].[current_version], [u].[customer_id], [u].[hosting_type], [u].[notes], [u].[schedule_date], [u].[schedule_time], [u].[status], [u].[target_version], [u].[ticket_number], [c].[customer_id], [c].[customer_code], [c].[customer_name], [c].[primary_email], [c].[region_code], [u0].[user_id], [u0].[created_date], [u0].[email], [u0].[full_name], [u0].[is_active], [u0].[password_hash], [u0].[phone_number], [u0].[role_id], [u0].[two_factor_email], [u0].[two_factor_enabled]
+FROM [upgrade_schedules] AS [u]
+INNER JOIN [customers] AS [c] ON [u].[customer_id] = [c].[customer_id]
+LEFT JOIN [users] AS [u0] ON [u].[created_by_user_id] = [u0].[user_id]
+ORDER BY [u].[schedule_date], [u].[schedule_time]
+2026-05-22 20:08:50.200 -07:00 [INF] Executing ViewResult, running view Index.
+2026-05-22 20:08:50.362 -07:00 [INF] Executed DbCommand (5ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 20:08:50.417 -07:00 [INF] Executed ViewResult - view Index executed in 217.7331ms.
+2026-05-22 20:08:50.427 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.SchedulesController.Index (UpgradePortal.Web) in 3554.538ms
+2026-05-22 20:08:50.432 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.SchedulesController.Index (UpgradePortal.Web)'
+2026-05-22 20:08:50.455 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Schedules - 200 null text/html; charset=utf-8 4257.333ms
+2026-05-22 20:09:35.758 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Dashboard - null null
+2026-05-22 20:09:35.795 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web)'
+2026-05-22 20:09:35.833 -07:00 [INF] Route matched with {action = "Index", controller = "Dashboard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller UpgradePortal.Web.Controllers.DashboardController (UpgradePortal.Web).
+2026-05-22 20:09:36.053 -07:00 [INF] Executed DbCommand (5ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 20:09:36.128 -07:00 [INF] Executed DbCommand (11ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [users] AS [u]
+WHERE [u].[is_active] = CAST(1 AS bit)
+2026-05-22 20:09:36.148 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [users] AS [u]
+WHERE [u].[is_active] = CAST(1 AS bit) AND [u].[two_factor_enabled] = CAST(1 AS bit)
+2026-05-22 20:09:36.168 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [upgrade_schedules] AS [u]
+2026-05-22 20:09:36.188 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [shell_requests] AS [s]
+2026-05-22 20:09:36.201 -07:00 [INF] Executing ViewResult, running view Index.
+2026-05-22 20:09:36.232 -07:00 [INF] Executed DbCommand (5ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 20:09:36.251 -07:00 [INF] Executed ViewResult - view Index executed in 52.2633ms.
+2026-05-22 20:09:36.262 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web) in 412.4716ms
+2026-05-22 20:09:36.276 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web)'
+2026-05-22 20:09:36.286 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Dashboard - 200 null text/html; charset=utf-8 527.5178ms
+2026-05-22 20:09:37.669 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/ShellRequests - null null
+2026-05-22 20:09:37.686 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.ShellRequestsController.Index (UpgradePortal.Web)'
+2026-05-22 20:09:37.706 -07:00 [INF] Route matched with {action = "Index", controller = "ShellRequests"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index(System.String, System.String) on controller UpgradePortal.Web.Controllers.ShellRequestsController (UpgradePortal.Web).
+2026-05-22 20:09:37.747 -07:00 [INF] Executed DbCommand (5ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 20:09:37.817 -07:00 [INF] Executed DbCommand (11ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[shell_request_id], [s].[address], [s].[attachments], [s].[base_container], [s].[client_registry], [s].[clinic_name], [s].[created_by_user_id], [s].[customer_id], [s].[email], [s].[emr_id], [s].[expected_date], [s].[integrations], [s].[notes], [s].[num_ih_servers], [s].[num_providers], [s].[phone], [s].[profile_version], [s].[region], [s].[status], [s].[token_id], [c].[customer_id], [c].[customer_code], [c].[customer_name], [c].[primary_email], [c].[region_code], [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled]
+FROM [shell_requests] AS [s]
+INNER JOIN [customers] AS [c] ON [s].[customer_id] = [c].[customer_id]
+LEFT JOIN [users] AS [u] ON [s].[created_by_user_id] = [u].[user_id]
+ORDER BY [s].[expected_date]
+2026-05-22 20:09:37.898 -07:00 [INF] Executing ViewResult, running view Index.
+2026-05-22 20:09:37.942 -07:00 [INF] Executed DbCommand (7ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 20:09:37.954 -07:00 [INF] Executed ViewResult - view Index executed in 57.1102ms.
+2026-05-22 20:09:37.962 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.ShellRequestsController.Index (UpgradePortal.Web) in 247.8624ms
+2026-05-22 20:09:37.970 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.ShellRequestsController.Index (UpgradePortal.Web)'
+2026-05-22 20:09:37.977 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/ShellRequests - 200 null text/html; charset=utf-8 308.2869ms
+2026-05-22 20:11:28.910 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Reports - null null
+2026-05-22 20:11:28.917 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.ReportsController.Index (UpgradePortal.Web)'
+2026-05-22 20:11:28.933 -07:00 [INF] Route matched with {action = "Index", controller = "Reports"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller UpgradePortal.Web.Controllers.ReportsController (UpgradePortal.Web).
+2026-05-22 20:11:28.946 -07:00 [INF] Executed DbCommand (4ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 20:11:28.979 -07:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [upgrade_schedules] AS [u]
+WHERE [u].[status] = N'pending'
+2026-05-22 20:11:28.997 -07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [upgrade_schedules] AS [u]
+WHERE [u].[status] = N'completed'
+2026-05-22 20:11:29.009 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [upgrade_schedules] AS [u]
+WHERE [u].[status] = N'cancelled'
+2026-05-22 20:11:29.024 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [shell_requests] AS [s]
+WHERE [s].[status] = N'pending'
+2026-05-22 20:11:29.039 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [shell_requests] AS [s]
+WHERE [s].[status] = N'completed'
+2026-05-22 20:11:29.052 -07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [shell_requests] AS [s]
+WHERE [s].[status] = N'cancelled'
+2026-05-22 20:11:29.064 -07:00 [INF] Executing ViewResult, running view ~/Views/ReportsView/Index.cshtml.
+2026-05-22 20:11:29.173 -07:00 [INF] Executed DbCommand (4ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 20:11:29.181 -07:00 [INF] Executed ViewResult - view ~/Views/ReportsView/Index.cshtml executed in 120.3442ms.
+2026-05-22 20:11:29.186 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.ReportsController.Index (UpgradePortal.Web) in 246.1867ms
+2026-05-22 20:11:29.190 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.ReportsController.Index (UpgradePortal.Web)'
+2026-05-22 20:11:29.193 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Reports - 200 null text/html; charset=utf-8 283.0814ms
+2026-05-22 20:11:33.458 -07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5003/Reports - application/x-www-form-urlencoded 331
+2026-05-22 20:11:33.467 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.ReportsController.Index (UpgradePortal.Web)'
+2026-05-22 20:11:33.480 -07:00 [INF] Route matched with {action = "Index", controller = "Reports"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index(System.String, System.String, System.String, System.String, System.Nullable`1[System.DateTime], System.Nullable`1[System.DateTime]) on controller UpgradePortal.Web.Controllers.ReportsController (UpgradePortal.Web).
+2026-05-22 20:11:33.491 -07:00 [INF] Executed DbCommand (5ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 20:11:33.572 -07:00 [INF] Executed DbCommand (12ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[schedule_id], [u].[created_by_user_id], [u].[current_version], [u].[customer_id], [u].[hosting_type], [u].[notes], [u].[schedule_date], [u].[schedule_time], [u].[status], [u].[target_version], [u].[ticket_number], [c].[customer_id], [c].[customer_code], [c].[customer_name], [c].[primary_email], [c].[region_code], [u0].[user_id], [u0].[created_date], [u0].[email], [u0].[full_name], [u0].[is_active], [u0].[password_hash], [u0].[phone_number], [u0].[role_id], [u0].[two_factor_email], [u0].[two_factor_enabled]
+FROM [upgrade_schedules] AS [u]
+INNER JOIN [customers] AS [c] ON [u].[customer_id] = [c].[customer_id]
+LEFT JOIN [users] AS [u0] ON [u].[created_by_user_id] = [u0].[user_id]
+ORDER BY [u].[schedule_date] DESC
+2026-05-22 20:11:33.586 -07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [upgrade_schedules] AS [u]
+WHERE [u].[status] = N'pending'
+2026-05-22 20:11:33.595 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [upgrade_schedules] AS [u]
+WHERE [u].[status] = N'completed'
+2026-05-22 20:11:33.604 -07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [upgrade_schedules] AS [u]
+WHERE [u].[status] = N'cancelled'
+2026-05-22 20:11:33.614 -07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [shell_requests] AS [s]
+WHERE [s].[status] = N'pending'
+2026-05-22 20:11:33.623 -07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [shell_requests] AS [s]
+WHERE [s].[status] = N'completed'
+2026-05-22 20:11:33.632 -07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [shell_requests] AS [s]
+WHERE [s].[status] = N'cancelled'
+2026-05-22 20:11:33.639 -07:00 [INF] Executing ViewResult, running view ~/Views/ReportsView/Index.cshtml.
+2026-05-22 20:11:33.649 -07:00 [INF] Executed DbCommand (4ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 20:11:33.658 -07:00 [INF] Executed ViewResult - view ~/Views/ReportsView/Index.cshtml executed in 19.0828ms.
+2026-05-22 20:11:33.663 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.ReportsController.Index (UpgradePortal.Web) in 177.4121ms
+2026-05-22 20:11:33.667 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.ReportsController.Index (UpgradePortal.Web)'
+2026-05-22 20:11:33.671 -07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5003/Reports - 200 null text/html; charset=utf-8 212.1722ms
+2026-05-22 20:11:36.327 -07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5003/Reports/ExportCsv - application/x-www-form-urlencoded 331
+2026-05-22 20:11:36.341 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.ReportsController.ExportCsv (UpgradePortal.Web)'
+2026-05-22 20:11:36.356 -07:00 [INF] Route matched with {action = "ExportCsv", controller = "Reports"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ExportCsv(System.String, System.String, System.String, System.String, System.Nullable`1[System.DateTime], System.Nullable`1[System.DateTime]) on controller UpgradePortal.Web.Controllers.ReportsController (UpgradePortal.Web).
+2026-05-22 20:11:36.369 -07:00 [INF] Executed DbCommand (4ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 20:11:36.390 -07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[schedule_id], [u].[created_by_user_id], [u].[current_version], [u].[customer_id], [u].[hosting_type], [u].[notes], [u].[schedule_date], [u].[schedule_time], [u].[status], [u].[target_version], [u].[ticket_number], [c].[customer_id], [c].[customer_code], [c].[customer_name], [c].[primary_email], [c].[region_code], [u0].[user_id], [u0].[created_date], [u0].[email], [u0].[full_name], [u0].[is_active], [u0].[password_hash], [u0].[phone_number], [u0].[role_id], [u0].[two_factor_email], [u0].[two_factor_enabled]
+FROM [upgrade_schedules] AS [u]
+INNER JOIN [customers] AS [c] ON [u].[customer_id] = [c].[customer_id]
+LEFT JOIN [users] AS [u0] ON [u].[created_by_user_id] = [u0].[user_id]
+ORDER BY [u].[schedule_date] DESC
+2026-05-22 20:11:36.410 -07:00 [INF] Executing FileContentResult, sending file with download name 'report_20260522_201136.csv' ...
+2026-05-22 20:11:36.426 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.ReportsController.ExportCsv (UpgradePortal.Web) in 62.4731ms
+2026-05-22 20:11:36.431 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.ReportsController.ExportCsv (UpgradePortal.Web)'
+2026-05-22 20:11:36.434 -07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5003/Reports/ExportCsv - 200 1308 text/csv 106.6248ms
+2026-05-22 20:16:08.488 -07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5003/Dashboard - null null
+2026-05-22 20:16:08.498 -07:00 [INF] Executing endpoint 'UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web)'
+2026-05-22 20:16:08.504 -07:00 [INF] Route matched with {action = "Index", controller = "Dashboard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller UpgradePortal.Web.Controllers.DashboardController (UpgradePortal.Web).
+2026-05-22 20:16:08.540 -07:00 [INF] Executed DbCommand (9ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @userId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 20:16:08.575 -07:00 [INF] Executed DbCommand (16ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [users] AS [u]
+WHERE [u].[is_active] = CAST(1 AS bit)
+2026-05-22 20:16:08.597 -07:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [users] AS [u]
+WHERE [u].[is_active] = CAST(1 AS bit) AND [u].[two_factor_enabled] = CAST(1 AS bit)
+2026-05-22 20:16:08.617 -07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [upgrade_schedules] AS [u]
+2026-05-22 20:16:08.633 -07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [shell_requests] AS [s]
+2026-05-22 20:16:08.645 -07:00 [INF] Executing ViewResult, running view Index.
+2026-05-22 20:16:08.661 -07:00 [INF] Executed DbCommand (6ms) [Parameters=[@currentUserId='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[user_id], [s].[created_date], [s].[email], [s].[full_name], [s].[is_active], [s].[password_hash], [s].[phone_number], [s].[role_id], [s].[two_factor_email], [s].[two_factor_enabled], [s].[role_id0], [s].[description], [s].[role_name], [u0].[user_permission_id], [u0].[permission_code], [u0].[user_id]
+FROM (
+    SELECT TOP(1) [u].[user_id], [u].[created_date], [u].[email], [u].[full_name], [u].[is_active], [u].[password_hash], [u].[phone_number], [u].[role_id], [u].[two_factor_email], [u].[two_factor_enabled], [r].[role_id] AS [role_id0], [r].[description], [r].[role_name]
+    FROM [users] AS [u]
+    INNER JOIN [roles] AS [r] ON [u].[role_id] = [r].[role_id]
+    WHERE [u].[user_id] = @currentUserId
+) AS [s]
+LEFT JOIN [user_permissions] AS [u0] ON [s].[user_id] = [u0].[user_id]
+ORDER BY [s].[user_id], [s].[role_id0]
+2026-05-22 20:16:08.676 -07:00 [INF] Executed ViewResult - view Index executed in 31.1069ms.
+2026-05-22 20:16:08.685 -07:00 [INF] Executed action UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web) in 172.8229ms
+2026-05-22 20:16:08.697 -07:00 [INF] Executed endpoint 'UpgradePortal.Web.Controllers.DashboardController.Index (UpgradePortal.Web)'
+2026-05-22 20:16:08.706 -07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5003/Dashboard - 200 null text/html; charset=utf-8 218.0326ms

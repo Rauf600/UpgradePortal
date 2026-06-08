@@ -29,7 +29,7 @@ public class ShellRequestsController : Controller
     }
 
     [HttpGet("/ShellRequests")]
-    public async Task<IActionResult> Index(string sortField = "date", string sortOrder = "asc")
+    public async Task<IActionResult> Index(string sortField = "date", string sortOrder = "desc")
     {
         ViewBag.SortField = sortField;
         ViewBag.SortOrder = sortOrder;
@@ -40,13 +40,33 @@ public class ShellRequestsController : Controller
 
         query = sortField.ToLower() switch
         {
+            "id" => sortOrder == "desc"
+                ? query.OrderByDescending(x => x.ShellRequestId)
+                : query.OrderBy(x => x.ShellRequestId),
+
             "customer" => sortOrder == "desc"
                 ? query.OrderByDescending(x => x.Customer!.CustomerName)
                 : query.OrderBy(x => x.Customer!.CustomerName),
 
+            "customerid" => sortOrder == "desc"
+                ? query.OrderByDescending(x => x.Customer!.CustomerCode)
+                : query.OrderBy(x => x.Customer!.CustomerCode),
+
             "clinic" => sortOrder == "desc"
                 ? query.OrderByDescending(x => x.ClinicName)
                 : query.OrderBy(x => x.ClinicName),
+
+            "profileversion" => sortOrder == "desc"
+                ? query.OrderByDescending(x => x.ProfileVersion)
+                : query.OrderBy(x => x.ProfileVersion),
+
+            "clientregistry" => sortOrder == "desc"
+                ? query.OrderByDescending(x => x.ClientRegistry)
+                : query.OrderBy(x => x.ClientRegistry),
+
+            "submittedby" => sortOrder == "desc"
+                ? query.OrderByDescending(x => x.CreatedByUser!.FullName)
+                : query.OrderBy(x => x.CreatedByUser!.FullName),
 
             "status" => sortOrder == "desc"
                 ? query.OrderByDescending(x => x.Status)
@@ -63,19 +83,39 @@ public class ShellRequestsController : Controller
     [HttpGet("/ShellRequests/Create")]
     public IActionResult Create()
     {
-        return View();
+        return View(new ShellRequestCreateViewModel
+        {
+            NumUsers = 1,
+            NumIHServers = 1,
+            NumDedicatedServers = 1,
+            TotalServers = 2
+        });
     }
 
     [HttpPost("/ShellRequests/Create")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(ShellRequestCreateViewModel model)
     {
-        if (string.Equals(model.Region, "NB", StringComparison.OrdinalIgnoreCase)
-            && string.IsNullOrWhiteSpace(model.ClientRegistry))
+        bool isNbRegion = string.Equals(model.Region, "NB", StringComparison.OrdinalIgnoreCase);
+        bool isRestrictedRegion =
+            string.Equals(model.Region, "BC", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(model.Region, "AU", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(model.Region, "NZ", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(model.Region, "ON", StringComparison.OrdinalIgnoreCase);
+
+        if (isNbRegion)
         {
-            ModelState.AddModelError(
-                nameof(model.ClientRegistry),
-                "Client Registry is required for NB region.");
+            if (string.IsNullOrWhiteSpace(model.ClientRegistry))
+            {
+                ModelState.AddModelError(
+                    nameof(model.ClientRegistry),
+                    "Client Registry is required for NB region.");
+            }
+        }
+        else
+        {
+            model.ClientRegistry = null;
+            ModelState.Remove(nameof(model.ClientRegistry));
         }
 
         if (!ModelState.IsValid)
@@ -89,6 +129,15 @@ public class ShellRequestsController : Controller
 
         try
         {
+            if (isRestrictedRegion)
+            {
+                model.EmrId = null;
+                model.TokenId = null;
+                model.ClientRegistry = null;
+                model.IntegrationEHR = false;
+                model.IntegrationMCE = false;
+            }
+
             var customer = await _db.Customers
                 .FirstOrDefaultAsync(x => x.CustomerCode == model.CustomerCode);
 
@@ -111,7 +160,6 @@ public class ShellRequestsController : Controller
             }
 
             var integrations = new List<string>();
-
             if (model.IntegrationEFax) integrations.Add("eFax");
             if (model.IntegrationSMS) integrations.Add("SMS");
             if (model.IntegrationExcelleris) integrations.Add("Excelleris");
@@ -124,7 +172,6 @@ public class ShellRequestsController : Controller
             if (model.IntegrationSendGridEmail) integrations.Add("SendGrid Email (2FA)");
 
             var attachmentNames = new List<string>();
-
             if (model.Attachments != null)
             {
                 foreach (var file in model.Attachments)
@@ -137,10 +184,15 @@ public class ShellRequestsController : Controller
             }
 
             var userIdValue = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
             long? createdByUserId = long.TryParse(userIdValue, out var parsedUserId)
                 ? parsedUserId
                 : null;
+
+            int ihServers = CalculateIHServers(model.NumUsers);
+            int dedicatedServers = 1;
+            int totalServers = ihServers + dedicatedServers;
+
+            var now = DateTime.Now;
 
             var shellRequest = new ShellRequest
             {
@@ -154,15 +206,19 @@ public class ShellRequestsController : Controller
                 TokenId = model.TokenId,
                 BaseContainer = model.BaseContainer,
                 ProfileVersion = model.ProfileVersion,
-                NumProviders = model.NumProviders,
-                NumIHServers = model.NumIHServers,
+                NumUsers = model.NumUsers,
+                NumIHServers = ihServers,
+                NumDedicatedServers = dedicatedServers,
+                TotalServers = totalServers,
                 Region = model.Region,
                 ExpectedDate = model.ExpectedDate,
                 ClientRegistry = model.ClientRegistry,
                 Integrations = string.Join(", ", integrations),
                 Attachments = string.Join(", ", attachmentNames),
                 Notes = model.Notes,
-                Status = "pending"
+                Status = "pending",
+                CreatedAt = now,
+                UpdatedAt = now
             };
 
             _db.ShellRequests.Add(shellRequest);
@@ -207,10 +263,7 @@ public class ShellRequestsController : Controller
 
         if (request == null)
         {
-            _logger.LogWarning(
-                "Shell request {RequestId} not found.",
-                id);
-
+            _logger.LogWarning("Shell request {RequestId} not found.", id);
             return NotFound();
         }
 
@@ -226,6 +279,7 @@ public class ShellRequestsController : Controller
         if (request != null)
         {
             request.Status = "completed";
+            request.UpdatedAt = DateTime.Now;
             await _db.SaveChangesAsync();
 
             _logger.LogInformation(
@@ -246,6 +300,7 @@ public class ShellRequestsController : Controller
         if (request != null)
         {
             request.Status = "cancelled";
+            request.UpdatedAt = DateTime.Now;
             await _db.SaveChangesAsync();
 
             _logger.LogInformation(
@@ -255,5 +310,13 @@ public class ShellRequestsController : Controller
         }
 
         return RedirectToAction("Index");
+    }
+
+    private static int CalculateIHServers(int userCount)
+    {
+        if (userCount <= 0)
+            return 1;
+
+        return (int)Math.Ceiling(userCount / 5.0);
     }
 }

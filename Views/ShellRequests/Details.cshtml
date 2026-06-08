@@ -1,48 +1,110 @@
 ﻿@model UpgradePortal.Web.Models.ShellRequest
 @{
+    ViewData["Title"] = "Shell Request Details";
     Layout = "_Layout";
 }
 
-<h2>Shell Request Details</h2>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Shell Request Details</h3>
+        </div>
 
-<div class="details-card">
-    <div class="details-grid">
-        <div><strong>ID:</strong> @Model.ShellRequestId</div>
-        <div><strong>Status:</strong> <span class="status-badge status-@Model.Status">@Model.Status</span></div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Customer:</strong>
+                    <div>@Model.Customer?.CustomerName</div>
+                </div>
+                <div class="col-md-6">
+                    <strong>Clinic Name:</strong>
+                    <div>@Model.ClinicName</div>
+                </div>
+            </div>
 
-        <div><strong>Customer Name:</strong> @Model.Customer?.CustomerName</div>
-        <div><strong>Customer Code:</strong> @Model.Customer?.CustomerCode</div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Email:</strong>
+                    <div>@Model.Email</div>
+                </div>
+                <div class="col-md-6">
+                    <strong>Phone:</strong>
+                    <div>@Model.Phone</div>
+                </div>
+            </div>
 
-        <div><strong>Email:</strong> @Model.Email</div>
-        <div><strong>Clinic Name:</strong> @Model.ClinicName</div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Region:</strong>
+                    <div>@Model.Region</div>
+                </div>
+                <div class="col-md-6">
+                    <strong>Expected Date:</strong>
+                    <div>@Model.ExpectedDate?.ToString("yyyy-MM-dd")</div>
+                </div>
+            </div>
 
-        <div><strong>Address:</strong> @Model.Address</div>
-        <div><strong>Phone:</strong> @Model.Phone</div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Profile Version:</strong>
+                    <div>@Model.ProfileVersion</div>
+                </div>
+                <div class="col-md-6">
+                    <strong>Client Registry:</strong>
+                    <div>@Model.ClientRegistry</div>
+                </div>
+            </div>
 
-        <div><strong>EMR ID:</strong> @Model.EmrId</div>
-        <div><strong>Token ID:</strong> @Model.TokenId</div>
+            <hr />
 
-        <div><strong>Base Container:</strong> @Model.BaseContainer</div>
-        <div><strong>Profile Version:</strong> @Model.ProfileVersion</div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <strong>Number of Users:</strong>
+                    <div>@Model.NumUsers</div>
+                </div>
+                <div class="col-md-4">
+                    <strong>IH Servers:</strong>
+                    <div>@Model.NumIHServers</div>
+                </div>
+                <div class="col-md-4">
+                    <strong>Dedicated Servers:</strong>
+                    <div>@Model.NumDedicatedServers</div>
+                </div>
+            </div>
 
-        <div><strong>Number of Providers:</strong> @Model.NumProviders</div>
-        <div><strong>Number of IH Servers:</strong> @Model.NumIHServers</div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <strong>Total Servers:</strong>
+                    <div>@Model.TotalServers</div>
+                </div>
+                <div class="col-md-4">
+                    <strong>Status:</strong>
+                    <div>@Model.Status</div>
+                </div>
+                <div class="col-md-4">
+                    <strong>Created At:</strong>
+                    <div>@Model.CreatedAt?.ToString("yyyy-MM-dd HH:mm")</div>
+                </div>
+            </div>
 
-        <div><strong>Region:</strong> @Model.Region</div>
-        <div><strong>Expected Date:</strong> @Model.ExpectedDate?.ToString("yyyy-MM-dd")</div>
+            <div class="mb-3">
+                <strong>Integrations:</strong>
+                <div>@Model.Integrations</div>
+            </div>
 
-        <div><strong>Client Registry:</strong> @Model.ClientRegistry</div>
-        <div><strong>Integrations:</strong> @Model.Integrations</div>
+            <div class="mb-3">
+                <strong>Attachments:</strong>
+                <div>@Model.Attachments</div>
+            </div>
 
-        <div><strong>Attachments:</strong> @Model.Attachments</div>
+            <div class="mb-3">
+                <strong>Notes:</strong>
+                <div>@Model.Notes</div>
+            </div>
+
+            <div class="mt-4">
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
     </div>
-
-    <div class="details-notes">
-        <strong>Notes:</strong>
-        <p>@Model.Notes</p>
-    </div>
-</div>
-
-<div style="margin-top:16px;">
-    <a href="/ShellRequests" class="btn btn-primary">Back to Shell Requests</a>
 </div>
