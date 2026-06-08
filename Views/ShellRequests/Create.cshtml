@@ -22,13 +22,10 @@
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label asp-for="CustomerCode" class="form-label">
-                            Customer ID
-                        </label>
+                        <label asp-for="CustomerCode" class="form-label">Customer ID</label>
                         <input asp-for="CustomerCode" class="form-control" placeholder="Enter Customer ID" />
                         <span asp-validation-for="CustomerCode" class="text-danger"></span>
                     </div>
-
                     <div class="col-md-6">
                         <label asp-for="CustomerName" class="form-label">Customer Name</label>
                         <input asp-for="CustomerName" class="form-control" />
@@ -42,7 +39,6 @@
                         <input asp-for="ClinicName" class="form-control" />
                         <span asp-validation-for="ClinicName" class="text-danger"></span>
                     </div>
-
                     <div class="col-md-6">
                         <label asp-for="Email" class="form-label">Email</label>
                         <input asp-for="Email" class="form-control" />
@@ -56,7 +52,6 @@
                         <input asp-for="Phone" class="form-control" />
                         <span asp-validation-for="Phone" class="text-danger"></span>
                     </div>
-
                     <div class="col-md-6">
                         <label asp-for="Region" class="form-label">Region</label>
                         <select asp-for="Region" id="regionSelect" class="form-select">
@@ -76,7 +71,6 @@
                         <label asp-for="Address" class="form-label">Address</label>
                         <input asp-for="Address" class="form-control" />
                     </div>
-
                     <div class="col-md-6">
                         <label asp-for="ExpectedDate" class="form-label">Expected Date</label>
                         <input asp-for="ExpectedDate" type="date" class="form-control" />
@@ -89,12 +83,10 @@
                         <label asp-for="EmrId" class="form-label">EMR ID</label>
                         <input asp-for="EmrId" id="emrId" class="form-control" />
                     </div>
-
                     <div class="col-md-4">
                         <label asp-for="TokenId" class="form-label">Token Key</label>
                         <input asp-for="TokenId" id="tokenId" class="form-control" />
                     </div>
-
                     <div class="col-md-4">
                         <label asp-for="BaseContainer" class="form-label">Base Container</label>
                         <input asp-for="BaseContainer" class="form-control" />
@@ -106,32 +98,24 @@
                         <label asp-for="ProfileVersion" class="form-label">Profile Version</label>
                         <input asp-for="ProfileVersion" class="form-control" />
                     </div>
-
                     <div class="col-md-6">
                         <label class="form-label">Client Registry</label>
-
                         <div class="form-check form-check-inline">
                             <input asp-for="ClientRegistry"
                                    class="form-check-input"
                                    type="radio"
                                    value="Read Only"
                                    id="registryReadOnly" />
-                            <label class="form-check-label" for="registryReadOnly">
-                                Read Only
-                            </label>
+                            <label class="form-check-label" for="registryReadOnly">Read Only</label>
                         </div>
-
                         <div class="form-check form-check-inline">
                             <input asp-for="ClientRegistry"
                                    class="form-check-input"
                                    type="radio"
                                    value="RHA Managed"
                                    id="registryManaged" />
-                            <label class="form-check-label" for="registryManaged">
-                                RHA Managed
-                            </label>
+                            <label class="form-check-label" for="registryManaged">RHA Managed</label>
                         </div>
-
                         <div>
                             <span asp-validation-for="ClientRegistry" class="text-danger"></span>
                         </div>
@@ -145,36 +129,20 @@
                 <div class="row mb-3">
                     <div class="col-md-3">
                         <label asp-for="NumUsers" class="form-label">Number of Users</label>
-                        <input asp-for="NumUsers"
-                               id="numUsers"
-                               type="number"
-                               min="1"
-                               class="form-control" />
+                        <input asp-for="NumUsers" id="numUsers" type="number" min="1" class="form-control" />
                         <span asp-validation-for="NumUsers" class="text-danger"></span>
                     </div>
-
                     <div class="col-md-3">
-                        <label asp-for="NumIHServers" class="form-label">IH Servers</label>
-                        <input asp-for="NumIHServers"
-                               id="numIHServers"
-                               class="form-control"
-                               readonly />
+                        <label asp-for="NumIHServers" class="form-label">IH Servers Per Machine</label>
+                        <input asp-for="NumIHServers" id="numIHServers" class="form-control" readonly />
                     </div>
-
                     <div class="col-md-3">
-                        <label asp-for="NumDedicatedServers" class="form-label">Dedicated Servers</label>
-                        <input asp-for="NumDedicatedServers"
-                               id="numDedicatedServers"
-                               class="form-control"
-                               readonly />
+                        <label asp-for="NumDedicatedServers" class="form-label">Dedicated Servers Per Machine</label>
+                        <input asp-for="NumDedicatedServers" id="numDedicatedServers" class="form-control" readonly />
                     </div>
-
                     <div class="col-md-3">
-                        <label asp-for="TotalServers" class="form-label">Total Servers</label>
-                        <input asp-for="TotalServers"
-                               id="totalServers"
-                               class="form-control"
-                               readonly />
+                        <label asp-for="TotalServers" class="form-label">Total Servers Per Machine</label>
+                        <input asp-for="TotalServers" id="totalServers" class="form-control" readonly />
                     </div>
                 </div>
 
@@ -188,17 +156,29 @@
                             <input asp-for="IntegrationEFax" class="form-check-input" />
                             <label asp-for="IntegrationEFax" class="form-check-label">eFax</label>
                         </div>
-
                         <div class="form-check">
                             <input asp-for="IntegrationSMS" class="form-check-input" />
                             <label asp-for="IntegrationSMS" class="form-check-label">SMS</label>
                         </div>
-
-                        <div class="form-check">
-                            <input asp-for="IntegrationExcelleris" class="form-check-input" />
+                        <div class="form-check mb-1">
+                            <input asp-for="IntegrationExcelleris"
+                                   id="integrationExcelleris"
+                                   class="form-check-input" />
                             <label asp-for="IntegrationExcelleris" class="form-check-label">Excelleris</label>
                         </div>
-
+                        <div id="excellerisCertGroup" class="ms-3 mt-1 mb-2" style="display:none;">
+                            <label asp-for="ExcellerisFileCert" class="form-label text-warning fw-semibold">
+                                ⚠ Excelleris Certificate <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="ExcellerisFileCert"
+                                   id="excellerisCert"
+                                   type="file"
+                                   class="form-control form-control-sm"
+                                   accept=".pem,.crt,.cer,.p12,.pfx" />
+                            <div class="text-danger small mt-1" id="excellerisCertError" style="display:none;">
+                                Excelleris certificate is required when Excelleris integration is selected.
+                            </div>
+                        </div>
                         <div class="form-check">
                             <input asp-for="IntegrationMCE" id="integrationMCE" class="form-check-input" />
                             <label asp-for="IntegrationMCE" class="form-check-label">MCE</label>
@@ -210,12 +190,10 @@
                             <input asp-for="IntegrationEHR" id="integrationEHR" class="form-check-input" />
                             <label asp-for="IntegrationEHR" class="form-check-label">EHR</label>
                         </div>
-
                         <div class="form-check">
                             <input asp-for="IntegrationVSFormulary" class="form-check-input" />
                             <label asp-for="IntegrationVSFormulary" class="form-check-label">VS Formulary</label>
                         </div>
-
                         <div class="form-check">
                             <input asp-for="IntegrationTelemedicine" class="form-check-input" />
                             <label asp-for="IntegrationTelemedicine" class="form-check-label">Telemedicine</label>
@@ -227,12 +205,10 @@
                             <input asp-for="IntegrationPrescribeIT" class="form-check-input" />
                             <label asp-for="IntegrationPrescribeIT" class="form-check-label">PrescribeIT</label>
                         </div>
-
                         <div class="form-check">
                             <input asp-for="IntegrationFDBFormulary" class="form-check-input" />
                             <label asp-for="IntegrationFDBFormulary" class="form-check-label">FDB Formulary</label>
                         </div>
-
                         <div class="form-check">
                             <input asp-for="IntegrationSendGridEmail" class="form-check-input" />
                             <label asp-for="IntegrationSendGridEmail" class="form-check-label">SendGrid Email (2FA)</label>
@@ -255,7 +231,7 @@
                 </div>
 
                 <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
                         Submit Shell Request
                     </button>
                     <a asp-action="Index" class="btn btn-secondary">Cancel</a>
@@ -270,19 +246,14 @@
 
     <script>
         function calculateServers() {
-            const usersInput = document.getElementById("numUsers");
-            const ihServersInput = document.getElementById("numIHServers");
-            const dedicatedServersInput = document.getElementById("numDedicatedServers");
-            const totalServersInput = document.getElementById("totalServers");
-
-            const users = parseInt(usersInput.value || "0");
+            const users = parseInt(document.getElementById("numUsers").value || "0");
             const ihServers = users > 0 ? Math.ceil(users / 5) : 1;
             const dedicatedServers = 1;
             const totalServers = ihServers + dedicatedServers;
 
-            ihServersInput.value = ihServers;
-            dedicatedServersInput.value = dedicatedServers;
-            totalServersInput.value = totalServers;
+            document.getElementById("numIHServers").value = ihServers;
+            document.getElementById("numDedicatedServers").value = dedicatedServers;
+            document.getElementById("totalServers").value = totalServers;
         }
 
         function toggleRegionRules() {
@@ -303,12 +274,10 @@
                 el.classList.toggle("bg-light", isRestricted);
             });
 
-            const allowClientRegistry = isNB;
-
             [registryReadOnly, registryManaged].forEach(el => {
                 if (!el) return;
-                el.disabled = !allowClientRegistry || isRestricted;
-                el.classList.toggle("bg-light", !allowClientRegistry || isRestricted);
+                el.disabled = !isNB || isRestricted;
+                el.classList.toggle("bg-light", !isNB || isRestricted);
             });
 
             if (isRestricted) {
@@ -318,18 +287,47 @@
                 integrationEHR.checked = false;
             }
 
-            if (!allowClientRegistry || isRestricted) {
+            if (!isNB || isRestricted) {
                 registryReadOnly.checked = false;
                 registryManaged.checked = false;
+            }
+        }
+
+        function toggleExcelleris() {
+            const checked = document.getElementById("integrationExcelleris").checked;
+            const certGroup = document.getElementById("excellerisCertGroup");
+            const certInput = document.getElementById("excellerisCert");
+
+            certGroup.style.display = checked ? "block" : "none";
+
+            if (!checked) {
+                certInput.value = "";
+                document.getElementById("excellerisCertError").style.display = "none";
             }
         }
 
         document.addEventListener("DOMContentLoaded", function () {
             calculateServers();
             toggleRegionRules();
+            toggleExcelleris();
 
             document.getElementById("numUsers").addEventListener("input", calculateServers);
             document.getElementById("regionSelect").addEventListener("change", toggleRegionRules);
+            document.getElementById("integrationExcelleris").addEventListener("change", toggleExcelleris);
+
+            document.getElementById("submitBtn").addEventListener("click", function (e) {
+                const excellerisChecked = document.getElementById("integrationExcelleris").checked;
+                const certInput = document.getElementById("excellerisCert");
+                const certError = document.getElementById("excellerisCertError");
+
+                if (excellerisChecked && (!certInput.files || certInput.files.length === 0)) {
+                    e.preventDefault();
+                    certError.style.display = "block";
+                    certInput.scrollIntoView({ behavior: "smooth", block: "center" });
+                } else {
+                    certError.style.display = "none";
+                }
+            });
         });
     </script>
 }
