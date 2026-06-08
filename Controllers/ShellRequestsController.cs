@@ -118,6 +118,13 @@ public class ShellRequestsController : Controller
             ModelState.Remove(nameof(model.ClientRegistry));
         }
 
+        if (model.IntegrationExcelleris && model.ExcellerisFileCert == null)
+        {
+            ModelState.AddModelError(
+                nameof(model.ExcellerisFileCert),
+                "Excelleris certificate is required when Excelleris integration is selected.");
+        }
+
         if (!ModelState.IsValid)
         {
             _logger.LogWarning(
@@ -172,6 +179,16 @@ public class ShellRequestsController : Controller
             if (model.IntegrationSendGridEmail) integrations.Add("SendGrid Email (2FA)");
 
             var attachmentNames = new List<string>();
+
+            if (model.IntegrationExcelleris && model.ExcellerisFileCert != null)
+            {
+                attachmentNames.Add($"[Excelleris Cert] {model.ExcellerisFileCert.FileName}");
+
+                _logger.LogInformation(
+                    "Excelleris certificate attached: {FileName}.",
+                    model.ExcellerisFileCert.FileName);
+            }
+
             if (model.Attachments != null)
             {
                 foreach (var file in model.Attachments)

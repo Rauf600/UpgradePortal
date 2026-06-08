@@ -58,6 +58,8 @@ public class ShellRequestCreateViewModel
     public bool IntegrationFDBFormulary { get; set; }
     public bool IntegrationSendGridEmail { get; set; }
 
+    public IFormFile? ExcellerisFileCert { get; set; }
+
     public List<IFormFile>? Attachments { get; set; }
 
     public string? Notes { get; set; }
