@@ -42,7 +42,10 @@ public class ReportsController : Controller
         ViewBag.DateFrom = dateFrom?.ToString("yyyy-MM-dd");
         ViewBag.DateTo = dateTo?.ToString("yyyy-MM-dd");
 
-        if (reportType == "Upgrade Schedules" || reportType == "Completed Upgrades")
+        if (reportType == "Upgrade Schedules" ||
+            reportType == "Completed Upgrades" ||
+            reportType == "Pending Upgrades" ||
+            reportType == "Cancelled Upgrades")
         {
             var query = _db.UpgradeSchedules
                 .Include(x => x.Customer)
@@ -57,6 +60,10 @@ public class ReportsController : Controller
 
             if (reportType == "Completed Upgrades")
                 query = query.Where(x => x.Status == "completed");
+            else if (reportType == "Pending Upgrades")
+                query = query.Where(x => x.Status == "pending");
+            else if (reportType == "Cancelled Upgrades")
+                query = query.Where(x => x.Status == "cancelled");
             else if (!string.IsNullOrWhiteSpace(status) && status != "All Status")
                 query = query.Where(x => x.Status == status);
 
@@ -126,7 +133,10 @@ public class ReportsController : Controller
             return "\"" + value.Replace("\"", "\"\"") + "\"";
         }
 
-        if (reportType == "Upgrade Schedules" || reportType == "Completed Upgrades")
+        if (reportType == "Upgrade Schedules" ||
+            reportType == "Completed Upgrades" ||
+            reportType == "Pending Upgrades" ||
+            reportType == "Cancelled Upgrades")
         {
             var query = _db.UpgradeSchedules
                 .Include(x => x.Customer)
@@ -141,6 +151,10 @@ public class ReportsController : Controller
 
             if (reportType == "Completed Upgrades")
                 query = query.Where(x => x.Status == "completed");
+            else if (reportType == "Pending Upgrades")
+                query = query.Where(x => x.Status == "pending");
+            else if (reportType == "Cancelled Upgrades")
+                query = query.Where(x => x.Status == "cancelled");
             else if (!string.IsNullOrWhiteSpace(status) && status != "All Status")
                 query = query.Where(x => x.Status == status);
 
