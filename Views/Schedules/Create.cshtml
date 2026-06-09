@@ -102,7 +102,10 @@
         <span asp-validation-for="Notes" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Submit Request</button>
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Submit Request</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </div>
 </form>
 
 @section Scripts {

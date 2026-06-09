@@ -160,6 +160,16 @@ html, body {
     color: white;
 }
 
+.btn-secondary {
+    background: #64748b;
+    color: white;
+}
+
+    .btn-secondary:hover {
+        background: #475569;
+        color: white;
+    }
+
 .btn-danger {
     background: #dc2626;
     color: white;
@@ -463,6 +473,16 @@ body.login-page {
         background: rgba(255,255,255,0.22);
     }
 
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 16px;
+    font-size: 12px;
+    color: #94a3b8;
+    background: #1f2a44;
+    margin-top: auto;
+}
+
 /* DARK THEME */
 body.dark-theme {
     background: #0f172a;
@@ -541,6 +561,25 @@ body.dark-theme {
         body.dark-theme .settings-subtitle {
             color: #cbd5e1;
         }
+
+    body.dark-theme .btn-secondary,
+    body.dark-theme a.btn-secondary {
+        background: #475569;
+        color: #f1f5f9;
+        border: 1px solid #64748b;
+    }
+
+        body.dark-theme .btn-secondary:hover,
+        body.dark-theme a.btn-secondary:hover {
+            background: #64748b;
+            color: white;
+        }
+
+    body.dark-theme footer {
+        background: #0f172a;
+        color: #64748b;
+        border-top: 1px solid #1e293b;
+    }
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
