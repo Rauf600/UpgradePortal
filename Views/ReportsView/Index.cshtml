@@ -259,6 +259,10 @@
         cancelled: Number("@ViewBag.ShellCancelled")
     };
 
+    function getTextColor() {
+        return document.body.classList.contains("dark-theme") ? "#e5e7eb" : "#111827";
+    }
+
     function drawScheduleBarChart() {
         const canvas = document.getElementById("scheduleBarChart");
         const ctx = canvas.getContext("2d");
@@ -271,6 +275,7 @@
         const barWidth = 70;
         const gap = 45;
         const baseY = 185;
+        const textColor = getTextColor();
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.font = "14px Arial";
@@ -283,7 +288,7 @@
             ctx.fillStyle = colors[i];
             ctx.fillRect(x, y, barWidth, barHeight);
 
-            ctx.fillStyle = "#111827";
+            ctx.fillStyle = textColor;
             ctx.fillText(value, x + 28, y - 8);
             ctx.fillText(labels[i], x - 5, baseY + 25);
         });
@@ -298,6 +303,7 @@
         const colors = ["#f59e0b", "#16a34a", "#dc2626"];
 
         const total = values.reduce((a, b) => a + b, 0) || 1;
+        const textColor = getTextColor();
 
         let startAngle = 0;
         const centerX = 145;
@@ -341,11 +347,24 @@
             const percent = Math.round((values[i] / total) * 100);
             ctx.fillStyle = colors[i];
             ctx.fillRect(270, 70 + i * 30, 14, 14);
-            ctx.fillStyle = "#111827";
+            ctx.fillStyle = textColor;
             ctx.fillText(`${label}: ${values[i]} (${percent}%)`, 292, 82 + i * 30);
         });
     }
 
-    drawScheduleBarChart();
-    drawShellPieChart();
+    document.addEventListener("DOMContentLoaded", function () {
+        const savedTheme = localStorage.getItem("theme") || "light";
+        if (savedTheme === "dark") {
+            document.body.classList.add("dark-theme");
+        }
+        drawScheduleBarChart();
+        drawShellPieChart();
+    });
+
+    document.getElementById("themeToggle")?.addEventListener("click", function () {
+        setTimeout(() => {
+            drawScheduleBarChart();
+            drawShellPieChart();
+        }, 50);
+    });
 </script>
