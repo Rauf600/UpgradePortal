@@ -17,6 +17,8 @@
     {
         return isAdmin || currentUser?.Permissions.Any(x => x.PermissionCode == permission) == true;
     }
+
+    var currentPath = Context.Request.Path.Value?.ToLower() ?? "";
 }
 
 <!DOCTYPE html>
@@ -37,33 +39,33 @@
         <nav class="nav-tabs">
             @if (HasPermission("Dashboard"))
             {
-                <a href="/Dashboard">Dashboard</a>
+                <a href="/Dashboard" class="@(currentPath.StartsWith("/dashboard") ? "active" : "")">Dashboard</a>
             }
 
             @if (HasPermission("Schedules"))
             {
-                <a href="/Schedules">Schedules</a>
+                <a href="/Schedules" class="@(currentPath.StartsWith("/schedules") ? "active" : "")">Schedules</a>
             }
 
             @if (HasPermission("ShellRequests"))
             {
-                <a href="/ShellRequests">Shell Requests</a>
+                <a href="/ShellRequests" class="@(currentPath.StartsWith("/shellrequests") ? "active" : "")">Shell Requests</a>
             }
 
             @if (HasPermission("Reports"))
             {
-                <a href="/Reports">Reports</a>
+                <a href="/Reports" class="@(currentPath.StartsWith("/reports") ? "active" : "")">Reports</a>
             }
 
             @if (HasPermission("UserManagement"))
             {
-                <a href="/UserManagement">User Management</a>
-                <a href="/RoleManagement">Roles</a>
+                <a href="/UserManagement" class="@(currentPath.StartsWith("/usermanagement") ? "active" : "")">User Management</a>
+                <a href="/RoleManagement" class="@(currentPath.StartsWith("/rolemanagement") ? "active" : "")">Roles</a>
             }
 
             @if (HasPermission("Settings"))
             {
-                <a href="/Settings">Settings</a>
+                <a href="/Settings" class="@(currentPath.StartsWith("/settings") ? "active" : "")">Settings</a>
             }
         </nav>
 
