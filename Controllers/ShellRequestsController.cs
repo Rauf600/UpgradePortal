@@ -17,6 +17,8 @@ public class ShellRequestsController : Controller
     private readonly AppDbContext _db;
     private readonly SendGridEmailService _emailService;
     private readonly ILogger<ShellRequestsController> _logger;
+    private readonly string _uploadPath = Path.Combine(
+        Directory.GetCurrentDirectory(), "wwwroot", "uploads", "shellrequests");
 
     public ShellRequestsController(
         AppDbContext db,
@@ -180,22 +182,42 @@ public class ShellRequestsController : Controller
 
             var attachmentNames = new List<string>();
 
+            Directory.CreateDirectory(_uploadPath);
+
+            // Handle Excelleris certificate
             if (model.IntegrationExcelleris && model.ExcellerisFileCert != null)
             {
-                attachmentNames.Add($"[Excelleris Cert] {model.ExcellerisFileCert.FileName}");
+                var certFileName = $"{Guid.NewGuid()}_{model.ExcellerisFileCert.FileName}";
+                var certPath = Path.Combine(_uploadPath, certFileName);
+
+                using (var stream = new FileStream(certPath, FileMode.Create))
+                {
+                    await model.ExcellerisFileCert.CopyToAsync(stream);
+                }
+
+                attachmentNames.Add($"[Excelleris Cert] {certFileName}");
 
                 _logger.LogInformation(
-                    "Excelleris certificate attached: {FileName}.",
-                    model.ExcellerisFileCert.FileName);
+                    "Excelleris certificate saved: {FileName}.",
+                    certFileName);
             }
 
+            // Handle general attachments
             if (model.Attachments != null)
             {
                 foreach (var file in model.Attachments)
                 {
                     if (file != null && !string.IsNullOrWhiteSpace(file.FileName))
                     {
-                        attachmentNames.Add(file.FileName);
+                        var uniqueFileName = $"{Guid.NewGuid()}_{file.FileName}";
+                        var filePath = Path.Combine(_uploadPath, uniqueFileName);
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+                        }
+
+                        attachmentNames.Add(uniqueFileName);
                     }
                 }
             }
@@ -287,11 +309,32 @@ public class ShellRequestsController : Controller
         return View(request);
     }
 
+    [HttpGet("/ShellRequests/Download")]
+    public IActionResult Download(string fileName)
+    {
+        if (string.IsNullOrWhiteSpace(fileName))
+            return NotFound();
+
+        var cleanFileName = fileName.Replace("[Excelleris Cert] ", "").Trim();
+        var filePath = Path.Combine(_uploadPath, cleanFileName);
+
+        if (!System.IO.File.Exists(filePath))
+        {
+            TempData["Error"] = $"File '{cleanFileName}' was not found on the server. This may be a legacy record submitted before file storage was enabled.";
+            return RedirectToAction("Index");
+        }
+
+        return PhysicalFile(filePath, "application/octet-stream", cleanFileName);
+    }
+
     [HttpPost("/ShellRequests/Complete/{id}")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Complete(long id)
     {
-        var request = await _db.ShellRequests.FindAsync(id);
+        var request = await _db.ShellRequests
+            .Include(x => x.Customer)
+            .Include(x => x.CreatedByUser)
+            .FirstOrDefaultAsync(x => x.ShellRequestId == id);
 
         if (request != null)
         {
@@ -303,6 +346,22 @@ public class ShellRequestsController : Controller
                 "Shell request {RequestId} marked as completed by {User}.",
                 id,
                 User.Identity?.Name ?? "Unknown");
+
+            if (!string.IsNullOrWhiteSpace(request.Email))
+            {
+                await _emailService.SendShellRequestStatusUpdateAsync(
+                    request.Email,
+                    request.Customer?.CustomerName ?? "Requester",
+                    request.ClinicName ?? "your clinic",
+                    "completed",
+                    User.Identity?.Name ?? "Admin"
+                );
+
+                _logger.LogInformation(
+                    "Completion email sent to {Email} for shell request {RequestId}.",
+                    request.Email,
+                    id);
+            }
         }
 
         return RedirectToAction("Index");
@@ -312,7 +371,10 @@ public class ShellRequestsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Cancel(long id)
     {
-        var request = await _db.ShellRequests.FindAsync(id);
+        var request = await _db.ShellRequests
+            .Include(x => x.Customer)
+            .Include(x => x.CreatedByUser)
+            .FirstOrDefaultAsync(x => x.ShellRequestId == id);
 
         if (request != null)
         {
@@ -324,6 +386,22 @@ public class ShellRequestsController : Controller
                 "Shell request {RequestId} marked as cancelled by {User}.",
                 id,
                 User.Identity?.Name ?? "Unknown");
+
+            if (!string.IsNullOrWhiteSpace(request.Email))
+            {
+                await _emailService.SendShellRequestStatusUpdateAsync(
+                    request.Email,
+                    request.Customer?.CustomerName ?? "Requester",
+                    request.ClinicName ?? "your clinic",
+                    "cancelled",
+                    User.Identity?.Name ?? "Admin"
+                );
+
+                _logger.LogInformation(
+                    "Cancellation email sent to {Email} for shell request {RequestId}.",
+                    request.Email,
+                    id);
+            }
         }
 
         return RedirectToAction("Index");

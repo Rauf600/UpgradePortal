@@ -11,6 +11,12 @@
         </div>
 
         <div class="card-body">
+
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger mb-3">@TempData["Error"]</div>
+            }
+
             <div class="row mb-3">
                 <div class="col-md-6">
                     <strong>Customer:</strong>
@@ -63,23 +69,36 @@
                     <div>@Model.NumUsers</div>
                 </div>
                 <div class="col-md-4">
-                    <strong>IH Servers:</strong>
+                    <strong>IH Servers Per Machine:</strong>
                     <div>@Model.NumIHServers</div>
                 </div>
                 <div class="col-md-4">
-                    <strong>Dedicated Servers:</strong>
+                    <strong>Dedicated Servers Per Machine:</strong>
                     <div>@Model.NumDedicatedServers</div>
                 </div>
             </div>
 
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <strong>Total Servers:</strong>
+                    <strong>Total Servers Per Machine:</strong>
                     <div>@Model.TotalServers</div>
                 </div>
                 <div class="col-md-4">
                     <strong>Status:</strong>
-                    <div>@Model.Status</div>
+                    <div>
+                        @if (Model.Status == "completed")
+                        {
+                            <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2">Completed</span>
+                        }
+                        else if (Model.Status == "cancelled")
+                        {
+                            <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2">Cancelled</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-2">Pending</span>
+                        }
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <strong>Created At:</strong>
@@ -94,7 +113,47 @@
 
             <div class="mb-3">
                 <strong>Attachments:</strong>
-                <div>@Model.Attachments</div>
+                @if (!string.IsNullOrWhiteSpace(Model.Attachments))
+                {
+                    <ul class="mt-2 list-unstyled">
+                        @foreach (var file in Model.Attachments.Split(',', StringSplitOptions.RemoveEmptyEntries))
+                        {
+                            var trimmed = file.Trim();
+                            var isExcelleris = trimmed.StartsWith("[Excelleris Cert]");
+                            var fileName = isExcelleris
+                                ? trimmed.Replace("[Excelleris Cert] ", "").Trim()
+                                : trimmed;
+
+                            var isLegacy = !System.Text.RegularExpressions.Regex.IsMatch(
+                                fileName, @"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}_");
+
+                            <li class="mb-2">
+                                @if (isExcelleris)
+                                {
+                                    <span class="badge bg-warning text-dark me-1">Excelleris Cert</span>
+                                }
+                                @if (isLegacy)
+                                {
+                                    <span class="text-muted fst-italic">
+                                        📎 @fileName
+                                        <span class="badge bg-secondary ms-1">Legacy - not downloadable</span>
+                                    </span>
+                                }
+                                else
+                                {
+                                    <a href="/ShellRequests/Download?fileName=@Uri.EscapeDataString(fileName)"
+                                       class="text-decoration-none">
+                                        📎 @fileName
+                                    </a>
+                                }
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <div class="text-muted">No attachments</div>
+                }
             </div>
 
             <div class="mb-3">

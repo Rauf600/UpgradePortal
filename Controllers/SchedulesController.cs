@@ -40,13 +40,41 @@ public class SchedulesController : Controller
 
         query = sortField.ToLower() switch
         {
+            "id" => sortOrder == "desc"
+                ? query.OrderByDescending(x => x.ScheduleId)
+                : query.OrderBy(x => x.ScheduleId),
+
             "customer" => sortOrder == "desc"
                 ? query.OrderByDescending(x => x.Customer!.CustomerName)
                 : query.OrderBy(x => x.Customer!.CustomerName),
 
+            "customercode" => sortOrder == "desc"
+                ? query.OrderByDescending(x => x.Customer!.CustomerCode)
+                : query.OrderBy(x => x.Customer!.CustomerCode),
+
             "hosting" => sortOrder == "desc"
                 ? query.OrderByDescending(x => x.HostingType)
                 : query.OrderBy(x => x.HostingType),
+
+            "currentversion" => sortOrder == "desc"
+                ? query.OrderByDescending(x => x.CurrentVersion)
+                : query.OrderBy(x => x.CurrentVersion),
+
+            "targetversion" => sortOrder == "desc"
+                ? query.OrderByDescending(x => x.TargetVersion)
+                : query.OrderBy(x => x.TargetVersion),
+
+            "time" => sortOrder == "desc"
+                ? query.OrderByDescending(x => x.ScheduleTime)
+                : query.OrderBy(x => x.ScheduleTime),
+
+            "ticket" => sortOrder == "desc"
+                ? query.OrderByDescending(x => x.TicketNumber)
+                : query.OrderBy(x => x.TicketNumber),
+
+            "submittedby" => sortOrder == "desc"
+                ? query.OrderByDescending(x => x.CreatedByUser!.FullName)
+                : query.OrderBy(x => x.CreatedByUser!.FullName),
 
             "status" => sortOrder == "desc"
                 ? query.OrderByDescending(x => x.Status)
@@ -171,7 +199,10 @@ public class SchedulesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Complete(long id)
     {
-        var schedule = await _db.UpgradeSchedules.FindAsync(id);
+        var schedule = await _db.UpgradeSchedules
+            .Include(x => x.Customer)
+            .Include(x => x.CreatedByUser)
+            .FirstOrDefaultAsync(x => x.ScheduleId == id);
 
         if (schedule != null)
         {
@@ -182,6 +213,27 @@ public class SchedulesController : Controller
                 "Schedule {ScheduleId} marked as completed by {User}.",
                 id,
                 User.Identity?.Name ?? "Unknown");
+
+            var emailTo = schedule.Customer?.PrimaryEmail;
+
+            if (!string.IsNullOrWhiteSpace(emailTo))
+            {
+                await _emailService.SendScheduleStatusUpdateAsync(
+                    emailTo,
+                    schedule.CreatedByUser?.FullName ?? "Requester",
+                    schedule.Customer?.CustomerName ?? "your organization",
+                    schedule.ScheduleDate.ToString("yyyy-MM-dd"),
+                    schedule.CurrentVersion ?? "N/A",
+                    schedule.TargetVersion ?? "N/A",
+                    "completed",
+                    User.Identity?.Name ?? "Admin"
+                );
+
+                _logger.LogInformation(
+                    "Completion email sent to {Email} for schedule {ScheduleId}.",
+                    emailTo,
+                    id);
+            }
         }
 
         return RedirectToAction("Index");
@@ -191,7 +243,10 @@ public class SchedulesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Cancel(long id)
     {
-        var schedule = await _db.UpgradeSchedules.FindAsync(id);
+        var schedule = await _db.UpgradeSchedules
+            .Include(x => x.Customer)
+            .Include(x => x.CreatedByUser)
+            .FirstOrDefaultAsync(x => x.ScheduleId == id);
 
         if (schedule != null)
         {
@@ -202,6 +257,27 @@ public class SchedulesController : Controller
                 "Schedule {ScheduleId} marked as cancelled by {User}.",
                 id,
                 User.Identity?.Name ?? "Unknown");
+
+            var emailTo = schedule.Customer?.PrimaryEmail;
+
+            if (!string.IsNullOrWhiteSpace(emailTo))
+            {
+                await _emailService.SendScheduleStatusUpdateAsync(
+                    emailTo,
+                    schedule.CreatedByUser?.FullName ?? "Requester",
+                    schedule.Customer?.CustomerName ?? "your organization",
+                    schedule.ScheduleDate.ToString("yyyy-MM-dd"),
+                    schedule.CurrentVersion ?? "N/A",
+                    schedule.TargetVersion ?? "N/A",
+                    "cancelled",
+                    User.Identity?.Name ?? "Admin"
+                );
+
+                _logger.LogInformation(
+                    "Cancellation email sent to {Email} for schedule {ScheduleId}.",
+                    emailTo,
+                    id);
+            }
         }
 
         return RedirectToAction("Index");
