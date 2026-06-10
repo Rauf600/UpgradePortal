@@ -388,6 +388,7 @@ public class UserManagementController : Controller
             "ShellRequests",
             "Reports",
             "UserManagement",
+            "RoleManagement",
             "Settings"
         };
     }
